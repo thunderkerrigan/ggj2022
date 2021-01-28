@@ -2,6 +2,7 @@
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
 	const float maxHealth = 100f;
 	float currentHealth = maxHealth;
+
+int rayDistance = 300;
 
 	PlayerManager playerManager;
 
@@ -94,7 +97,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
 		if(Input.GetMouseButtonDown(0))
 		{
-			items[itemIndex].Use();
+			// items[itemIndex].Use();
+			// TODO: add object
+			DropItem();
+		}
+
+		if(Input.GetMouseButtonDown(1))
+		{
+			// items[itemIndex].Use();
+			// remove Object
+			TakeItem();
 		}
 
 		if(transform.position.y < -10f) // Die if you fall out of the world
@@ -127,6 +139,52 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 			rb.AddForce(transform.up * jumpForce);
 		}
 	}
+
+	void TakeItem()
+	{
+		var item = GetObjectOnClick();
+		if (item != null)
+		{
+			PhotonNetwork.Destroy(item);
+		}
+	}
+
+	void DropItem()
+	{
+		var positions = GetClickPositionAndNormal();
+		PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Cube"), positions[1], Quaternion.identity);
+	}
+
+	Vector3[] GetClickPositionAndNormal()
+    {
+        Vector3[] returnData = new Vector3[] { Vector3.zero, Vector3.zero }; //0 = spawn poisiton, 1 = surface normal
+        Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+        if (Physics.Raycast(ray, out hit, rayDistance))
+        {
+            returnData[0] = hit.point;
+            returnData[1] = hit.normal;
+        }
+
+        return returnData;
+    }
+
+    GameObject GetObjectOnClick()
+    {
+        Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+
+        if (Physics.Raycast(ray, out hit, rayDistance))
+        {
+            var gameObject = hit.transform.gameObject;
+            if (gameObject.tag == "Destructible")
+            {
+                return gameObject;
+            }
+        }
+
+        return null;
+    }
 
 	void EquipItem(int _index)
 	{
