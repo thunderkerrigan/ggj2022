@@ -147,17 +147,21 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 		
         if (moveDir.x > 0)
         {
-            animator.Play($"{mode}_Left");
+            animator.SetBool("isWalking",true);
         }else if (moveDir.x < 0)
         {
-            animator.Play($"{mode}_Right");
+            animator.SetBool("isWalking",true);
         }else if (moveDir.z < 0)
         {
-            animator.Play($"{mode}_Backward");
+            animator.SetBool("isWalking",true);
         }
         else if (moveDir.z > 0)
         {
-            animator.Play($"{mode}_Forward");
+            animator.SetBool("isWalking",true);
+        }
+        else
+        {
+            animator.SetBool("isWalking",false);
         }
     }
 
