@@ -23,8 +23,12 @@ public class PlayerManager : MonoBehaviour
 		if(PV.IsMine)
 		{
 			CreateController();
-			CreateEndZoneManager();
 			StartGameCountDown();
+		}
+		
+		if (!PhotonNetwork.IsMasterClient)
+		{
+			CreateEndZoneManager();
 		}
 	}
 
