@@ -26,11 +26,11 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
     
     public void onPlayerDetected(Player player)
     {
-        if (!PhotonNetwork.IsMasterClient)
+       /* if (!PhotonNetwork.IsMasterClient)
         {
             return;
         }
-        
+        */
 
         var playerUserId = player.UserId;
         if (!_playerTimes.ContainsKey(playerUserId))
@@ -47,7 +47,7 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
             foreach (var playerInList in players)
             {
                 print("NickName" + playerInList.NickName);
-                if (playerInList.NickName != null && !_playerTimes.ContainsKey(playerInList.NickName))
+                if (!_playerTimes.ContainsKey(playerInList.NickName))
                 {
                     everyOneIsArrived = false;
                 }

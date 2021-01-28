@@ -1,14 +1,17 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class PlayerManager : MonoBehaviour
 {
 	PhotonView PV;
 
 	GameObject controller;
+
+	GameObject endZoneManager;
 
 	void Awake()
 	{
@@ -20,6 +23,7 @@ public class PlayerManager : MonoBehaviour
 		if(PV.IsMine)
 		{
 			CreateController();
+			CreateEndZoneManager();
 			StartGameCountDown();
 		}
 	}
@@ -28,6 +32,11 @@ public class PlayerManager : MonoBehaviour
 	{
 		Transform spawnpoint = SpawnManager.Instance.GetSpawnpoint();
 		controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnpoint.position, spawnpoint.rotation, 0, new object[] { PV.ViewID });
+	}
+
+	void CreateEndZoneManager()
+	{
+		endZoneManager = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "EndZoneManager"),Vector3.zero , Quaternion.identity);
 	}
 
 	public void Die()
