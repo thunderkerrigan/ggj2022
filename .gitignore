@@ -69,3 +69,9 @@ FPS Game/Library/PackageCache
 FPS Game/Library/PackageManager
 FPS Game/Library
 FPS Game/obj
+FPS Game/Assets/Cartoon Baby Pack/.DS_Store
+*.DS_Store
+FPS Game/Temp
+FPS Game/Assets/Plugins
+FPS Game/Logs
+FPS Game/obj
