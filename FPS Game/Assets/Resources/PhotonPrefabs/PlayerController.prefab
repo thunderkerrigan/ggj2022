@@ -566,7 +566,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 6149131234852570181}
-  animator: {fileID: 312149118100225904}
   mouseSensitivity: 3
   sprintSpeed: 6
   walkSpeed: 3
@@ -575,6 +574,7 @@ MonoBehaviour:
   items:
   - {fileID: 6732414030161505931}
   - {fileID: 3968076902418886796}
+  animator: {fileID: 312149118100225904}
 --- !u!1 &1514215260692899896
 GameObject:
   m_ObjectHideFlags: 0

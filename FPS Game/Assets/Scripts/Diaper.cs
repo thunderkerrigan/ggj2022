@@ -9,21 +9,18 @@ public class Diaper : MonoBehaviour
     PhotonView PV;
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Player")
-        {
-            PV.RPC("RPC_Shoot", RpcTarget.All, other.GetContact(0).point, other.GetContact(0).normal);
-        }
+        other.gameObject.GetComponent<IDamageable>()?.TakeDamage(20);
         PhotonNetwork.Destroy(gameObject);
     }
 
     // Start is called before the first frame update
     void Awake()
     {
-        
+        PV = GetComponent<PhotonView>();
     }
 
-    // Update is called once per frame
-    void Update()
+    [PunRPC]
+    void RPC_Splash(Vector3 hitPosition, Vector3 hitNormal)
     {
         
     }
