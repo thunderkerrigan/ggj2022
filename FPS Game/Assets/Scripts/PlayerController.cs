@@ -99,7 +99,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             // items[itemIndex].Use();
             // TODO: add object
-            DropItem();
+           // DropItem();
+           ThrowDiaper();
         }
 
         if (Input.GetMouseButtonDown(1))
@@ -146,8 +147,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         var item = GetObjectOnClick();
         if (item != null)
         {
+            if (!item.GetComponent<PhotonView>().IsMine)
+            {
+                item.GetComponent<PhotonView>().TransferOwnership(PV.Owner);
+            }
             PhotonNetwork.Destroy(item);
         }
+    }
+
+    void ThrowDiaper()
+    {
+        var playerPosition = GetComponentInChildren<Camera>().transform.position;
+        var frontPosition = GetComponentInChildren<Camera>().transform.TransformPoint(Vector3.forward * rayDistance);
+        var direction = (frontPosition - playerPosition).normalized;
+        var diaper = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Diaper"), frontPosition, Quaternion.identity);
+        diaper.GetComponent<Rigidbody>().AddForceAtPosition(playerPosition, diaper.transform.position);
+        diaper.GetComponent<Rigidbody>().velocity = direction * 30;
     }
 
     void DropItem()
