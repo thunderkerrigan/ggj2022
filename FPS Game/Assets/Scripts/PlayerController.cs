@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System;
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
 
     [SerializeField] Item[] items;
+
+    [SerializeField] Animator animator;
 
     int itemIndex;
     int previousItemIndex = -1;
@@ -125,6 +128,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }
+    
 
     void Move()
     {
@@ -132,12 +136,36 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         moveAmount = Vector3.SmoothDamp(moveAmount,
             moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
+        var mode = "";
+        if (Mathf.Abs(moveAmount.x) > 4 || moveAmount.z > 4)
+        {
+            mode = "Run";
+        }else
+        {
+            mode = "Walk";
+        }
+		
+        if (moveDir.x > 0)
+        {
+            animator.Play($"{mode}_Left");
+        }else if (moveDir.x < 0)
+        {
+            animator.Play($"{mode}_Right");
+        }else if (moveDir.z < 0)
+        {
+            animator.Play($"{mode}_Backward");
+        }
+        else if (moveDir.z > 0)
+        {
+            animator.Play($"{mode}_Forward");
+        }
     }
 
     void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
+			animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
         }
     }
