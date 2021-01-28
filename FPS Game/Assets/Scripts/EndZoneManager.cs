@@ -12,7 +12,6 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        _playerList = PhotonNetwork.PlayerList;
         _startTime = DateTimeOffset.Now.ToUnixTimeSeconds();
     }
 
@@ -24,7 +23,8 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
 
     public void onPlayerDetected(Player player)
     {
-        
+        _playerList = PhotonNetwork.PlayerList;
+
         var playerUserId = player.UserId;
         if (!_playerTimes.ContainsKey(playerUserId))
         {
@@ -51,7 +51,7 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
                 print("CURRENT SCORE of players");
                 foreach (KeyValuePair<string,float> keyValuePair in _playerTimes)
                 {
-                    print("PLAYER:" + keyValuePair.Key + $"{keyValuePair.Value}");
+                    print($"PLAYER:{keyValuePair.Key} : {keyValuePair.Value}");
                 }
             }
         }

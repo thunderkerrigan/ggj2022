@@ -26,8 +26,7 @@ public class EndZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print(other.gameObject);
-        var player = other.gameObject.GetComponent<PlayerController>()?.PV.Owner;
-        if (player != null) endZoneManager.onPlayerDetected(player);
+        var playerPhotonView = other.gameObject.GetComponent<PlayerController>()?.PV.Controller;
+        if (playerPhotonView != null) endZoneManager.onPlayerDetected(playerPhotonView);
     }
 }
