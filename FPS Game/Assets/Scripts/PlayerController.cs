@@ -136,33 +136,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         moveAmount = Vector3.SmoothDamp(moveAmount,
             moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
-        var mode = "";
-        if (Mathf.Abs(moveAmount.x) > 4 || moveAmount.z > 4)
-        {
-            mode = "Run";
-        }else
-        {
-            mode = "Walk";
-        }
-		
-        if (moveDir.x > 0)
-        {
-            animator.SetBool("isWalking",true);
-        }else if (moveDir.x < 0)
-        {
-            animator.SetBool("isWalking",true);
-        }else if (moveDir.z < 0)
-        {
-            animator.SetBool("isWalking",true);
-        }
-        else if (moveDir.z > 0)
-        {
-            animator.SetBool("isWalking",true);
-        }
-        else
-        {
-            animator.SetBool("isWalking",false);
-        }
+            
+            animator.SetFloat("x", moveAmount.x);
+            animator.SetFloat("z", moveAmount.z);
+            animator.SetFloat("y", moveAmount.y);
     }
 
     void Jump()

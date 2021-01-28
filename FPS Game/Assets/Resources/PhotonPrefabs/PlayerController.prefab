@@ -618,9 +618,9 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 0
     Name: y
-  - Type: 4
-    SynchronizeType: 2
-    Name: isWalking
+  - Type: 1
+    SynchronizeType: 0
+    Name: z
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
