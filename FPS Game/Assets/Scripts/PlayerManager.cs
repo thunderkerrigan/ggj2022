@@ -37,7 +37,7 @@ public class PlayerManager : MonoBehaviour
 	}
 	
 	// Countdown Logic
-	public int countDownValue = 5;
+	public int countDownValue = 3;
 
 	private void StartGameCountDown()
 	{
