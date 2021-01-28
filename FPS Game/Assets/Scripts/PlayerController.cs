@@ -1,199 +1,284 @@
-﻿using Photon.Pun;
+﻿using System;
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 {
-	[SerializeField] GameObject cameraHolder;
+    [SerializeField] GameObject cameraHolder;
 
-	[SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
+    [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
 
-	[SerializeField] Item[] items;
+    [SerializeField] Item[] items;
 
-	int itemIndex;
-	int previousItemIndex = -1;
+    int itemIndex;
+    int previousItemIndex = -1;
 
-	float verticalLookRotation;
-	bool grounded;
-	Vector3 smoothMoveVelocity;
-	Vector3 moveAmount;
+    float verticalLookRotation;
+    bool grounded;
+    Vector3 smoothMoveVelocity;
+    Vector3 moveAmount;
 
-	Rigidbody rb;
+    Rigidbody rb;
 
-	PhotonView PV;
+    PhotonView PV;
 
-	const float maxHealth = 100f;
-	float currentHealth = maxHealth;
+    const float maxHealth = 100f;
+    float currentHealth = maxHealth;
 
-	PlayerManager playerManager;
+    int rayDistance = 2;
 
-	void Awake()
-	{
-		rb = GetComponent<Rigidbody>();
-		PV = GetComponent<PhotonView>();
+    PlayerManager playerManager;
 
-		playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
-	}
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        PV = GetComponent<PhotonView>();
 
-	void Start()
-	{
-		if(PV.IsMine)
+        playerManager = PhotonView.Find((int) PV.InstantiationData[0]).GetComponent<PlayerManager>();
+    }
+
+    void Start()
+    {
+        if (PV.IsMine)
+        {
+            EquipItem(0);
+        }
+        else
+        {
+            Destroy(GetComponentInChildren<Camera>().gameObject);
+            Destroy(rb);
+        }
+    }
+
+    void Update()
+    {
+        if (!PV.IsMine)
+            return;
+
+        Look();
+        Move();
+        Jump();
+
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (Input.GetKeyDown((i + 1).ToString()))
+            {
+                EquipItem(i);
+                break;
+            }
+        }
+
+        if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+        {
+            if (itemIndex >= items.Length - 1)
+            {
+                EquipItem(0);
+            }
+            else
+            {
+                EquipItem(itemIndex + 1);
+            }
+        }
+        else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+        {
+            if (itemIndex <= 0)
+            {
+                EquipItem(items.Length - 1);
+            }
+            else
+            {
+                EquipItem(itemIndex - 1);
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            // items[itemIndex].Use();
+            // TODO: add object
+            DropItem();
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            // items[itemIndex].Use();
+            // remove Object
+            TakeItem();
+        }
+
+        if (transform.position.y < -10f) // Die if you fall out of the world
+        {
+            Die();
+        }
+    }
+
+    void Look()
+    {
+        transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
+
+        verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+
+        cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+
+var mode = "";
+		if (Mathf.Abs(moveAmount.x) > 4 || moveAmount.z > 4)
 		{
-			EquipItem(0);
-		}
-		else
+			mode = "Run";
+		}else
 		{
-			Destroy(GetComponentInChildren<Camera>().gameObject);
-			Destroy(rb);
+			mode = "Walk";
 		}
-	}
-
-	void Update()
-	{
-		if(!PV.IsMine)
-			return;
-
-		Look();
-		Move();
-		Jump();
-
-		for(int i = 0; i < items.Length; i++)
+		
+		if (moveDir.x > 0)
 		{
-			if(Input.GetKeyDown((i + 1).ToString()))
-			{
-				EquipItem(i);
-				break;
-			}
-		}
-
-		if(Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+			animator.Play($"{mode}_Left");
+		}else if (moveDir.x < 0)
 		{
-			if(itemIndex >= items.Length - 1)
-			{
-				EquipItem(0);
-			}
-			else
-			{
-				EquipItem(itemIndex + 1);
-			}
-		}
-		else if(Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+			animator.Play($"{mode}_Right");
+		}else if (moveDir.z < 0)
 		{
-			if(itemIndex <= 0)
-			{
-				EquipItem(items.Length - 1);
-			}
-			else
-			{
-				EquipItem(itemIndex - 1);
-			}
+			animator.Play($"{mode}_Backward");
 		}
-
-		if(Input.GetMouseButtonDown(0))
+		else if (moveDir.z > 0)
 		{
-			items[itemIndex].Use();
+			animator.Play($"{mode}_Forward");
 		}
+    }
 
-		if(transform.position.y < -10f) // Die if you fall out of the world
-		{
-			Die();
-		}
-	}
+    void Move()
+    {
+        Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
-	void Look()
-	{
-		transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
+        moveAmount = Vector3.SmoothDamp(moveAmount,
+            moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
+    }
 
-		verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
-		verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+    void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && grounded)
+        {
+			animator.Play("Jump_to_Run");
+            rb.AddForce(transform.up * jumpForce);
+        }
+    }
 
-		cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
-	}
+    void TakeItem()
+    {
+        var item = GetObjectOnClick();
+        if (item != null)
+        {
+            PhotonNetwork.Destroy(item);
+        }
+    }
 
-	void Move()
-	{
-		Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+    void DropItem()
+    {
+        var frontPosition = GetComponentInChildren<Camera>().transform.TransformPoint(Vector3.forward * rayDistance);
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Cube"), frontPosition, Quaternion.identity);
+    }
 
-		moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
-	}
+    Vector3[] GetClickPositionAndNormal()
+    {
+        Vector3[] returnData = new Vector3[] {Vector3.zero, Vector3.zero}; //0 = spawn poisiton, 1 = surface normal
+        Ray ray = GetComponentInChildren<Camera>().ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+        RaycastHit hit = new RaycastHit();
+        if (Physics.Raycast(ray, out hit, rayDistance))
+        {
+            returnData[0] = hit.point;
+            returnData[1] = hit.normal;
+        }
 
-	void Jump()
-	{
-		if(Input.GetKeyDown(KeyCode.Space) && grounded)
-		{
-			rb.AddForce(transform.up * jumpForce);
-		}
-	}
+        return returnData;
+    }
 
-	void EquipItem(int _index)
-	{
-		if(_index == previousItemIndex)
-			return;
+    GameObject GetObjectOnClick()
+    {
+        Ray ray = GetComponentInChildren<Camera>().ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+        RaycastHit hit = new RaycastHit();
 
-		itemIndex = _index;
+        if (Physics.Raycast(ray, out hit, rayDistance))
+        {
+            var gameObject = hit.transform.gameObject;
+            if (gameObject.tag == "Destructible")
+            {
+                return gameObject;
+            }
+        }
 
-		items[itemIndex].itemGameObject.SetActive(true);
+        return null;
+    }
 
-		if(previousItemIndex != -1)
-		{
-			items[previousItemIndex].itemGameObject.SetActive(false);
-		}
+    void EquipItem(int _index)
+    {
+        if (_index == previousItemIndex)
+            return;
 
-		previousItemIndex = itemIndex;
+        itemIndex = _index;
 
-		if(PV.IsMine)
-		{
-			Hashtable hash = new Hashtable();
-			hash.Add("itemIndex", itemIndex);
-			PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-		}
-	}
+        items[itemIndex].itemGameObject.SetActive(true);
 
-	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-	{
-		if(!PV.IsMine && targetPlayer == PV.Owner)
-		{
-			EquipItem((int)changedProps["itemIndex"]);
-		}
-	}
+        if (previousItemIndex != -1)
+        {
+            items[previousItemIndex].itemGameObject.SetActive(false);
+        }
 
-	public void SetGroundedState(bool _grounded)
-	{
-		grounded = _grounded;
-	}
+        previousItemIndex = itemIndex;
 
-	void FixedUpdate()
-	{
-		if(!PV.IsMine)
-			return;
+        if (PV.IsMine)
+        {
+            Hashtable hash = new Hashtable();
+            hash.Add("itemIndex", itemIndex);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        }
+    }
 
-		rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
-	}
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if (!PV.IsMine && targetPlayer == PV.Owner)
+        {
+            EquipItem((int) changedProps["itemIndex"]);
+        }
+    }
 
-	public void TakeDamage(float damage)
-	{
-		PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
-	}
+    public void SetGroundedState(bool _grounded)
+    {
+        grounded = _grounded;
+    }
 
-	[PunRPC]
-	void RPC_TakeDamage(float damage)
-	{
-		if(!PV.IsMine)
-			return;
+    void FixedUpdate()
+    {
+        if (!PV.IsMine)
+            return;
 
-		currentHealth -= damage;
+        rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+    }
 
-		if(currentHealth <= 0)
-		{
-			Die();
-		}
-	}
+    public void TakeDamage(float damage)
+    {
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+    }
 
-	void Die()
-	{
-		playerManager.Die();
-	}
+    [PunRPC]
+    void RPC_TakeDamage(float damage)
+    {
+        if (!PV.IsMine)
+            return;
+
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        playerManager.Die();
+    }
 }
