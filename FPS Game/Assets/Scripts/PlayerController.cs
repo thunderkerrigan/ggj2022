@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     [SerializeField] Item[] items;
 
+    [SerializeField] Animator animator;
+
     int itemIndex;
     int previousItemIndex = -1;
 
@@ -124,31 +126,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
-
-var mode = "";
-		if (Mathf.Abs(moveAmount.x) > 4 || moveAmount.z > 4)
-		{
-			mode = "Run";
-		}else
-		{
-			mode = "Walk";
-		}
-		
-		if (moveDir.x > 0)
-		{
-			animator.Play($"{mode}_Left");
-		}else if (moveDir.x < 0)
-		{
-			animator.Play($"{mode}_Right");
-		}else if (moveDir.z < 0)
-		{
-			animator.Play($"{mode}_Backward");
-		}
-		else if (moveDir.z > 0)
-		{
-			animator.Play($"{mode}_Forward");
-		}
     }
+    
 
     void Move()
     {
@@ -156,6 +135,29 @@ var mode = "";
 
         moveAmount = Vector3.SmoothDamp(moveAmount,
             moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
+        var mode = "";
+        if (Mathf.Abs(moveAmount.x) > 4 || moveAmount.z > 4)
+        {
+            mode = "Run";
+        }else
+        {
+            mode = "Walk";
+        }
+		
+        if (moveDir.x > 0)
+        {
+            animator.Play($"{mode}_Left");
+        }else if (moveDir.x < 0)
+        {
+            animator.Play($"{mode}_Right");
+        }else if (moveDir.z < 0)
+        {
+            animator.Play($"{mode}_Backward");
+        }
+        else if (moveDir.z > 0)
+        {
+            animator.Play($"{mode}_Forward");
+        }
     }
 
     void Jump()
