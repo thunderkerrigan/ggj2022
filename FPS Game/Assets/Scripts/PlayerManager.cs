@@ -20,6 +20,7 @@ public class PlayerManager : MonoBehaviour
 		if(PV.IsMine)
 		{
 			CreateController();
+			StartGameCountDown();
 		}
 	}
 
@@ -34,4 +35,35 @@ public class PlayerManager : MonoBehaviour
 		PhotonNetwork.Destroy(controller);
 		CreateController();
 	}
+	
+	// Countdown Logic
+	public int countDownValue = 5;
+
+	private void StartGameCountDown()
+	{
+		StartCoroutine(nameof(LowerCountDownRoutine));
+	}
+
+	IEnumerator LowerCountDownRoutine()
+	{
+		while (true)
+		{
+			print($"Starting In {countDownValue}");
+			countDownValue -= 1;
+			if (countDownValue < 0)
+			{
+				onCountDownFinish();
+				yield break;
+			}
+
+			yield return new WaitForSeconds(1f);
+		}
+	}
+
+	private void onCountDownFinish()
+	{
+		print("Find your DOUDOU");
+		controller.GetComponent<PlayerController>().canMove = true;
+	}
+	
 }
