@@ -33,14 +33,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     float currentHealth = maxHealth;
 
     int rayDistance = 2;
-
+    private float currentFloorY = -1;
     PlayerManager playerManager;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
-
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         playerManager = PhotonView.Find((int) PV.InstantiationData[0]).GetComponent<PlayerManager>();
     }
 
@@ -196,6 +197,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         diaper.GetComponent<Rigidbody>().AddForceAtPosition(playerPosition, diaper.transform.position);
         diaper.GetComponent<Rigidbody>().velocity = direction * 30;
     }
+    
+    void PourMilk()
+    {
+        if (grounded)
+        {
+            var groundPosition = new Vector3(transform.position.x, currentFloorY, transform.position.z);
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "MilkPool"), groundPosition, Quaternion.identity);
+        }
+    }
 
     void DropItem()
     {
@@ -266,8 +276,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
     }
 
-    public void SetGroundedState(bool _grounded)
+    public void SetGroundedState(bool _grounded, float _y)
     {
+        currentFloorY = _y;
         grounded = _grounded;
     }
 

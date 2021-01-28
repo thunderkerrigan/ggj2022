@@ -19,9 +19,13 @@ public class Diaper : MonoBehaviour
         PV = GetComponent<PhotonView>();
     }
 
-    [PunRPC]
-    void RPC_Splash(Vector3 hitPosition, Vector3 hitNormal)
+    private void FixedUpdate()
     {
-        
+        // TODO: destroy when out of bounds
+        // var bounds = new Bounds(Vector3.zero, new Vector3(20,20,20));
+        // if (!bounds.Contains(gameObject.transform.position))
+        // {
+        //     PhotonNetwork.Destroy(gameObject);
+        // }
     }
 }

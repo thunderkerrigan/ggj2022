@@ -16,7 +16,7 @@ public class PlayerGroundCheck : MonoBehaviour
 		if(other.gameObject == playerController.gameObject)
 			return;
 
-		playerController.SetGroundedState(true);
+		playerController.SetGroundedState(true, other.ClosestPoint(transform.position).y);
 	}
 
 	void OnTriggerExit(Collider other)
@@ -24,7 +24,7 @@ public class PlayerGroundCheck : MonoBehaviour
 		if(other.gameObject == playerController.gameObject)
 			return;
 
-		playerController.SetGroundedState(false);
+		playerController.SetGroundedState(false, -300);
 	}
 
 	void OnTriggerStay(Collider other)
@@ -32,6 +32,6 @@ public class PlayerGroundCheck : MonoBehaviour
 		if(other.gameObject == playerController.gameObject)
 			return;
 
-		playerController.SetGroundedState(true);
+		playerController.SetGroundedState(true, other.ClosestPoint(transform.position).y);
 	}
 }
