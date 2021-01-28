@@ -7,76 +7,79 @@ using Vector3 = UnityEngine.Vector3;
 
 public class PlayerManager : MonoBehaviour
 {
-	PhotonView PV;
+    PhotonView PV;
 
-	GameObject controller;
+    GameObject controller;
 
-	GameObject endZoneManager;
+    GameObject endZoneManager;
 
-	void Awake()
-	{
-		PV = GetComponent<PhotonView>();
-	}
+    void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+    }
 
-	void Start()
-	{
-		if(PV.IsMine)
-		{
-			CreateController();
-			StartGameCountDown();
-		}
-		
-		if (PhotonNetwork.IsMasterClient)
-		{
-			CreateEndZoneManager();
-		}
-	}
+    void Start()
+    {
+        if (PV.IsMine)
+        {
+            CreateController();
+            StartGameCountDown();
+        }
 
-	void CreateController()
-	{
-		Transform spawnpoint = SpawnManager.Instance.GetSpawnpoint();
-		controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnpoint.position, spawnpoint.rotation, 0, new object[] { PV.ViewID });
-	}
+        if (PhotonNetwork.IsMasterClient)
+        {
+            CreateEndZoneManager();
+        }
 
-	void CreateEndZoneManager()
-	{
-		endZoneManager = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "EndZoneManager"),Vector3.zero , Quaternion.identity);
-	}
+        print($"PhotonNetwork.IsMasterClient {(PhotonNetwork.IsMasterClient)}");
+    }
 
-	public void Die()
-	{
-		PhotonNetwork.Destroy(controller);
-		CreateController();
-	}
-	
-	// Countdown Logic
-	public int countDownValue = 3;
+    void CreateController()
+    {
+        Transform spawnpoint = SpawnManager.Instance.GetSpawnpoint();
+        controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnpoint.position,
+            spawnpoint.rotation, 0, new object[] {PV.ViewID});
+    }
 
-	private void StartGameCountDown()
-	{
-		StartCoroutine(nameof(LowerCountDownRoutine));
-	}
+    void CreateEndZoneManager()
+    {
+        endZoneManager = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "EndZoneManager"), Vector3.zero,
+            Quaternion.identity);
+    }
 
-	IEnumerator LowerCountDownRoutine()
-	{
-		while (true)
-		{
-			print($"Starting In {countDownValue}");
-			countDownValue -= 1;
-			if (countDownValue < 0)
-			{
-				onCountDownFinish();
-				yield break;
-			}
+    public void Die()
+    {
+        PhotonNetwork.Destroy(controller);
+        CreateController();
+    }
 
-			yield return new WaitForSeconds(1f);
-		}
-	}
+    // Countdown Logic
+    public int countDownValue = 3;
 
-	private void onCountDownFinish()
-	{
-		print("Find your DOUDOU");
-		controller.GetComponent<PlayerController>().canMove = true;
-	}
-	
+    private void StartGameCountDown()
+    {
+        StartCoroutine(nameof(LowerCountDownRoutine));
+    }
+
+    IEnumerator LowerCountDownRoutine()
+    {
+        while (true)
+        {
+            print($"Starting In {countDownValue}");
+            countDownValue -= 1;
+            if (countDownValue < 0)
+            {
+                onCountDownFinish();
+                yield break;
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private void onCountDownFinish()
+    {
+        print("Find your DOUDOU");
+        controller.GetComponent<PlayerController>().canMove = true;
+    }
 }
