@@ -26,7 +26,7 @@ public class PlayerManager : MonoBehaviour
 			StartGameCountDown();
 		}
 		
-		if (!PhotonNetwork.IsMasterClient)
+		if (PhotonNetwork.IsMasterClient)
 		{
 			CreateEndZoneManager();
 		}
