@@ -6,7 +6,6 @@ using Photon.Realtime;
 public class EndZoneManager : MonoBehaviourPunCallbacks
 {
     Dictionary<string, float> _playerTimes = new Dictionary<string, float>();
-    private Player[] _playerList;
     private float _startTime;
 
     // Start is called before the first frame update
@@ -21,9 +20,17 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
     }
 
 
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+    }
+    
     public void onPlayerDetected(Player player)
     {
-        _playerList = PhotonNetwork.PlayerList;
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+        
 
         var playerUserId = player.UserId;
         if (!_playerTimes.ContainsKey(playerUserId))
@@ -34,12 +41,13 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
             _playerTimes.Add(playerUserId, time);
 
             var everyOneIsArrived = true;
-            print("number of players " + _playerList.Length);
+            Player[] players = PhotonNetwork.PlayerList;
+            print("number of players " + players.Length);
             
-            foreach (var playerInList in _playerList)
+            foreach (var playerInList in players)
             {
-                print("UserId" + playerInList.UserId);
-                if (playerInList.UserId != null && !_playerTimes.ContainsKey(playerInList.UserId))
+                print("NickName" + playerInList.NickName);
+                if (playerInList.NickName != null && !_playerTimes.ContainsKey(playerInList.NickName))
                 {
                     everyOneIsArrived = false;
                 }
