@@ -4,9 +4,13 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
+
+public delegate void CooldownUpdateHandler(float[] spans);
+public delegate void ScoreUpdateHandler(int score);
 public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 {
     [SerializeField] GameObject cameraHolder;
@@ -26,6 +30,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     Vector3 moveAmount;
 
     Rigidbody rb;
+    
+    public event CooldownUpdateHandler OnCoolDownUpdate;
 
     public PhotonView PV;
 
@@ -59,9 +65,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             Destroy(rb);
         }
     }
-
+    
     void Update()
     {
+
+        if (OnCoolDownUpdate != null)
+        {
+            var map = items.Select(item => item.RemainingCooldown()).ToArray();
+            OnCoolDownUpdate(map);
+        }
+
         if (!PV.IsMine)
             return;
 
@@ -109,11 +122,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (itemIndex == 1 && !grounded)
-            {
-                return;
-            }
-             items[itemIndex].Use();
+            items[itemIndex].Use();
         }
 
         if (transform.position.y < -10f) // Die if you fall out of the world
@@ -131,7 +140,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }
-    
 
     void Move()
     {
@@ -164,25 +172,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
                 item.GetComponent<PhotonView>().TransferOwnership(PV.Owner);
             }
             PhotonNetwork.Destroy(item);
-        }
-    }
-
-    void ThrowDiaper()
-    {
-        var playerPosition = GetComponentInChildren<Camera>().transform.position;
-        var frontPosition = GetComponentInChildren<Camera>().transform.TransformPoint(Vector3.forward * rayDistance);
-        var direction = (frontPosition - playerPosition).normalized;
-        var diaper = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Diaper"), frontPosition, Quaternion.identity);
-        diaper.GetComponent<Rigidbody>().AddForceAtPosition(playerPosition, diaper.transform.position);
-        diaper.GetComponent<Rigidbody>().velocity = direction * 30;
-    }
-    
-    void PourMilk()
-    {
-        if (grounded)
-        {
-            var groundPosition = new Vector3(transform.position.x, currentFloorY, transform.position.z);
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "MilkPool"), groundPosition, Quaternion.identity);
         }
     }
 

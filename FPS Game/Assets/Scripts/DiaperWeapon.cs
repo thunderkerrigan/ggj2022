@@ -7,13 +7,14 @@ using UnityEngine;
 public class DiaperWeapon : Weapon
 {
     [SerializeField] Camera cam;
-    private bool enable = true;
-
     PhotonView PV;
 
     void Awake()
     {
         PV = GetComponent<PhotonView>();
+        nextAttack = Time.time;
+        cooldown = 1.5f;
+        enable = true;
     }
 
     public override void Use()
@@ -26,6 +27,7 @@ public class DiaperWeapon : Weapon
         if (enable)
         {
             StartCoroutine(OnCooldown());
+            nextAttack = Time.time + cooldown;
             var playerPosition = cam.transform.position;
             var frontPosition = cam.transform.TransformPoint(Vector3.forward * 2);
             var direction = (frontPosition - playerPosition).normalized;
@@ -36,23 +38,5 @@ public class DiaperWeapon : Weapon
             diaper.GetComponent<Rigidbody>().AddTorque(randomTorque*75);
         }
         
-    }
-
-    IEnumerator OnCooldown()
-    {
-        enable = false; 
-        yield return new WaitForSeconds(1.5f);
-        enable = true;
-    }
-    [PunRPC]
-    void RPC_Shoot(Vector3 hitPosition, Vector3 hitNormal)
-    {
-        // Collider[] colliders = Physics.OverlapSphere(hitPosition, 0.3f);
-        // if(colliders.Length != 0)
-        // {
-        //     GameObject bulletImpactObj = Instantiate(bulletImpactPrefab, hitPosition + hitNormal * 0.001f, Quaternion.LookRotation(hitNormal, Vector3.up) * bulletImpactPrefab.transform.rotation);
-        //     Destroy(bulletImpactObj, 10f);
-        //     bulletImpactObj.transform.SetParent(colliders[0].transform);
-        // }
     }
 }
