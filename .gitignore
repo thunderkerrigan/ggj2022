@@ -69,6 +69,8 @@ FPS Game/Library/PackageCache
 FPS Game/Library/PackageManager
 FPS Game/Library
 FPS Game/obj
+FPS Game/Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset.meta
+*.DS_Store
 FPS Game/Assets/Cartoon Baby Pack/.DS_Store
 *.DS_Store
 FPS Game/Temp

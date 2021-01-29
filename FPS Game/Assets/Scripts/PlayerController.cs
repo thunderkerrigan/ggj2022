@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     Rigidbody rb;
 
-    PhotonView PV;
+    public PhotonView PV;
 
     const float maxHealth = 100f;
     float currentHealth = maxHealth;
@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     int rayDistance = 2;
 
     PlayerManager playerManager;
+
+    public bool canMove = false;
 
     void Awake()
     {
@@ -63,6 +65,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             return;
 
         Look();
+        
+        if (!canMove)
+        {
+            return;
+        }
+
         Move();
         Jump();
 

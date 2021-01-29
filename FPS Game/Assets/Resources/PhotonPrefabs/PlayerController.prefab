@@ -578,6 +578,8 @@ MonoBehaviour:
   - {fileID: 6732414030161505931}
   - {fileID: 3968076902418886796}
   animator: {fileID: 1152840896929958412}
+  PV: {fileID: 0}
+  canMove: 0
 --- !u!95 &1152840896929958412
 Animator:
   serializedVersion: 3
