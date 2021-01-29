@@ -10,8 +10,10 @@ using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
-public delegate void CooldownUpdateHandler(float[] spans);
+public delegate void CooldownUpdateHandler(int position, float value);
+
 public delegate void ScoreUpdateHandler(int score);
+
 public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 {
     [SerializeField] GameObject cameraHolder;
@@ -31,7 +33,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     Vector3 moveAmount;
 
     Rigidbody rb;
-    
+
     public event CooldownUpdateHandler OnCoolDownUpdate;
 
     public PhotonView PV;
@@ -43,7 +45,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     private float currentFloorY = -1;
     PlayerManager playerManager;
 
-    private Coroutine CooldownCoroutine;
+    private List<Coroutine> CooldownCoroutines = new List<Coroutine>();
 
     public bool canMove = false;
 
@@ -55,7 +57,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         Cursor.lockState = CursorLockMode.Locked;
         playerManager = PhotonView.Find((int) PV.InstantiationData[0]).GetComponent<PlayerManager>();
     }
-    
+
 
     void Start()
     {
@@ -69,12 +71,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             Destroy(rb);
         }
     }
-    
+
     void Update()
     {
-
-        
-
         if (!PV.IsMine)
             return;
 
@@ -122,10 +121,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         if (Input.GetMouseButtonDown(0))
         {
-            items[itemIndex].Use();
-            if (CooldownCoroutine == null)
+            var fired = items[itemIndex].Use();
+            if (fired != -1)
             {
-                CooldownCoroutine = StartCoroutine(WatchCoolDown());
+                if (OnCoolDownUpdate != null)
+                {
+                    OnCoolDownUpdate(itemIndex, fired);
+                }
             }
         }
 
@@ -159,10 +161,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         moveAmount = Vector3.SmoothDamp(moveAmount,
             moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
-            
-            animator.SetFloat("x", moveAmount.x);
-            animator.SetFloat("z", moveAmount.z);
-            animator.SetFloat("y", moveAmount.y);
+
+        animator.SetFloat("x", moveAmount.x);
+        animator.SetFloat("z", moveAmount.z);
+        animator.SetFloat("y", moveAmount.y);
     }
 
     void Jump()
@@ -293,23 +295,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     void Die()
     {
-        StopCoroutine(CooldownCoroutine);
-        playerManager.Die();
-    }
-
-    IEnumerator WatchCoolDown()
-    {
-        var InCooldown = true;
-        while (InCooldown)
+        foreach (var routine in CooldownCoroutines)
         {
-            var map = items.Select(item => item.RemainingCooldown()).ToArray();
-            InCooldown = map.Where(item => item == 1f).ToArray().Length != map.Length;
-            if (OnCoolDownUpdate != null)
-            {
-                OnCoolDownUpdate(map);
-            }
-
-            yield return WaitForEndOfFrame(0.1f);
+            StopCoroutine(routine);
         }
+
+        playerManager.Die();
     }
 }

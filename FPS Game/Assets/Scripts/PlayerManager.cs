@@ -26,15 +26,15 @@ public class PlayerManager : MonoBehaviour
         if (PV.IsMine)
         {
             CreateController();
-            var gameHasStarted = (bool) PhotonNetwork.CurrentRoom.CustomProperties["GameHasStarted"];
-            if (gameHasStarted == false)
-            {
+            // var gameHasStarted = (bool) PhotonNetwork.CurrentRoom.CustomProperties["GameHasStarted"];
+            // if (gameHasStarted == false)
+            // {
                 StartGameCountDown();
-            }
-            else
-            {
-                onCountDownFinish();
-            }
+            // }
+            // else
+            // {
+                // onCountDownFinish();
+            // }
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -60,7 +60,7 @@ public class PlayerManager : MonoBehaviour
 
     // Countdown Logic
     public int countDownValue = 3;
-
+    
     private void StartGameCountDown()
     {
         StartCoroutine(nameof(LowerCountDownRoutine));

@@ -7,6 +7,6 @@ public abstract class Item : MonoBehaviour
 	public ItemInfo itemInfo;
 	public GameObject itemGameObject;
 
-	public abstract void Use();
+	public abstract float Use();
 	public abstract float RemainingCooldown();
 }

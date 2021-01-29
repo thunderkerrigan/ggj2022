@@ -17,12 +17,12 @@ public class DiaperWeapon : Weapon
         enable = true;
     }
 
-    public override void Use()
+    public override float Use()
     {
-        Spawn();
+        return Spawn();
     }
 
-    void Spawn()
+    float Spawn()
     {
         if (enable)
         {
@@ -36,7 +36,11 @@ public class DiaperWeapon : Weapon
             diaper.GetComponent<Rigidbody>().velocity = direction * 30;
             var randomTorque = Random.insideUnitSphere;
             diaper.GetComponent<Rigidbody>().AddTorque(randomTorque*75);
+            return cooldown;
         }
-        
+        else
+        {
+            return -1;
+        }
     }
 }

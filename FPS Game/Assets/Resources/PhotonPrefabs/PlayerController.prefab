@@ -1780,7 +1780,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: 7d265224a6a25bb449941c374d0946a4, type: 2}
   itemGameObject: {fileID: 7489833046159003544}
-  enable: 0
+  enable: 1
   cam: {fileID: 1488053957094389952}
 --- !u!1 &3649308568078607638
 GameObject:
@@ -2733,7 +2733,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: faedfac47be255447ae44e48a73a1423, type: 2}
   itemGameObject: {fileID: 2549705671862758738}
-  enable: 0
+  enable: 1
   cam: {fileID: 1488053957094389952}
 --- !u!114 &2186336676038888411
 MonoBehaviour:

@@ -13,25 +13,29 @@ namespace DefaultNamespace
         void Awake()
         {
             PV = GetComponent<PhotonView>();
-            nextAttack = Time.time;
+            nextAttack = Time.time + cooldown;
             cooldown = 15f;
             enable = true;
         }
 
-        public override void Use()
+        public override float Use()
         {
-            Spawn();
+           return Spawn();
         }
 
-        void Spawn()
+        float Spawn()
         {
             if (enable)
             {
                 nextAttack = Time.time + cooldown * 1000;
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "MilkPool"), transform.position, Quaternion.identity);
                 StartCoroutine(OnCooldown());
+                return cooldown;
             }
-            
+            else
+            {
+                return -1;
+            }
         }
 
         IEnumerator OnCooldown()

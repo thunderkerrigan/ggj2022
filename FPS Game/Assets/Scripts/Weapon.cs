@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Weapon : Item
 {
-	public abstract override void Use();
+	public abstract override float Use();
 
 	protected float nextAttack;
 	public bool enable = true;

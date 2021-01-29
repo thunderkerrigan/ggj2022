@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using NUnit.Framework.Constraints;
 using Photon.Pun;
 using UnityEngine;
@@ -23,11 +24,17 @@ namespace DefaultNamespace
             
         }
 
-        public void SetGroundedState(bool _state)
+        private void OnTriggerEnter(Collider other)
         {
             StartCoroutine(BuildUp());
             GetComponent<Collider>().isTrigger = false;
-            GetComponent<Rigidbody>().useGravity = false;
+            // GetComponent<Rigidbody>().useGravity = false;
+            GetComponent<Rigidbody>().isKinematic = true;
+        }
+
+        public void SetGroundedState(bool _state)
+        {
+            
         }
 
         // Start is called before the first frame update
