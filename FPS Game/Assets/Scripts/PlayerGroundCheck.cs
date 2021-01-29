@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerGroundCheck : MonoBehaviour
 {
 	PlayerController playerController;
-
+	private float closestY = -300;
 	void Awake()
 	{
 		playerController = GetComponentInParent<PlayerController>();
@@ -15,8 +15,8 @@ public class PlayerGroundCheck : MonoBehaviour
 	{
 		if(other.gameObject == playerController.gameObject)
 			return;
-
-		playerController.SetGroundedState(true);
+		closestY = other.ClosestPoint(transform.position).y;
+		playerController.SetGroundedState(true, closestY);
 	}
 
 	void OnTriggerExit(Collider other)
@@ -24,14 +24,13 @@ public class PlayerGroundCheck : MonoBehaviour
 		if(other.gameObject == playerController.gameObject)
 			return;
 
-		playerController.SetGroundedState(false);
+		playerController.SetGroundedState(false, -300);
 	}
 
 	void OnTriggerStay(Collider other)
 	{
 		if(other.gameObject == playerController.gameObject)
 			return;
-
-		playerController.SetGroundedState(true);
+		playerController.SetGroundedState(true, closestY);
 	}
 }
