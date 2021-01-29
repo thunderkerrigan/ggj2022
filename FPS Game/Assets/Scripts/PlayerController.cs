@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     float currentHealth = maxHealth;
 
     int rayDistance = 2;
-
+    private float currentFloorY = -1;
     PlayerManager playerManager;
 
     public bool canMove = false;
@@ -42,7 +42,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     {
         rb = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
-
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         playerManager = PhotonView.Find((int) PV.InstantiationData[0]).GetComponent<PlayerManager>();
     }
 
@@ -108,17 +109,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         if (Input.GetMouseButtonDown(0))
         {
-            // items[itemIndex].Use();
-            // TODO: add object
-           // DropItem();
-           ThrowDiaper();
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            // items[itemIndex].Use();
-            // remove Object
-            TakeItem();
+            if (itemIndex == 1 && !grounded)
+            {
+                return;
+            }
+             items[itemIndex].Use();
         }
 
         if (transform.position.y < -10f) // Die if you fall out of the world
@@ -144,33 +139,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         moveAmount = Vector3.SmoothDamp(moveAmount,
             moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
-        var mode = "";
-        if (Mathf.Abs(moveAmount.x) > 4 || moveAmount.z > 4)
-        {
-            mode = "Run";
-        }else
-        {
-            mode = "Walk";
-        }
-		
-        if (moveDir.x > 0)
-        {
-            animator.SetBool("isWalking",true);
-        }else if (moveDir.x < 0)
-        {
-            animator.SetBool("isWalking",true);
-        }else if (moveDir.z < 0)
-        {
-            animator.SetBool("isWalking",true);
-        }
-        else if (moveDir.z > 0)
-        {
-            animator.SetBool("isWalking",true);
-        }
-        else
-        {
-            animator.SetBool("isWalking",false);
-        }
+            
+            animator.SetFloat("x", moveAmount.x);
+            animator.SetFloat("z", moveAmount.z);
+            animator.SetFloat("y", moveAmount.y);
     }
 
     void Jump()
@@ -203,6 +175,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         var diaper = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Diaper"), frontPosition, Quaternion.identity);
         diaper.GetComponent<Rigidbody>().AddForceAtPosition(playerPosition, diaper.transform.position);
         diaper.GetComponent<Rigidbody>().velocity = direction * 30;
+    }
+    
+    void PourMilk()
+    {
+        if (grounded)
+        {
+            var groundPosition = new Vector3(transform.position.x, currentFloorY, transform.position.z);
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "MilkPool"), groundPosition, Quaternion.identity);
+        }
     }
 
     void DropItem()
@@ -274,8 +255,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
     }
 
-    public void SetGroundedState(bool _grounded)
+    public void SetGroundedState(bool _grounded, float _y)
     {
+        currentFloorY = _y;
         grounded = _grounded;
     }
 
