@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using System.Linq;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -79,7 +80,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             return;
 
         Look();
-        
+
         if (!canMove)
         {
             return;
@@ -125,6 +126,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             items[itemIndex].Use();
         }
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            // items[itemIndex].Use();
+            // remove Object
+            TakeDoudou();
+        }
+
         if (transform.position.y < -10f) // Die if you fall out of the world
         {
             Die();
@@ -140,6 +148,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }
+
 
     void Move()
     {
@@ -157,22 +166,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     {
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
-			animator.Play("Jump_to_Run");
+            animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
         }
     }
 
-    void TakeItem()
+    void TakeDoudou()
     {
         var item = GetObjectOnClick();
-        if (item != null)
-        {
-            if (!item.GetComponent<PhotonView>().IsMine)
-            {
-                item.GetComponent<PhotonView>().TransferOwnership(PV.Owner);
-            }
-            PhotonNetwork.Destroy(item);
-        }
+        if (item == null) return;
+        if (!item.GetComponent<PhotonView>().IsMine) return;
+        DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
     }
 
     void DropItem()
@@ -197,16 +201,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     GameObject GetObjectOnClick()
     {
-        Ray ray = GetComponentInChildren<Camera>().ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
-        RaycastHit hit = new RaycastHit();
+        var ray = GetComponentInChildren<Camera>().ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+        var hit = new RaycastHit();
 
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
             var gameObject = hit.transform.gameObject;
+            print(gameObject);
+            return gameObject;
+            /*
+            FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"Looting DOUDOU";
+            
             if (gameObject.tag == "Destructible")
             {
                 return gameObject;
             }
+            */
         }
 
         return null;
@@ -238,6 +248,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
+        if (!changedProps.ContainsKey("itemIndex")) return;
         if (!PV.IsMine && targetPlayer == PV.Owner)
         {
             EquipItem((int) changedProps["itemIndex"]);

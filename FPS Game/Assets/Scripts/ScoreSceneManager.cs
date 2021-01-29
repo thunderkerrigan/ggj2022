@@ -14,6 +14,8 @@ public class ScoreSceneManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        print("IsMasterClient" + PhotonNetwork.IsMasterClient);
+
         PhotonNetwork.CurrentRoom.IsOpen = true;
         PhotonNetwork.CurrentRoom.IsVisible = true;
         restartButton.SetActive(PhotonNetwork.IsMasterClient);

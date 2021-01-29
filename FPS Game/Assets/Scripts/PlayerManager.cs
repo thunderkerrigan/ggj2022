@@ -26,9 +26,13 @@ public class PlayerManager : MonoBehaviour
         {
             CreateController();
             StartGameCountDown();
-        }
 
-        print($"PhotonNetwork.IsMasterClient {(PhotonNetwork.IsMasterClient)}");
+            if (PhotonNetwork.IsMasterClient)
+            {
+                print("Create Doudous");
+                DoudouManager.Instance.spawnDoudous();
+            }
+        }
     }
 
     void CreateController()
@@ -37,6 +41,7 @@ public class PlayerManager : MonoBehaviour
         controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnpoint.position,
             spawnpoint.rotation, 0, new object[] {PV.ViewID});
     }
+
 
     public void Die()
     {
@@ -57,7 +62,8 @@ public class PlayerManager : MonoBehaviour
         while (true)
         {
             print($"Starting In {countDownValue}");
-            FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"Starting In {countDownValue}";
+            FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text =
+                $"Starting In {countDownValue}";
             countDownValue -= 1;
             if (countDownValue < 0)
             {
