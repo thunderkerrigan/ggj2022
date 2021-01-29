@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: fd89cd633b1704537bc380b5c61bff0c
+guid: 50ed987c104324b469fe1f73178c8167
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Cartoon__Baby_02.001
-    second: {fileID: 2100000, guid: 043f3ad23bbbaba44a0452c065142dff, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
