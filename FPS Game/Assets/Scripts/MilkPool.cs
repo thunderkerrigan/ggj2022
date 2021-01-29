@@ -11,6 +11,8 @@ namespace DefaultNamespace
         PhotonView PV;
         private bool fusing = false;
         private bool enable = false;
+
+        /*
         private void OnCollisionEnter(Collision other)
         {
             if (enable)
@@ -21,20 +23,32 @@ namespace DefaultNamespace
                     PhotonNetwork.Destroy(gameObject);
                 }
             }
-            
         }
-
+*/
         private void OnTriggerEnter(Collider other)
         {
-            StartCoroutine(BuildUp());
-            GetComponent<Collider>().isTrigger = false;
+            print("OnTriggerEnter");
+
+            if (enable)
+            {
+                other.gameObject.GetComponent<IDamageable>()?.TakeDamage(3000);
+                if (other.gameObject.tag == "Player" || other.gameObject.tag == "ThrowingWeapon")
+                {
+                    PhotonNetwork.Destroy(gameObject);
+                }
+            }
+            else
+            {
+                StartCoroutine(BuildUp());
+            }
+
+            //GetComponent<Collider>().isTrigger = false;
             // GetComponent<Rigidbody>().useGravity = false;
-            GetComponent<Rigidbody>().isKinematic = true;
+            //GetComponent<Rigidbody>().isKinematic = true;
         }
 
         public void SetGroundedState(bool _state)
         {
-            
         }
 
         // Start is called before the first frame update
@@ -42,14 +56,15 @@ namespace DefaultNamespace
         {
             PV = GetComponent<PhotonView>();
             StartCoroutine(BuildUp());
-            GetComponent<Rigidbody>().useGravity = true;
+            //GetComponent<Rigidbody>().useGravity = true;
         }
 
         IEnumerator BuildUp()
         {
             yield return new WaitForSeconds(1);
-            GetComponent<Collider>().isTrigger = false;
+            //GetComponent<Collider>().isTrigger = false;
             enable = true;
+            print("isEnable");
         }
     }
 }
