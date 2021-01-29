@@ -28,18 +28,14 @@ public class DoudouManager : MonoBehaviourPunCallbacks
 
     public void spawnDoudous()
     {
-        var colors = new List<Color> {Color.magenta, Color.blue, Color.yellow, Color.green};
-        var colorIndex = 0;
         foreach (var player in PhotonNetwork.PlayerList)
         {
             var index = PhotonNetwork.PlayerList.ToList().IndexOf(player);
             var spawnpoint = GetSpawnpoint(index);
             var doudou = PhotonNetwork.Instantiate(
-                Path.Combine("PhotonPrefabs", "Doudou"),
+                Path.Combine("TeddyBears", "Prefabs", "Bear_" + index),
                 spawnpoint.position, spawnpoint.rotation);
-            doudou.gameObject.GetComponent<MeshRenderer>().material.color = colors[colorIndex];
             doudou.GetPhotonView().TransferOwnership(player);
-            colorIndex++;
         }
     }
 
