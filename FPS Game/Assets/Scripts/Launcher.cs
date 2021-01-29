@@ -6,8 +6,7 @@ using TMPro;
 using Photon.Realtime;
 using System.Linq;
 
-public class Launcher : MonoBehaviourPunCallbacks
-{
+public class Launcher : MonoBehaviourPunCallbacks {
     public static Launcher Instance;
 
     [SerializeField] TMP_InputField roomNameInputField;
@@ -18,117 +17,139 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] Transform playerListContent;
     [SerializeField] GameObject PlayerListItemPrefab;
     [SerializeField] GameObject startGameButton;
+    [SerializeField] TMP_InputField playerNameInput;
 
-    void Awake()
-    {
+    void Awake() {
         Instance = this;
     }
 
-    void Start()
-    {
+    void Start() {
         Debug.Log("Connecting to Master");
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    public override void OnConnectedToMaster()
-    {
+    public override void OnConnectedToMaster() {
         Debug.Log("Connected to Master");
         PhotonNetwork.JoinLobby();
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    public override void OnJoinedLobby()
-    {
+    public override void OnJoinedLobby() {
         MenuManager.Instance.OpenMenu("title");
         Debug.Log("Joined Lobby");
-        PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("0000");
+        this.setPlayerNickName(false);
     }
 
-    public void CreateRoom()
-    {
-        if (string.IsNullOrEmpty(roomNameInputField.text))
-        {
-            return;
-        }
+    public void CreateRoom() {
+        if (string.IsNullOrEmpty(roomNameInputField.text)) { return; }
 
         var roomOptions = new RoomOptions {MaxPlayers = 4};
         PhotonNetwork.CreateRoom(roomNameInputField.text, roomOptions);
         MenuManager.Instance.OpenMenu("loading");
     }
 
-    public override void OnJoinedRoom()
-    {
+    public override void OnJoinedRoom() {
+        this.setPlayerNickName(true);
         MenuManager.Instance.OpenMenu("room");
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
         Player[] players = PhotonNetwork.PlayerList;
 
-        foreach (Transform child in playerListContent)
-        {
+        foreach (Transform child in playerListContent) {
             Destroy(child.gameObject);
         }
 
-        for (int i = 0; i < players.Count(); i++)
-        {
+        for (int i = 0; i < players.Count(); i++) {
             Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
 
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
-    public override void OnMasterClientSwitched(Player newMasterClient)
-    {
+    public override void OnMasterClientSwitched(Player newMasterClient) {
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
-    public override void OnCreateRoomFailed(short returnCode, string message)
-    {
+    public override void OnCreateRoomFailed(short returnCode, string message) {
         errorText.text = "Room Creation Failed: " + message;
         Debug.LogError("Room Creation Failed: " + message);
         MenuManager.Instance.OpenMenu("error");
     }
 
-    public void StartGame()
-    {
+    public void StartGame() {
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
         PhotonNetwork.LoadLevel(1);
     }
 
-    public void LeaveRoom()
-    {
+    public void LeaveRoom() {
         PhotonNetwork.LeaveRoom();
         MenuManager.Instance.OpenMenu("loading");
     }
 
-    public void JoinRoom(RoomInfo info)
-    {
+    public void JoinRoom(RoomInfo info) {
         PhotonNetwork.JoinRoom(info.Name);
         MenuManager.Instance.OpenMenu("loading");
     }
 
-    public override void OnLeftRoom()
-    {
+    public override void OnLeftRoom() {
         MenuManager.Instance.OpenMenu("title");
     }
 
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        foreach (Transform trans in roomListContent)
-        {
+    public override void OnRoomListUpdate(List<RoomInfo> roomList) {
+        foreach (Transform trans in roomListContent) {
             Destroy(trans.gameObject);
         }
 
-        for (int i = 0; i < roomList.Count; i++)
-        {
-            if (roomList[i].RemovedFromList)
-                continue;
+        for (int i = 0; i < roomList.Count; i++) {
+            if (roomList[i].RemovedFromList) { continue; }
             Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i]);
         }
     }
-
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
+    
+    public override void OnPlayerEnteredRoom(Player newPlayer) {
+        this.incrementeNickName(newPlayer);
         Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
+    }
+
+    public void setPlayerNickName(bool checkPlayersNickName = false){
+        string playerName = PhotonNetwork.NickName;
+        // Init playerName
+        if (playerName == "") { playerName = "Player_" + Random.Range(0, 1000).ToString("0000"); }
+        if (this.playerNameInput != null){
+            if (this.playerNameInput.text == "") { this.playerNameInput.text = playerName; }
+            else{ playerName = this.playerNameInput.text; }
+        }
+
+        // Check nickname duplicate
+        if(checkPlayersNickName) { playerName = this.incrementeNickName(PhotonNetwork.LocalPlayer); }
+
+        PhotonNetwork.NickName = playerName;
+    }
+
+    private string incrementeNickName (Player player) {
+        string playerName = player.NickName;
+
+        Player[] players = PhotonNetwork.PlayerList;
+        string newName = playerName;
+        int increment = 0;
+		do { 
+            bool isDuplicate = false;
+            foreach(Player currentPlayer in players) {
+                if(currentPlayer != player && currentPlayer.NickName == newName) {
+                    increment++;
+                    newName = playerName + "_" + increment;
+                    isDuplicate = true;
+                    break;
+				}
+			}
+            if(!isDuplicate && increment > 0) {
+                playerName += "_" + increment;
+                increment = 0; //exit do...while
+			}
+        } while (increment != 0);
+
+        player.NickName = playerName;
+        return playerName;
     }
 }
