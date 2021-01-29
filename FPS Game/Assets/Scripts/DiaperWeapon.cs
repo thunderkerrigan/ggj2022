@@ -27,7 +27,7 @@ public class DiaperWeapon : Weapon
         if (enable)
         {
             StartCoroutine(OnCooldown());
-            nextAttack = Time.time + cooldown;
+            nextAttack = Time.time + cooldown * 1000;
             var playerPosition = cam.transform.position;
             var frontPosition = cam.transform.TransformPoint(Vector3.forward * 2);
             var direction = (frontPosition - playerPosition).normalized;

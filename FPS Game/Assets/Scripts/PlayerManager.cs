@@ -6,6 +6,7 @@ using System.Linq;
 using TMPro;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -25,7 +26,15 @@ public class PlayerManager : MonoBehaviour
         if (PV.IsMine)
         {
             CreateController();
-            StartGameCountDown();
+            var gameHasStarted = (bool) PhotonNetwork.CurrentRoom.CustomProperties["GameHasStarted"];
+            if (gameHasStarted == false)
+            {
+                StartGameCountDown();
+            }
+            else
+            {
+                onCountDownFinish();
+            }
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -59,19 +68,21 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator LowerCountDownRoutine()
     {
-        while (true)
+        for (int i = 5; i > 0; i--)
         {
             print($"Starting In {countDownValue}");
             FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text =
                 $"Starting In {countDownValue}";
             countDownValue -= 1;
-            if (countDownValue < 0)
-            {
-                onCountDownFinish();
-                yield break;
-            }
-
             yield return new WaitForSeconds(1f);
+        }
+
+        onCountDownFinish();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            var hash = new Hashtable();
+            hash.Add("GameHasStarted", true);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
         }
     }
 

@@ -43,6 +43,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     private float currentFloorY = -1;
     PlayerManager playerManager;
 
+    private Coroutine CooldownCoroutine;
+
     public bool canMove = false;
 
     void Awake()
@@ -53,6 +55,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         Cursor.lockState = CursorLockMode.Locked;
         playerManager = PhotonView.Find((int) PV.InstantiationData[0]).GetComponent<PlayerManager>();
     }
+    
 
     void Start()
     {
@@ -70,11 +73,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     void Update()
     {
 
-        if (OnCoolDownUpdate != null)
-        {
-            var map = items.Select(item => item.RemainingCooldown()).ToArray();
-            OnCoolDownUpdate(map);
-        }
+        
 
         if (!PV.IsMine)
             return;
@@ -124,6 +123,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (Input.GetMouseButtonDown(0))
         {
             items[itemIndex].Use();
+            if (CooldownCoroutine == null)
+            {
+                CooldownCoroutine = StartCoroutine(WatchCoolDown());
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.F))
@@ -290,6 +293,23 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     void Die()
     {
+        StopCoroutine(CooldownCoroutine);
         playerManager.Die();
+    }
+
+    IEnumerator WatchCoolDown()
+    {
+        var InCooldown = true;
+        while (InCooldown)
+        {
+            var map = items.Select(item => item.RemainingCooldown()).ToArray();
+            InCooldown = map.Where(item => item == 1f).ToArray().Length != map.Length;
+            if (OnCoolDownUpdate != null)
+            {
+                OnCoolDownUpdate(map);
+            }
+
+            yield return WaitForEndOfFrame(0.1f);
+        }
     }
 }

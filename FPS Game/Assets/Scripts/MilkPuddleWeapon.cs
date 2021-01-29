@@ -27,8 +27,8 @@ namespace DefaultNamespace
         {
             if (enable)
             {
-                var groundPosition = new Vector3(transform.position.x, -1, transform.position.z);
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "MilkPool"), groundPosition, Quaternion.identity);
+                nextAttack = Time.time + cooldown * 1000;
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "MilkPool"), transform.position, Quaternion.identity);
                 StartCoroutine(OnCooldown());
             }
             

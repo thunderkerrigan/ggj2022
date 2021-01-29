@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
 using System.IO;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -31,11 +32,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		base.OnDisable();
 		SceneManager.sceneLoaded -= OnSceneLoaded;
 	}
-
+	
 	void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
 	{
 		if(scene.buildIndex == 1) // We're in the game scene
 		{
+			var hash = new Hashtable();
+			hash.Add("GameHasStarted", false);
+			PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
 			PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
 		}
 	}
