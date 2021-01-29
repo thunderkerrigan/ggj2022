@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -12,17 +13,17 @@ public class DoudouManager : MonoBehaviourPunCallbacks
 {
     public static DoudouManager Instance;
 
-    Spawnpoint[] spawnpoints;
+    List<Spawnpoint> _spawnpoints;
 
     void Awake()
     {
         Instance = this;
-        spawnpoints = GetComponentsInChildren<Spawnpoint>();
+        _spawnpoints = GetComponentsInChildren<Spawnpoint>().OrderBy(x => Random.value).ToList();
     }
 
-    private Transform GetSpawnpoint()
+    private Transform GetSpawnpoint(int index)
     {
-        return spawnpoints[Random.Range(0, spawnpoints.Length)].transform;
+        return _spawnpoints[index].transform;
     }
 
     public void spawnDoudous()
@@ -31,11 +32,13 @@ public class DoudouManager : MonoBehaviourPunCallbacks
         var colorIndex = 0;
         foreach (var player in PhotonNetwork.PlayerList)
         {
-            var spawnpoint = GetSpawnpoint();
-            var doudou = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Doudou"),
-                spawnpoint.transform.position, spawnpoint.transform.rotation);
-            doudou.GetPhotonView().TransferOwnership(player);
+            var index = PhotonNetwork.PlayerList.ToList().IndexOf(player);
+            var spawnpoint = GetSpawnpoint(index);
+            var doudou = PhotonNetwork.Instantiate(
+                Path.Combine("PhotonPrefabs", "Doudou"),
+                spawnpoint.position, spawnpoint.rotation);
             doudou.gameObject.GetComponent<MeshRenderer>().material.color = colors[colorIndex];
+            doudou.GetPhotonView().TransferOwnership(player);
             colorIndex++;
         }
     }

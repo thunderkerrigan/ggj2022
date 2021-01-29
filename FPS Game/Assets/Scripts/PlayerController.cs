@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     void TakeDoudou()
     {
         var item = GetObjectOnClick();
-        if (item == null) return;
+        if (item != null && item.GetComponent<PhotonView>() == null) return;
         if (!item.GetComponent<PhotonView>().IsMine) return;
         DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
     }

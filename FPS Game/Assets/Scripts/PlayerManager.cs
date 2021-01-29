@@ -24,8 +24,8 @@ public class PlayerManager : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            CreateController();
             StartGameCountDown();
+            CreateController();
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -37,8 +37,11 @@ public class PlayerManager : MonoBehaviour
 
     void CreateController()
     {
-        Transform spawnpoint = SpawnManager.Instance.GetSpawnpoint();
-        controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnpoint.position,
+        var index = PhotonNetwork.PlayerList.ToList().IndexOf(PhotonNetwork.LocalPlayer);
+        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"PLAYER #{index}";
+        var spawnpoint = SpawnManager.Instance.GetSpawnpoint(index);
+        controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"),
+            spawnpoint.position,
             spawnpoint.rotation, 0, new object[] {PV.ViewID});
     }
 
@@ -77,7 +80,7 @@ public class PlayerManager : MonoBehaviour
 
     private void onCountDownFinish()
     {
-        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"GO to finish zone";
+        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"Find doudou and go endzone";
         controller.GetComponent<PlayerController>().canMove = true;
     }
 }
