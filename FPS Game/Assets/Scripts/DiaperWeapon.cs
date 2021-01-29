@@ -32,6 +32,8 @@ public class DiaperWeapon : Weapon
             var diaper = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Diaper"), frontPosition, Quaternion.identity);
             diaper.GetComponent<Rigidbody>().AddForceAtPosition(playerPosition, diaper.transform.position);
             diaper.GetComponent<Rigidbody>().velocity = direction * 30;
+            var randomTorque = Random.insideUnitSphere;
+            diaper.GetComponent<Rigidbody>().AddTorque(randomTorque*75);
         }
         
     }
@@ -39,7 +41,7 @@ public class DiaperWeapon : Weapon
     IEnumerator OnCooldown()
     {
         enable = false; 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1.5f);
         enable = true;
     }
     [PunRPC]
