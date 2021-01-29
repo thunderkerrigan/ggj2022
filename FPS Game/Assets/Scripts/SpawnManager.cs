@@ -5,7 +5,6 @@ public class SpawnManager : MonoBehaviour
 	public static SpawnManager Instance;
 
 	Spawnpoint[] spawnpoints;
-	private int usedSpawnPoint = 0;
 
 	void Awake()
 	{
@@ -13,9 +12,8 @@ public class SpawnManager : MonoBehaviour
 		spawnpoints = GetComponentsInChildren<Spawnpoint>();
 	}
 
-	public Transform GetSpawnpoint()
+	public Transform GetSpawnpoint(int index)
 	{
-		usedSpawnPoint++;
-		return spawnpoints[Random.Range(usedSpawnPoint - 1, spawnpoints.Length)].transform;
+		return spawnpoints[index].transform;
 	}
 }

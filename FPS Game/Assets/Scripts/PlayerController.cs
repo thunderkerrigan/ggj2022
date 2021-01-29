@@ -56,6 +56,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         playerManager = PhotonView.Find((int) PV.InstantiationData[0]).GetComponent<PlayerManager>();
+        var materialIndex = (int)PV.InstantiationData[1];
+        GetComponentInChildren<CaracterHolder>().updateMaterial(materialIndex);
     }
 
 
@@ -179,7 +181,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     void TakeDoudou()
     {
         var item = GetObjectOnClick();
-        if (item == null) return;
+        if (item != null && item.GetComponent<PhotonView>() == null) return;
         if (!item.GetComponent<PhotonView>().IsMine) return;
         DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
     }

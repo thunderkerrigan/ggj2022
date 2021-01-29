@@ -6,7 +6,6 @@ using System.Linq;
 using TMPro;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -25,16 +24,8 @@ public class PlayerManager : MonoBehaviour
     {
         if (PV.IsMine)
         {
+            StartGameCountDown();
             CreateController();
-            // var gameHasStarted = (bool) PhotonNetwork.CurrentRoom.CustomProperties["GameHasStarted"];
-            // if (gameHasStarted == false)
-            // {
-                StartGameCountDown();
-            // }
-            // else
-            // {
-                // onCountDownFinish();
-            // }
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -46,9 +37,12 @@ public class PlayerManager : MonoBehaviour
 
     void CreateController()
     {
-        Transform spawnpoint = SpawnManager.Instance.GetSpawnpoint();
-        controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnpoint.position,
-            spawnpoint.rotation, 0, new object[] {PV.ViewID});
+        var index = PhotonNetwork.PlayerList.ToList().IndexOf(PhotonNetwork.LocalPlayer);
+        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"PLAYER #{index}";
+        var spawnpoint = SpawnManager.Instance.GetSpawnpoint(index);
+        controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"),
+            spawnpoint.position,
+            spawnpoint.rotation, 0, new object[] {PV.ViewID, index});
     }
 
 
@@ -60,7 +54,7 @@ public class PlayerManager : MonoBehaviour
 
     // Countdown Logic
     public int countDownValue = 3;
-    
+
     private void StartGameCountDown()
     {
         StartCoroutine(nameof(LowerCountDownRoutine));
@@ -68,27 +62,25 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator LowerCountDownRoutine()
     {
-        for (int i = 5; i > 0; i--)
+        while (true)
         {
             print($"Starting In {countDownValue}");
             FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text =
                 $"Starting In {countDownValue}";
             countDownValue -= 1;
-            yield return new WaitForSeconds(1f);
-        }
+            if (countDownValue < 0)
+            {
+                onCountDownFinish();
+                yield break;
+            }
 
-        onCountDownFinish();
-        if (PhotonNetwork.IsMasterClient)
-        {
-            var hash = new Hashtable();
-            hash.Add("GameHasStarted", true);
-            PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+            yield return new WaitForSeconds(1f);
         }
     }
 
     private void onCountDownFinish()
     {
-        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"GO to finish zone";
+        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"Find doudou and go endzone";
         controller.GetComponent<PlayerController>().canMove = true;
     }
 }
