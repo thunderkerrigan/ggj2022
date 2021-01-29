@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             return;
         }
 
+        CheckIsLookingDoudou();
         Move();
         Jump();
 
@@ -156,6 +157,20 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }
 
+    void CheckIsLookingDoudou()
+    {
+        var item = GetObjectOnClick();
+        if (item == null && item.GetComponent<PhotonView>() == null) return;
+        if (item.GetComponent<PickableItem>() != null) return;
+        if (item.GetPhotonView().IsMine)
+        {
+            print("LOOKING AT MY DOUDOU");
+        }
+        else
+        {
+            print("LOOKING AT ANOTHER DOUDOU");
+        }
+    }
 
     void Move()
     {
@@ -216,14 +231,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             var gameObject = hit.transform.gameObject;
             print(gameObject);
             return gameObject;
-            /*
-            FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"Looting DOUDOU";
-            
-            if (gameObject.tag == "Destructible")
-            {
-                return gameObject;
-            }
-            */
         }
 
         return null;
