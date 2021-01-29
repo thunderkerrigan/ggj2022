@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -14,72 +15,59 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
     void Start()
     {
         _startTime = DateTime.Now;
-        print(_startTime);
     }
-
-    public override void OnMasterClientSwitched(Player newMasterClient)
-    {
-        
-    }
-
+    
     public void onPlayerDetected(Player player)
     {
-        var playerUserId = player.NickName;
+        var scoreSingleton = ScoreSingleton.Instance;
 
-        Hashtable hash = new Hashtable
+        if (!scoreSingleton.playerHaveDoudou(player.NickName))
         {
-            {"PLAYER_FINISHED", playerUserId},
+            // NO DOUDOU
+            print("PLAYER DONT HAVE DOUDOU");
+            return;
+        }
+
+        if (scoreSingleton.playerHaveFinish(player.NickName))
+        {
+            print("PLAYER ALREADY FINISH");
+            // ALREADY FINISH
+            return;
+        }
+
+        var time = (float)(DateTime.Now - _startTime).Seconds;
+        var hash = new Hashtable
+        {
+            {"PLAYER_FINISHED", time},
         };
 
-        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }
 
-    private void onPlayerLogic(string playerUserId)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if (!changedProps.ContainsKey("PLAYER_FINISHED")) return;
+        print("PLAYER_FINISHED " + changedProps["PLAYER_FINISHED"]);
+        var time = (float) changedProps["PLAYER_FINISHED"];
+        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text =
+            "Player" + targetPlayer.NickName + " finish";
+        onPlayerEnterEndZone(targetPlayer.NickName, time);
+    }
+
+    private void onPlayerEnterEndZone(string playerNickName, float time)
     {
         var scoreSingleton = ScoreSingleton.Instance;
-        
-        if (playerUserId != null && !scoreSingleton.playerTimes.ContainsKey(playerUserId))
+        print($"Player enterd: {playerNickName}");
+        print($"TIME = {time}");
+        scoreSingleton.onPlayerFinish(playerNickName, time);
+
+        var players = PhotonNetwork.PlayerList;
+        print("number of players " + players.Length);
+        var everyOneIsArrived = players.All(playerInList => scoreSingleton.playerHaveFinish(playerInList.NickName));
+
+        if (everyOneIsArrived)
         {
-            var time = (DateTime.Now - _startTime).Seconds;
-
-            print($"Player enterd: {playerUserId}");
-            print($"TIME = {time}");
-            scoreSingleton.playerTimes.Add(playerUserId, time);
-
-            var everyOneIsArrived = true;
-            Player[] players = PhotonNetwork.PlayerList;
-            print("number of players " + players.Length);
-
-            foreach (var playerInList in players)
-            {
-                print("NickName" + playerInList.NickName);
-                if (!scoreSingleton.playerTimes.ContainsKey(playerInList.NickName))
-                {
-                    everyOneIsArrived = false;
-                }
-            }
-
-            FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text =
-                playerUserId + "finish";
-                
-            if (everyOneIsArrived)
-            {
-                PhotonNetwork.LoadLevel(2);
-            }
+            PhotonNetwork.LoadLevel(2);
         }
-        else
-        {
-            print($"Player already enterd: {playerUserId}");
-        }
-    }
-
-    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
-    {
-        print(propertiesThatChanged);
-        var playerId = (string) propertiesThatChanged["PLAYER_FINISHED"];
-        if (playerId == null) return;
-        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text =
-            "Player" + playerId + " finish";
-        onPlayerLogic(playerId);
     }
 }
