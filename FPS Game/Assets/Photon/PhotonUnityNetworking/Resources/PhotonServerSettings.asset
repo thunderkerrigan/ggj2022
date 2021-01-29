@@ -34,8 +34,8 @@ MonoBehaviour:
   - ClickRpc
   - DestroyRpc
   - RPC_Shoot
-  - RPC_TakeDamage
   - RPC_Splash
+  - RPC_TakeDamage
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

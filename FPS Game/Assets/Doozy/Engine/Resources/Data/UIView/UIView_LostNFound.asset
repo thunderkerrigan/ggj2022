@@ -16,3 +16,7 @@ MonoBehaviour:
   DatabaseType: 2
   Names:
   - Score
+  - Viseur
+  - MainMenu
+  - Lobby
+  - Ingame
