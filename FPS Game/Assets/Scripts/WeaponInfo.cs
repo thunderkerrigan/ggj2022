@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "FPS/New Gun")]
-public class GunInfo : ItemInfo
+[CreateAssetMenu(menuName = "FPS/New weapon")]
+public class WeaponInfo : ItemInfo
 {
 	public float damage;
 }

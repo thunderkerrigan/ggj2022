@@ -101,17 +101,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         if (Input.GetMouseButtonDown(0))
         {
-            // items[itemIndex].Use();
-            // TODO: add object
-           // DropItem();
-           ThrowDiaper();
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            // items[itemIndex].Use();
-            // remove Object
-            TakeItem();
+            if (itemIndex == 1 && !grounded)
+            {
+                return;
+            }
+             items[itemIndex].Use();
         }
 
         if (transform.position.y < -10f) // Die if you fall out of the world
