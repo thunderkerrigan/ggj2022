@@ -25,3 +25,6 @@ MonoBehaviour:
   - CreateRoom
   - RoomMenu
   - ErrorMenu
+  - QuestView
+  - UseView
+  - LogView

@@ -13,7 +13,7 @@ namespace DefaultNamespace
         void Awake()
         {
             PV = GetComponent<PhotonView>();
-            nextAttack = Time.time;
+            nextAttack = Time.time + cooldown;
             cooldown = 15f;
             enable = true;
         }

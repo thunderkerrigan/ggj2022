@@ -45,13 +45,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     public bool canMove = false;
 
     void Awake()
-    {
+    { 
         rb = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         playerManager = PhotonView.Find((int) PV.InstantiationData[0]).GetComponent<PlayerManager>();
-    }
+    } 
 
     void Start()
     {
