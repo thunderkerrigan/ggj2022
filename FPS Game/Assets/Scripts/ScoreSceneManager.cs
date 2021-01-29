@@ -14,6 +14,8 @@ public class ScoreSceneManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         print("IsMasterClient" + PhotonNetwork.IsMasterClient);
 
         PhotonNetwork.CurrentRoom.IsOpen = true;
