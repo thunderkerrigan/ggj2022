@@ -2,15 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ScoreSceneManager : MonoBehaviour
+public class ScoreSceneManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TextMeshProUGUI testMesh;
+    [SerializeField] GameObject restartButton;
 
     void Awake()
     {
+        PhotonNetwork.CurrentRoom.IsOpen = true;
+        PhotonNetwork.CurrentRoom.IsVisible = true;
+        restartButton.SetActive(PhotonNetwork.IsMasterClient);
         var text = "Score\n\n";
 
         var i = 1 ;
@@ -21,15 +27,18 @@ public class ScoreSceneManager : MonoBehaviour
         }
 
         testMesh.text = text;
-        
-        StartCoroutine(nameof(RestartGameRoutine));
-
     }
     
-    IEnumerator RestartGameRoutine()
+    public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        yield return new WaitForSeconds(5f);
-        PhotonNetwork.LeaveRoom(false);
-        PhotonNetwork.LoadLevel(0);
+        restartButton.SetActive(PhotonNetwork.IsMasterClient);
     }
+
+    public void restartGame()
+    {
+        PhotonNetwork.CurrentRoom.IsOpen = false;
+        PhotonNetwork.CurrentRoom.IsVisible = false;
+        PhotonNetwork.LoadLevel(1);
+    }
+    
 }

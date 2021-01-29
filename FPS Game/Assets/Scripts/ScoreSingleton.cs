@@ -23,4 +23,7 @@ public class ScoreSingleton : MonoBehaviour
     }
 
     public Dictionary<string, float> playerTimes = new Dictionary<string, float>();
+    
+    public Dictionary<string, List<string>> playerObjects = new Dictionary<string, List<string>>();
+
 }
