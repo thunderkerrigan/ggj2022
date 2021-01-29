@@ -2,6 +2,8 @@
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
+using System.Linq;
+using TMPro;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
@@ -26,11 +28,6 @@ public class PlayerManager : MonoBehaviour
             StartGameCountDown();
         }
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            CreateEndZoneManager();
-        }
-
         print($"PhotonNetwork.IsMasterClient {(PhotonNetwork.IsMasterClient)}");
     }
 
@@ -39,12 +36,6 @@ public class PlayerManager : MonoBehaviour
         Transform spawnpoint = SpawnManager.Instance.GetSpawnpoint();
         controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnpoint.position,
             spawnpoint.rotation, 0, new object[] {PV.ViewID});
-    }
-
-    void CreateEndZoneManager()
-    {
-        endZoneManager = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "EndZoneManager"), Vector3.zero,
-            Quaternion.identity);
     }
 
     public void Die()
@@ -66,6 +57,7 @@ public class PlayerManager : MonoBehaviour
         while (true)
         {
             print($"Starting In {countDownValue}");
+            FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"Starting In {countDownValue}";
             countDownValue -= 1;
             if (countDownValue < 0)
             {
@@ -79,7 +71,7 @@ public class PlayerManager : MonoBehaviour
 
     private void onCountDownFinish()
     {
-        print("Find your DOUDOU");
+        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"GO to finish zone";
         controller.GetComponent<PlayerController>().canMove = true;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 
 public class EndZoneManager : MonoBehaviourPunCallbacks
@@ -37,7 +38,7 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
     {
         var scoreSingleton = ScoreSingleton.Instance;
         
-        if (!scoreSingleton.playerTimes.ContainsKey(playerUserId))
+        if (playerUserId != null && !scoreSingleton.playerTimes.ContainsKey(playerUserId))
         {
             var time = (DateTime.Now - _startTime).Seconds;
 
@@ -58,6 +59,9 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
                 }
             }
 
+            FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text =
+                playerUserId + "finish";
+                
             if (everyOneIsArrived)
             {
                 PhotonNetwork.LoadLevel(2);
@@ -73,7 +77,9 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
     {
         print(propertiesThatChanged);
         var playerId = (string) propertiesThatChanged["PLAYER_FINISHED"];
-        print(playerId);
+        if (playerId == null) return;
+        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text =
+            "Player" + playerId + " finish";
         onPlayerLogic(playerId);
     }
 }
