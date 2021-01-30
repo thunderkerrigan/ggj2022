@@ -134,6 +134,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             }
         }
 
+        // Hide/show current item depend on it's CD
+        bool itemEnable = ((Weapon) items[itemIndex]).enable;
+        GameObject itemChild = items_local[itemIndex].transform.GetChild(0).gameObject;
+        if(itemEnable != itemChild.activeSelf ) {
+            itemChild.SetActive(itemEnable);
+            Hashtable hash = new Hashtable();
+            hash.Add("itemIndex", itemIndex);
+            hash.Add("itemEnable", itemEnable);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        }
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             // items[itemIndex].Use();
@@ -261,7 +272,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (!PV.IsMine && targetPlayer == PV.Owner)
         {
             // Display weapon for other players
-            EquipItem((int) changedProps["itemIndex"]);
+            if (!(bool) changedProps.ContainsKey("itemEnable")) { EquipItem((int) changedProps["itemIndex"]); }
+            else{ items[(int) changedProps["itemIndex"]].transform.GetChild(0).gameObject.SetActive((bool) changedProps["itemEnable"]); }
         }
     }
 
@@ -273,8 +285,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     void FixedUpdate()
     {
-        if (!PV.IsMine)
-            return;
+        if (!PV.IsMine) { return; }
 
         rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
     }
