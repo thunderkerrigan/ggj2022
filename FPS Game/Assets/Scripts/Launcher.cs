@@ -5,6 +5,7 @@ using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
 using System.Linq;
+using Doozy.Engine.Nody;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class Launcher : MonoBehaviourPunCallbacks {
@@ -90,6 +91,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
 
     public void JoinRoom(RoomInfo info) {
         PhotonNetwork.JoinRoom(info.Name);
+        FindObjectOfType<GraphController>().GoToNodeByName("Room Menu");
         //MenuManager.Instance.OpenMenu("loading");
     }
 

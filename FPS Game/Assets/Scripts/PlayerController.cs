@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
 
     [SerializeField] Item[] items;
+    [SerializeField] Item[] items_local;
 
     [SerializeField] Animator animator;
 
@@ -57,7 +58,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         playerManager = PhotonView.Find((int) PV.InstantiationData[0]).GetComponent<PlayerManager>();
-        var materialIndex = (int)PV.InstantiationData[1];
+        var materialIndex = (int) PV.InstantiationData[1];
         GetComponentInChildren<CaracterHolder>().updateMaterial(materialIndex);
     }
 
@@ -135,10 +136,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             }
         }
 
+        // Hide/show current item depend on it's CD
+        bool itemEnable = ((Weapon) items[itemIndex]).enable;
+        GameObject itemChild = items_local[itemIndex].transform.GetChild(0).gameObject;
+        if(itemEnable != itemChild.activeSelf ) {
+            itemChild.SetActive(itemEnable);
+            Hashtable hash = new Hashtable();
+            hash.Add("itemIndex", itemIndex);
+            hash.Add("itemEnable", itemEnable);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        }
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             // items[itemIndex].Use();
             // remove Object
+            TakePowerUp();
             TakeDoudou();
         }
 
@@ -170,17 +183,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
         else
         {
-           GameEventMessage.SendEvent("CantUse");
+            GameEventMessage.SendEvent("CantUse");
         }
     }
 
     void Move()
     {
         Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-
-        moveAmount = Vector3.SmoothDamp(moveAmount,
-            moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
-
+        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * sprintSpeed, ref smoothMoveVelocity, smoothTime);
         animator.SetFloat("x", moveAmount.x);
         animator.SetFloat("z", moveAmount.z);
         animator.SetFloat("y", moveAmount.y);
@@ -198,10 +208,52 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     void TakeDoudou()
     {
         var item = GetObjectOnClick();
-        if (item != null && item.GetComponent<PhotonView>() == null) return;
+        if (item == null) return;
+        if (item.GetComponent<PhotonView>() == null) return;
         if (!item.GetComponent<PhotonView>().IsMine) return;
+        if (item.GetComponent<PowerUp>() != null) return;
         DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
         CanvasManager.Instance.showGoToEndZoneText();
+    }
+
+    void TakePowerUp()
+    {
+        var item = GetObjectOnClick();
+        if (item == null) return;
+        if (item.GetComponent<PhotonView>() == null) return;
+        if (item.GetComponent<PickableItem>() == null) return;
+        if (item.GetComponent<PowerUp>() != null)
+        {
+            switch (item.GetComponent<PowerUp>().type)
+            {
+                case PowerUpType.MachineGun:
+                    StartCoroutine(startPowerUpMachineGunRoutine());
+                    break;
+                case PowerUpType.Speed:
+                    StartCoroutine(startPowerUpSpeedRoutine());
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            PhotonNetwork.Destroy(item);
+        }
+    }
+
+    IEnumerator startPowerUpMachineGunRoutine()
+    {
+        GetComponentInChildren<DiaperWeapon>().setCooldown(0.15f);
+        yield return new WaitForSeconds(5);
+        GetComponentInChildren<DiaperWeapon>().resetCooldown();
+    }
+    
+    IEnumerator startPowerUpSpeedRoutine()
+    {
+        var currentSprintSpeed = sprintSpeed;
+        sprintSpeed = currentSprintSpeed * 2;
+        yield return new WaitForSeconds(10);
+        sprintSpeed = currentSprintSpeed;
+        GetComponentInChildren<DiaperWeapon>().resetCooldown();
     }
 
     void DropItem()
@@ -232,7 +284,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
             var gameObject = hit.transform.gameObject;
-            print(gameObject);
             return gameObject;
         }
 
@@ -245,12 +296,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             return;
 
         itemIndex = _index;
+        Item[] playerItem = items;
+		if (PV.IsMine) { playerItem = items_local; }
 
-        items[itemIndex].itemGameObject.SetActive(true);
+        playerItem[itemIndex].itemGameObject.SetActive(true);
 
-        if (previousItemIndex != -1)
-        {
-            items[previousItemIndex].itemGameObject.SetActive(false);
+        if (previousItemIndex != -1){
+            playerItem[previousItemIndex].itemGameObject.SetActive(false);
         }
 
         previousItemIndex = itemIndex;
@@ -268,7 +320,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (!changedProps.ContainsKey("itemIndex")) return;
         if (!PV.IsMine && targetPlayer == PV.Owner)
         {
-            EquipItem((int) changedProps["itemIndex"]);
+            // Display weapon for other players
+            if (!(bool) changedProps.ContainsKey("itemEnable")) { EquipItem((int) changedProps["itemIndex"]); }
+            else{ items[(int) changedProps["itemIndex"]].transform.GetChild(0).gameObject.SetActive((bool) changedProps["itemEnable"]); }
         }
     }
 
@@ -280,8 +334,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     void FixedUpdate()
     {
-        if (!PV.IsMine)
-            return;
+        if (!PV.IsMine) { return; }
 
         rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
     }
