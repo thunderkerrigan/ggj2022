@@ -30,15 +30,16 @@ public class PowerUpManager : MonoBehaviour
         for (var i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
             var spawnpoint = GetSpawnpoint(i);
-            var randomBool  = (Random.value > 0.5f);
-            if (randomBool) {
-                var powerUp = PhotonNetwork.Instantiate(
+            var randomBool = (Random.value > 0.5f);
+            if (randomBool)
+            {
+                PhotonNetwork.Instantiate(
                     Path.Combine("PhotonPrefabs", "PowerUpMachineGun"),
                     spawnpoint.position, spawnpoint.rotation);
             }
             else
             {
-                var powerUp = PhotonNetwork.Instantiate(
+                PhotonNetwork.Instantiate(
                     Path.Combine("PhotonPrefabs", "PowerUpSpeed"),
                     spawnpoint.position, spawnpoint.rotation);
             }

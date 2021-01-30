@@ -239,7 +239,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     {
         var currentSprintSpeed = sprintSpeed;
         sprintSpeed = currentSprintSpeed * 2;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
         sprintSpeed = currentSprintSpeed;
         GetComponentInChildren<DiaperWeapon>().resetCooldown();
     }
