@@ -9,8 +9,15 @@ public class Diaper : MonoBehaviour
     PhotonView PV;
     private void OnCollisionEnter(Collision other)
     {
-        other.gameObject.GetComponent<IDamageable>()?.TakeDamage(20);
-        PhotonNetwork.Destroy(gameObject);
+        other.gameObject.GetComponent<IDamageable>()?.TakeDamage(60);
+        if (other.gameObject.GetComponent<IDamageable>() != null)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
+        else
+        {
+            StartCoroutine(Despawn());
+        }
     }
 
     // Start is called before the first frame update
@@ -27,5 +34,11 @@ public class Diaper : MonoBehaviour
         // {
         //     PhotonNetwork.Destroy(gameObject);
         // }
+    }
+
+    IEnumerator Despawn()
+    {
+        yield return new WaitForSeconds(5);
+        PhotonNetwork.Destroy(gameObject);
     }
 }
