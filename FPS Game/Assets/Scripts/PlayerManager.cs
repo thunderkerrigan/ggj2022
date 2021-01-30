@@ -3,6 +3,8 @@ using UnityEngine;
 using Photon.Pun;
 using System.IO;
 using System.Linq;
+using DG.Tweening;
+using Doozy.Engine.Soundy;
 using ExitGames.Client.Photon;
 using TMPro;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -100,6 +102,7 @@ public class PlayerManager : MonoBehaviour
     {
         FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"Find doudou and go endzone";
         controller.GetComponent<PlayerController>().canMove = true;
+        SoundyManager.Play("General", "main");
         var hash = new Hashtable();
         hash.Add("GameHasStarted", true);
         gameHasStarted = true;
