@@ -56,7 +56,6 @@ public class PlayerManager : MonoBehaviour
     void CreateController()
     {
         var index = PhotonNetwork.PlayerList.ToList().IndexOf(PhotonNetwork.LocalPlayer);
-        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"PLAYER #{index}";
         var spawnpoint = SpawnManager.Instance.GetSpawnpoint(index);
         controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"),
             spawnpoint.position,
@@ -83,8 +82,7 @@ public class PlayerManager : MonoBehaviour
         while (true)
         {
             print($"Starting In {countDownValue}");
-            FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text =
-                $"Starting In {countDownValue}";
+            CanvasManager.Instance.SetCountdownText($"Starting In {countDownValue}");
             countDownValue -= 1;
             if (countDownValue < 0)
             {
@@ -98,7 +96,7 @@ public class PlayerManager : MonoBehaviour
 
     private void onCountDownFinish()
     {
-        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"Find doudou and go endzone";
+        CanvasManager.Instance.hideCountdownView();
         controller.GetComponent<PlayerController>().canMove = true;
         var hash = new Hashtable();
         hash.Add("GameHasStarted", true);
