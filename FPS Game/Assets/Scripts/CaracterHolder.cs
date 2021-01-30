@@ -9,7 +9,7 @@ public class CaracterHolder : MonoBehaviour
 
     public void updateMaterial(int index)
     {
-        var materialRessourceEndNames = new List<int> {1, 2, 3, 4};
+        var materialRessourceEndNames = new List<int> {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         var materialIndex = materialRessourceEndNames.First();
         if (index < materialRessourceEndNames.Count)
         {
