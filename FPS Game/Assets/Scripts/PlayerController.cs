@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         playerManager = PhotonView.Find((int) PV.InstantiationData[0]).GetComponent<PlayerManager>();
-        var materialIndex = (int)PV.InstantiationData[1];
+        var materialIndex = (int) PV.InstantiationData[1];
         GetComponentInChildren<CaracterHolder>().updateMaterial(materialIndex);
     }
 
@@ -139,8 +139,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             // items[itemIndex].Use();
             // remove Object
+            TakePowerUp();
             TakeDoudou();
-            TakePowerUpMachineGun();
         }
 
         if (transform.position.y < -10f) // Die if you fall out of the world
@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
         else
         {
-           GameEventMessage.SendEvent("CantUse");
+            GameEventMessage.SendEvent("CantUse");
         }
     }
 
@@ -198,11 +198,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         var item = GetObjectOnClick();
         if (item != null && item.GetComponent<PhotonView>() == null) return;
         if (!item.GetComponent<PhotonView>().IsMine) return;
+        if (item.GetComponent<PowerUp>() != null) return;
         DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
         CanvasManager.Instance.showGoToEndZoneText();
     }
-    
-    void TakePowerUpMachineGun()
+
+    void TakePowerUp()
     {
         var item = GetObjectOnClick();
         if (item == null) return;
@@ -219,7 +220,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }   
+            }
+
+            PhotonNetwork.Destroy(item);
         }
     }
 
@@ -229,7 +232,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         yield return new WaitForSeconds(5);
         GetComponentInChildren<DiaperWeapon>().resetCooldown();
     }
-    
+
     void DropItem()
     {
         var frontPosition = GetComponentInChildren<Camera>().transform.TransformPoint(Vector3.forward * rayDistance);
@@ -258,7 +261,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
             var gameObject = hit.transform.gameObject;
-            print(gameObject);
             return gameObject;
         }
 

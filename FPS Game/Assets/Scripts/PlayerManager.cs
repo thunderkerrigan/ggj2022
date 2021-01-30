@@ -49,6 +49,8 @@ public class PlayerManager : MonoBehaviour
             {
                 print("Create Doudous");
                 DoudouManager.Instance.spawnDoudous();
+                print("Create PowerUps");
+                PowerUpManager.Instance.spawnPowerUps();
             }
         }
     }

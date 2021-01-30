@@ -18,6 +18,7 @@ public class DiaperWeapon : Weapon
     }
 
     public void setCooldown(float newCooldown) {
+        print("newCooldown" + newCooldown);
         nextAttack = Time.time;
         cooldown = newCooldown;
         enable = true;
