@@ -14,7 +14,7 @@ namespace DefaultNamespace
         {
             PV = GetComponent<PhotonView>();
             nextAttack = Time.time + cooldown;
-            cooldown = 15f;
+            cooldown = 2f;
             enable = true;
         }
 

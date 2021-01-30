@@ -13,7 +13,7 @@ public class DiaperWeapon : Weapon
     {
         PV = GetComponent<PhotonView>();
         nextAttack = Time.time;
-        cooldown = 1.5f;
+        cooldown = .5f;
         enable = true;
     }
 
