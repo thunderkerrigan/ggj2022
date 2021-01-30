@@ -35,7 +35,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
     }
 
     public override void OnJoinedLobby() {
-        MenuManager.Instance.OpenMenu("title");
+        //sMenuManager.Instance.OpenMenu("title");
         Debug.Log("Joined Lobby");
         this.setPlayerNickName(false);
     }
@@ -45,12 +45,12 @@ public class Launcher : MonoBehaviourPunCallbacks {
 
         var roomOptions = new RoomOptions {MaxPlayers = 10};
         PhotonNetwork.CreateRoom(roomNameInputField.text, roomOptions);
-        MenuManager.Instance.OpenMenu("loading");
+        //MenuManager.Instance.OpenMenu("loading");
     }
 
     public override void OnJoinedRoom() {
         this.setPlayerNickName(true);
-        MenuManager.Instance.OpenMenu("room");
+        //MenuManager.Instance.OpenMenu("room");
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
         Player[] players = PhotonNetwork.PlayerList;
