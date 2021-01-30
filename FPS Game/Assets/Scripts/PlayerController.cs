@@ -177,10 +177,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     void Move()
     {
         Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-
-        moveAmount = Vector3.SmoothDamp(moveAmount,
-            moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
-
+        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * sprintSpeed, ref smoothMoveVelocity, smoothTime);
         animator.SetFloat("x", moveAmount.x);
         animator.SetFloat("z", moveAmount.z);
         animator.SetFloat("y", moveAmount.y);
@@ -192,9 +189,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
+
+            activatePowerUpMachineGun();
         }
     }
 
+    void activatePowerUpMachineGun()
+    {
+        GetComponentInChildren<DiaperWeapon>().setCooldown(0.5f);
+    }
+    
     void TakeDoudou()
     {
         var item = GetObjectOnClick();

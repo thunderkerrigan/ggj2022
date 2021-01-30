@@ -17,6 +17,11 @@ public class DiaperWeapon : Weapon
         enable = true;
     }
 
+    public void setCooldown(float newCooldown) {
+        enable = true;
+        cooldown = newCooldown;
+    }
+    
     public override float Use()
     {
         return Spawn();
