@@ -34155,7 +34155,7 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2125027182}
+      - m_Target: {fileID: 1049657542}
         m_TargetAssemblyTypeName: Launcher, Assembly-CSharp
         m_MethodName: setPlayerNickName
         m_Mode: 6
