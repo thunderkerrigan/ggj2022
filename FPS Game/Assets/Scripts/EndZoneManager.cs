@@ -34,8 +34,8 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
             // ALREADY FINISH
             return;
         }
-
-        var time = (float)(DateTime.Now - _startTime).TotalSeconds;
+        var difference = DateTime.Now.Subtract(_startTime); // could also write `now - otherTime`
+        var time = Convert.ToSingle(difference.TotalSeconds);
         var hash = new Hashtable
         {
             {"PLAYER_FINISHED", time},
