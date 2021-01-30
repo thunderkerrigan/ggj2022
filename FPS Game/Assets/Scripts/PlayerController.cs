@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using System.Linq;
+using Doozy.Engine;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -160,15 +161,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     void CheckIsLookingDoudou()
     {
         var item = GetObjectOnClick();
-        if (item == null && item.GetComponent<PhotonView>() == null) return;
-        if (item.GetComponent<PickableItem>() != null) return;
+        if (item == null) return;
+        if (item.GetComponent<PhotonView>() == null) return;
+        if (item.GetComponent<PickableItem>() == null) return;
         if (item.GetPhotonView().IsMine)
         {
-            print("LOOKING AT MY DOUDOU");
+            GameEventMessage.SendEvent("Use");
         }
         else
         {
-            print("LOOKING AT ANOTHER DOUDOU");
+           GameEventMessage.SendEvent("CantUse");
         }
     }
 
@@ -199,6 +201,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (item != null && item.GetComponent<PhotonView>() == null) return;
         if (!item.GetComponent<PhotonView>().IsMine) return;
         DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
+        CanvasManager.Instance.showGoToEndZoneText();
     }
 
     void DropItem()

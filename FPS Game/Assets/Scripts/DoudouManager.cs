@@ -53,7 +53,6 @@ public class DoudouManager : MonoBehaviourPunCallbacks
         var doudouName = (string) changedProps["PLAYER_LOOT_DOUDOU"];
         var playerUserId = targetPlayer.NickName;
         ScoreSingleton.Instance.onPlayerLootItem(doudouName, playerUserId);
-        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text =
-            $"{targetPlayer} loot doudou";
+        CanvasManager.Instance.addCombatLog($"{playerUserId} find his Doudou");
     }
 }
