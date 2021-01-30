@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
 
     [SerializeField] Item[] items;
+    [SerializeField] Item[] items_local;
 
     [SerializeField] Animator animator;
 
@@ -133,6 +134,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
                     OnCoolDownUpdate(itemIndex, fired);
                 }
             }
+        }
+
+        // Hide/show current item depend on it's CD
+        bool itemEnable = ((Weapon) items[itemIndex]).enable;
+        GameObject itemChild = items_local[itemIndex].transform.GetChild(0).gameObject;
+        if(itemEnable != itemChild.activeSelf ) {
+            itemChild.SetActive(itemEnable);
+            Hashtable hash = new Hashtable();
+            hash.Add("itemIndex", itemIndex);
+            hash.Add("itemEnable", itemEnable);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
         }
 
         if (Input.GetKeyDown(KeyCode.F))
@@ -284,12 +296,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             return;
 
         itemIndex = _index;
+        Item[] playerItem = items;
+		if (PV.IsMine) { playerItem = items_local; }
 
-        items[itemIndex].itemGameObject.SetActive(true);
+        playerItem[itemIndex].itemGameObject.SetActive(true);
 
-        if (previousItemIndex != -1)
-        {
-            items[previousItemIndex].itemGameObject.SetActive(false);
+        if (previousItemIndex != -1){
+            playerItem[previousItemIndex].itemGameObject.SetActive(false);
         }
 
         previousItemIndex = itemIndex;
@@ -307,7 +320,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (!changedProps.ContainsKey("itemIndex")) return;
         if (!PV.IsMine && targetPlayer == PV.Owner)
         {
-            EquipItem((int) changedProps["itemIndex"]);
+            // Display weapon for other players
+            if (!(bool) changedProps.ContainsKey("itemEnable")) { EquipItem((int) changedProps["itemIndex"]); }
+            else{ items[(int) changedProps["itemIndex"]].transform.GetChild(0).gameObject.SetActive((bool) changedProps["itemEnable"]); }
         }
     }
 
@@ -319,8 +334,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     void FixedUpdate()
     {
-        if (!PV.IsMine)
-            return;
+        if (!PV.IsMine) { return; }
 
         rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
     }
