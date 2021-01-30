@@ -39,7 +39,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		{
 			var hash = new Hashtable();
 			hash.Add("GameHasStarted", false);
-			PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+			PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
 			PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
 		}
 	}

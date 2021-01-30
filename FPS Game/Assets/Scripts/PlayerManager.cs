@@ -3,7 +3,9 @@ using UnityEngine;
 using Photon.Pun;
 using System.IO;
 using System.Linq;
+using ExitGames.Client.Photon;
 using TMPro;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
@@ -14,7 +16,7 @@ public class PlayerManager : MonoBehaviour
     GameObject controller;
 
     GameObject endZoneManager;
-
+    private bool gameHasStarted = false;
     void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -24,8 +26,24 @@ public class PlayerManager : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            StartGameCountDown();
+            // var gameHasStarted = false;
+            // if (PhotonNetwork.LocalPlayer.CustomProperties.Keys.Contains("GameHasStarted"))
+            // {
+            //     gameHasStarted = (bool)PhotonNetwork.LocalPlayer.CustomProperties["GameHasStarted"];
+            // }
+            // else
+            // {
+            //     var hash = new Hashtable();
+            //     hash.Add("GameHasStarted", false);
+            //     PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+            // }
             CreateController();
+            if (!gameHasStarted)
+            {
+                StartGameCountDown();
+                controller.GetComponent<PlayerController>().canMove = false;
+            }
+            
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -82,5 +100,9 @@ public class PlayerManager : MonoBehaviour
     {
         FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text = $"Find doudou and go endzone";
         controller.GetComponent<PlayerController>().canMove = true;
+        var hash = new Hashtable();
+        hash.Add("GameHasStarted", true);
+        gameHasStarted = true;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }
 }
