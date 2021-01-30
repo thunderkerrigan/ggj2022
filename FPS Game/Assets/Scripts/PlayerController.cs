@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
 
     [SerializeField] Item[] items;
+    [SerializeField] Item[] items_local;
 
     [SerializeField] Animator animator;
 
@@ -235,12 +236,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             return;
 
         itemIndex = _index;
+        Item[] playerItem = items;
+		if (PV.IsMine) { playerItem = items_local; }
 
-        items[itemIndex].itemGameObject.SetActive(true);
+        playerItem[itemIndex].itemGameObject.SetActive(true);
 
-        if (previousItemIndex != -1)
-        {
-            items[previousItemIndex].itemGameObject.SetActive(false);
+        if (previousItemIndex != -1){
+            playerItem[previousItemIndex].itemGameObject.SetActive(false);
         }
 
         previousItemIndex = itemIndex;
@@ -258,6 +260,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (!changedProps.ContainsKey("itemIndex")) return;
         if (!PV.IsMine && targetPlayer == PV.Owner)
         {
+            // Display weapon for other players
             EquipItem((int) changedProps["itemIndex"]);
         }
     }
