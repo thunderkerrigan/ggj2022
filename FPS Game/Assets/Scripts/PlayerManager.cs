@@ -96,11 +96,40 @@ public class PlayerManager : MonoBehaviour
 
     private void onCountDownFinish()
     {
-        CanvasManager.Instance.hideCountdownView();
         controller.GetComponent<PlayerController>().canMove = true;
         var hash = new Hashtable();
         hash.Add("GameHasStarted", true);
         gameHasStarted = true;
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+
+        StartGlobalGameCountDown();
+    }
+    
+    
+    public int globalGameCountDownValue = 300;
+    private void StartGlobalGameCountDown()
+    {
+        StartCoroutine(nameof(LowerGlobalGameCountDownRoutine));
+    }
+
+    IEnumerator LowerGlobalGameCountDownRoutine()
+    {
+        while (true)
+        {
+            CanvasManager.Instance.SetCountdownText($"Finishing in {globalGameCountDownValue}");
+            globalGameCountDownValue -= 1;
+            if (globalGameCountDownValue < 0)
+            {
+                onGlobalCountDownFinish();
+                yield break;
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private void onGlobalCountDownFinish()
+    {
+        PhotonNetwork.LoadLevel(2);
     }
 }
