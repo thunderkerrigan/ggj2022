@@ -20,8 +20,6 @@ public class UIManager : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         _player.OnCoolDownUpdate += OnCoolDownUpdate; //Abonnement
-        // StartCoroutine(test());
-
     }
 
     private void OnDestroy()
@@ -32,40 +30,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    IEnumerator test()
-    {
-        while (true)
-        {
-            for (float i = 0; i < 1f; i += 0.1f)
-            {
-                timerDiaper.SetProgress(i);
-                yield return new WaitForFixedUpdate();
-            }
-        }
-    }
-
     private void OnCoolDownUpdate(int position, float value)
     {
-        StartCoroutine(coolDownProgress(position, value));
-    }
-
-    // Update is called once per frame
-    IEnumerator coolDownProgress(int position, float value)
-    {
-        var tick = 0.025f;
-        for (float i = 0; i < value; i += tick)
+        if (position == 0)
         {
-            if (position == 0)
-            {
-                timerDiaper.SetProgress(i / value);
-            }
+            timerDiaper.InstantSetProgress(0);
+            timerDiaper.AnimationDuration = value;
+            timerDiaper.SetProgress(1);
+        }
 
-            if (position == 1)
-            {
-                timerMine.SetProgress(i / value);
-            }
-
-            yield return new WaitForSeconds(tick);
+        if (position == 1)
+        {
+            timerMine.InstantSetProgress(0);
+            timerMine.AnimationDuration = value;
+            timerMine.SetProgress(1);
         }
     }
+
 }

@@ -49,6 +49,8 @@ public class PlayerManager : MonoBehaviour
             {
                 print("Create Doudous");
                 DoudouManager.Instance.spawnDoudous();
+                print("Create PowerUps");
+                PowerUpManager.Instance.spawnPowerUps();
             }
         }
     }
@@ -106,7 +108,7 @@ public class PlayerManager : MonoBehaviour
     }
     
     
-    public int globalGameCountDownValue = 300;
+    private int _globalGameCountDownValue = 300;
     private void StartGlobalGameCountDown()
     {
         StartCoroutine(nameof(LowerGlobalGameCountDownRoutine));
@@ -116,9 +118,9 @@ public class PlayerManager : MonoBehaviour
     {
         while (true)
         {
-            CanvasManager.Instance.SetCountdownText($"Finishing in {globalGameCountDownValue}");
-            globalGameCountDownValue -= 1;
-            if (globalGameCountDownValue < 0)
+            CanvasManager.Instance.SetCountdownText($"Finishing in {_globalGameCountDownValue}");
+            _globalGameCountDownValue -= 1;
+            if (_globalGameCountDownValue < 0)
             {
                 onGlobalCountDownFinish();
                 yield break;
