@@ -140,6 +140,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             // items[itemIndex].Use();
             // remove Object
             TakeDoudou();
+            TakePowerUpMachineGun();
         }
 
         if (transform.position.y < -10f) // Die if you fall out of the world
@@ -189,16 +190,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
-
-            activatePowerUpMachineGun();
         }
     }
 
-    void activatePowerUpMachineGun()
-    {
-        GetComponentInChildren<DiaperWeapon>().setCooldown(0.5f);
-    }
-    
     void TakeDoudou()
     {
         var item = GetObjectOnClick();
@@ -207,7 +201,35 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
         CanvasManager.Instance.showGoToEndZoneText();
     }
+    
+    void TakePowerUpMachineGun()
+    {
+        var item = GetObjectOnClick();
+        if (item == null) return;
+        if (item.GetComponent<PhotonView>() == null) return;
+        if (item.GetComponent<PickableItem>() == null) return;
+        if (item.GetComponent<PowerUp>() != null)
+        {
+            switch (item.GetComponent<PowerUp>().type)
+            {
+                case PowerUpType.MachineGun:
+                    StartCoroutine(coolDownPowerUpRoutine());
+                    break;
+                case PowerUpType.Speed:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }   
+        }
+    }
 
+    IEnumerator coolDownPowerUpRoutine()
+    {
+        GetComponentInChildren<DiaperWeapon>().setCooldown(0.15f);
+        yield return new WaitForSeconds(5);
+        GetComponentInChildren<DiaperWeapon>().resetCooldown();
+    }
+    
     void DropItem()
     {
         var frontPosition = GetComponentInChildren<Camera>().transform.TransformPoint(Vector3.forward * rayDistance);

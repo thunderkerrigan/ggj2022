@@ -18,8 +18,16 @@ public class DiaperWeapon : Weapon
     }
 
     public void setCooldown(float newCooldown) {
-        enable = true;
+        nextAttack = Time.time;
         cooldown = newCooldown;
+        enable = true;
+    }
+
+    public void resetCooldown()
+    {
+        nextAttack = Time.time;
+        cooldown = 1.5f;
+        enable = true;
     }
     
     public override float Use()
