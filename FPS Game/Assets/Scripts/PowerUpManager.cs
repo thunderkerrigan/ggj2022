@@ -27,12 +27,21 @@ public class PowerUpManager : MonoBehaviour
 
     public void spawnPowerUps()
     {
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        for (var i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
             var spawnpoint = GetSpawnpoint(i);
-            var powerUp = PhotonNetwork.Instantiate(
-                Path.Combine("PhotonPrefabs", "PowerUpMachineGun"),
-                spawnpoint.position, spawnpoint.rotation);
+            var randomBool  = (Random.value > 0.5f);
+            if (randomBool) {
+                var powerUp = PhotonNetwork.Instantiate(
+                    Path.Combine("PhotonPrefabs", "PowerUpMachineGun"),
+                    spawnpoint.position, spawnpoint.rotation);
+            }
+            else
+            {
+                var powerUp = PhotonNetwork.Instantiate(
+                    Path.Combine("PhotonPrefabs", "PowerUpSpeed"),
+                    spawnpoint.position, spawnpoint.rotation);
+            }
         }
     }
 }

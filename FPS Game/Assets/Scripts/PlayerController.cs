@@ -196,7 +196,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     void TakeDoudou()
     {
         var item = GetObjectOnClick();
-        if (item != null && item.GetComponent<PhotonView>() == null) return;
+        if (item == null) return;
+        if (item.GetComponent<PhotonView>() == null) return;
         if (!item.GetComponent<PhotonView>().IsMine) return;
         if (item.GetComponent<PowerUp>() != null) return;
         DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
@@ -214,9 +215,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             switch (item.GetComponent<PowerUp>().type)
             {
                 case PowerUpType.MachineGun:
-                    StartCoroutine(coolDownPowerUpRoutine());
+                    StartCoroutine(startPowerUpMachineGunRoutine());
                     break;
                 case PowerUpType.Speed:
+                    StartCoroutine(startPowerUpSpeedRoutine());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -226,10 +228,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
     }
 
-    IEnumerator coolDownPowerUpRoutine()
+    IEnumerator startPowerUpMachineGunRoutine()
     {
         GetComponentInChildren<DiaperWeapon>().setCooldown(0.15f);
         yield return new WaitForSeconds(5);
+        GetComponentInChildren<DiaperWeapon>().resetCooldown();
+    }
+    
+    IEnumerator startPowerUpSpeedRoutine()
+    {
+        var currentSprintSpeed = sprintSpeed;
+        sprintSpeed = currentSprintSpeed * 2;
+        yield return new WaitForSeconds(5);
+        sprintSpeed = currentSprintSpeed;
         GetComponentInChildren<DiaperWeapon>().resetCooldown();
     }
 
