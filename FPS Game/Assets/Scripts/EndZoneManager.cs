@@ -34,8 +34,8 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
             // ALREADY FINISH
             return;
         }
-
-        var time = (float)(DateTime.Now - _startTime).Seconds;
+        var difference = DateTime.Now.Subtract(_startTime); // could also write `now - otherTime`
+        var time = Convert.ToSingle(difference.TotalSeconds);
         var hash = new Hashtable
         {
             {"PLAYER_FINISHED", time},
@@ -49,8 +49,7 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
         if (!changedProps.ContainsKey("PLAYER_FINISHED")) return;
         print("PLAYER_FINISHED " + changedProps["PLAYER_FINISHED"]);
         var time = (float) changedProps["PLAYER_FINISHED"];
-        FindObjectOfType<ScoreCanvasManager>().gameObject.GetComponent<TextMeshProUGUI>().text =
-            "Player" + targetPlayer.NickName + " finish";
+        CanvasManager.Instance.addCombatLog($"{targetPlayer} has finish");
         onPlayerEnterEndZone(targetPlayer.NickName, time);
     }
 
