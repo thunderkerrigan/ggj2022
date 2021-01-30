@@ -35,7 +35,7 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        var time = (float)(DateTime.Now - _startTime).Seconds;
+        var time = (float)(DateTime.Now - _startTime).TotalSeconds;
         var hash = new Hashtable
         {
             {"PLAYER_FINISHED", time},
