@@ -398,7 +398,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
         else if (changedProps.ContainsKey("malus"))
         {
-            CanvasManager.Instance.addCombatLog($"{targetPlayer.NickName} bamboozled everybody");
+            if (PV.IsMine)
+            {
+                CanvasManager.Instance.addCombatLog($"{targetPlayer.NickName} bamboozled everybody");
+            }
 
             if (PV.IsMine && targetPlayer != PhotonNetwork.LocalPlayer)
             {
