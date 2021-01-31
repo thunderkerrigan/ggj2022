@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
-            this.playAudioClip("grunt", true);
+            this.playAudioClip("grunt", false);
         }
     }
 
@@ -228,7 +228,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (item.GetComponent<PhotonView>() == null) return;
         if (!item.GetComponent<PhotonView>().IsMine) return;
         if (item.GetComponent<Doudou>() == null) return;
-        this.playAudioClip("relieved", true);
+        this.playAudioClip("relieved", false);
         DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
         CanvasManager.Instance.showGoToEndZoneText();
     }
@@ -262,7 +262,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            this.playAudioClip("surprised", true);
+            this.playAudioClip("surprised", false);
 
             PhotonNetwork.Destroy(item);
         }

@@ -21,10 +21,10 @@ public class Diaper : MonoBehaviour
 
             PlayerController targetPlayerController =  other.gameObject.GetComponent<PlayerController>();
             // Play sound on launcher player
-            if (targetPlayerController != launcherPlayerController) { launcherPlayerController.playAudioClip(launcherAudioType, true, launcherAudioClipIndex); }
+            if (targetPlayerController != launcherPlayerController) { launcherPlayerController.playAudioClip(launcherAudioType, false, launcherAudioClipIndex); }
             
             // Play sound on target player
-            targetPlayerController?.playAudioClip(targetAudioType, true, targetAudioClipIndex);
+            targetPlayerController?.playAudioClip(targetAudioType, false, targetAudioClipIndex);
         }
         else
         {
