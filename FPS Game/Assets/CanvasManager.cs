@@ -44,11 +44,11 @@ public class CanvasManager : MonoBehaviour
         questView.Show();
     }
     
-    public void showStunnedView()
+    public void showStunnedView(int duration)
     {
         malusView.GetComponentInChildren<Image>().sprite = Resources.Load <Sprite> ("Stun");
         malusView.Show();
-        StartCoroutine(hideMalusView(3));
+        StartCoroutine(hideMalusView(duration));
     }
     
     public void showControlReverseView()

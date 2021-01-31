@@ -189,7 +189,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             {
                 GameEventMessage.SendEvent("CantUse");
             }
-        } else if (item.GetComponent<PowerUp>() != null)
+        }
+        else if (item.GetComponent<PowerUp>() != null)
         {
             GameEventMessage.SendEvent("Use");
         }
@@ -242,6 +243,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             {
                 item.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
+
             switch (item.GetComponent<PowerUp>().type)
             {
                 case PowerUpType.MachineGun:
@@ -406,7 +408,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         animator.SetFloat("z", moveAmount.z);
         animator.SetFloat("y", moveAmount.y);
 
-        CanvasManager.Instance.showStunnedView();
+        CanvasManager.Instance.showStunnedView(3);
         yield return new WaitForSeconds(3);
         canMove = true;
     }
@@ -448,6 +450,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         animator.SetFloat("z", moveAmount.z);
         animator.SetFloat("y", moveAmount.y);
         animator.SetTrigger("died");
+        CanvasManager.Instance.showStunnedView((int) duration);
 
         IEnumerator Stunned()
         {
@@ -462,7 +465,23 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public void GetDiapered(float duration)
     {
-        //TODO: put diaper on face; snared?
+        print("GetDiapered");
+        canMove = false;
+        moveAmount = Vector3.zero;
+        animator.SetFloat("x", moveAmount.x);
+        animator.SetFloat("z", moveAmount.z);
+        animator.SetFloat("y", moveAmount.y);
+        CanvasManager.Instance.showStunnedView((int) duration);
+
+        IEnumerator Stunned()
+        {
+            yield return new WaitForSeconds(duration);
+            GetComponent<Rigidbody>().isKinematic = false;
+
+            canMove = true;
+        }
+
+        StartCoroutine(Stunned());
     }
 
     [PunRPC]
@@ -470,7 +489,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     {
         if (!PV.IsMine)
             return;
-
+        
+        GetDiapered(2.0f);
+        return;
+        
         currentHealth -= damage;
 
         if (currentHealth <= 0)

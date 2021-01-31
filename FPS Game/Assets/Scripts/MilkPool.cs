@@ -42,7 +42,7 @@ namespace DefaultNamespace
      
                 if (other.gameObject.tag == "Player" || other.gameObject.tag == "ThrowingWeapon")
                 {
-                    other.gameObject.GetComponent<IDamageable>()?.GetStunned(5);
+                    other.gameObject.GetComponent<IDamageable>()?.GetStunned(3);
                     _animator.enabled = true;
                     _animator.SetTrigger("trapped");
                     IEnumerator death()
