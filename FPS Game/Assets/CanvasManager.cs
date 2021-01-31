@@ -46,14 +46,14 @@ public class CanvasManager : MonoBehaviour
     
     public void showStunnedView()
     {
-        malusView.GetComponentInChildren<Image>().sprite = Resources.Load <Sprite> ("Reverse");
+        malusView.GetComponentInChildren<Image>().sprite = Resources.Load <Sprite> ("Stun");
         malusView.Show();
         StartCoroutine(hideMalusView(3));
     }
     
     public void showControlReverseView()
     {
-        malusView.GetComponentInChildren<Image>().sprite = Resources.Load <Sprite> ("Stun");
+        malusView.GetComponentInChildren<Image>().sprite = Resources.Load <Sprite> ("Reverse");
         malusView.Show();
         StartCoroutine(hideMalusView(5));
     }

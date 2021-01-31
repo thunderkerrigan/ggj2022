@@ -208,6 +208,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
+            StartCoroutine(startPowerUpMachineGunRoutine());
+
         }
     }
 
@@ -268,9 +270,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     IEnumerator startPowerUpMachineGunRoutine()
     {
-        GetComponentInChildren<DiaperWeapon>().setCooldown(0.15f);
+        foreach (var diaperWeapon in GetComponentsInChildren<DiaperWeapon>().ToList())
+        {
+            diaperWeapon.setCooldown(0.15f);   
+        }
         yield return new WaitForSeconds(5);
-        GetComponentInChildren<DiaperWeapon>().resetCooldown();
+        foreach (var diaperWeapon in GetComponentsInChildren<DiaperWeapon>().ToList())
+        {
+            diaperWeapon.resetCooldown();
+        }
     }
 
     IEnumerator startPowerUpSpeedRoutine()
@@ -279,7 +287,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         sprintSpeed = currentSprintSpeed * 2;
         yield return new WaitForSeconds(10);
         sprintSpeed = currentSprintSpeed;
-        GetComponentInChildren<DiaperWeapon>().resetCooldown();
     }
 
     void DropItem()

@@ -32,7 +32,7 @@ public class PowerUpManager : MonoBehaviour
 
     public void spawnPowerUps()
     {
-        for (var i = 0; i < PhotonNetwork.PlayerList.Length * 2; i++)
+        for (var i = 0; i < PhotonNetwork.PlayerList.Length * 3; i++)
         {
             var spawnpoint = GetSpawnpoint(i);
             if (spawnpoint != null)
