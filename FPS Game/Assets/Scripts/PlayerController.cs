@@ -445,7 +445,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public void TakeDamage(float damage)
     {
-        this.playAudioClip("complaints", true);
         PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
     }
 

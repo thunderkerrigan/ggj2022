@@ -879,15 +879,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba27988a55ff2f045a47ef64f79d625b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  complaints:
-  - {fileID: 8300000, guid: 5ce9828dba5c23147a3ac7b6aa0c31f0, type: 3}
+  complaints_short:
   - {fileID: 8300000, guid: 749061d3b3adce741b954169145af9ba, type: 3}
+  - {fileID: 8300000, guid: e3f5be85a8bf3c844a90d3565c879386, type: 3}
+  - {fileID: 8300000, guid: 0365497c63c7e0841acd053b67b86806, type: 3}
+  complaints_long:
+  - {fileID: 8300000, guid: 5ce9828dba5c23147a3ac7b6aa0c31f0, type: 3}
   - {fileID: 8300000, guid: db18e484a812e8047a154baa2da35859, type: 3}
   - {fileID: 8300000, guid: 0d7972b4200b70241ab2077d2bfacb8f, type: 3}
-  - {fileID: 8300000, guid: e3f5be85a8bf3c844a90d3565c879386, type: 3}
   - {fileID: 8300000, guid: 644812f74e46318488db7fc049a16cb1, type: 3}
   - {fileID: 8300000, guid: e939ea48ec2d33d46b5590e838041358, type: 3}
-  - {fileID: 8300000, guid: 0365497c63c7e0841acd053b67b86806, type: 3}
   grunt:
   - {fileID: 8300000, guid: 159494c3d0389824d936126786766b7e, type: 3}
   happy:
@@ -1834,7 +1835,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: faedfac47be255447ae44e48a73a1423, type: 2}
   itemGameObject: {fileID: 9003427354932677028}
-  playerController: {fileID: 0}
+  playerController: {fileID: 8997055070651253307}
+  audioType: laugh
+  audioClipIndex: -1
   enable: 1
   cam: {fileID: 1488053957094389952}
 --- !u!114 &5397388382530384083
@@ -2500,7 +2503,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: 7d265224a6a25bb449941c374d0946a4, type: 2}
   itemGameObject: {fileID: 63853480455436211}
-  playerController: {fileID: 0}
+  playerController: {fileID: 8997055070651253307}
+  audioType: playful
+  audioClipIndex: -1
   enable: 1
   cam: {fileID: 1488053957094389952}
 --- !u!1 &5551891931587960439
@@ -3031,7 +3036,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: faedfac47be255447ae44e48a73a1423, type: 2}
   itemGameObject: {fileID: 2549705671862758738}
-  playerController: {fileID: 0}
+  playerController: {fileID: 8997055070651253307}
+  audioType: laugh
+  audioClipIndex: -1
   enable: 1
   cam: {fileID: 1488053957094389952}
 --- !u!114 &2186336676038888411
@@ -3278,7 +3285,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: 7d265224a6a25bb449941c374d0946a4, type: 2}
   itemGameObject: {fileID: 3415008383098609489}
-  playerController: {fileID: 0}
+  playerController: {fileID: 8997055070651253307}
+  audioType: playful
+  audioClipIndex: -1
   enable: 1
   cam: {fileID: 1488053957094389952}
 --- !u!1 &8315721164902856655

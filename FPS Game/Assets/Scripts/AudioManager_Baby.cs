@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AudioManager_Baby : AudioManager{
 
-    [SerializeField] public List<AudioClip> complaints;
+    [SerializeField] public List<AudioClip> complaints_short;
+    [SerializeField] public List<AudioClip> complaints_long;
     [SerializeField] public List<AudioClip> grunt;
     [SerializeField] public List<AudioClip> happy;
     [SerializeField] public List<AudioClip> laugh;
@@ -24,8 +25,12 @@ public class AudioManager_Baby : AudioManager{
     public int playAudioClip (string audioType, AudioSource audioSource, int givenIndex = -1) {
         int result = -1;
         switch (audioType) {
-            case "complaints":
-                result = this.playClip(this.complaints, audioSource, givenIndex);
+            case "complaints_short":
+                result = this.playClip(this.complaints_short, audioSource, givenIndex);
+                break;
+                
+            case "complaints_long":
+                result = this.playClip(this.complaints_long, audioSource, givenIndex);
                 break;
 
             case "grunt":

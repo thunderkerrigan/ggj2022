@@ -166,6 +166,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d994b489a8e1cd44b458b5f5ee4eece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  launcherPlayerController: {fileID: 0}
+  launcherAudioType: 
+  launcherAudioClipIndex: -1
+  targetAudioType: complaints_short
+  targetAudioClipIndex: -1
 --- !u!1001 &5839698337535433534
 PrefabInstance:
   m_ObjectHideFlags: 0

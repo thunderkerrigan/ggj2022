@@ -48,6 +48,10 @@ public class DiaperWeapon : Weapon
             var diaper = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Diaper"), frontPosition, Quaternion.identity);
             diaper.GetComponent<Rigidbody>().AddForceAtPosition(playerPosition, diaper.transform.position);
             diaper.GetComponent<Rigidbody>().velocity = direction * 30;
+            Diaper diaperComponent = diaper.GetComponent<Diaper>();
+            diaperComponent.launcherPlayerController = this.playerController;
+            diaperComponent.launcherAudioType = this.audioType;
+            diaperComponent.launcherAudioClipIndex = this.audioClipIndex;
             var randomTorque = Random.insideUnitSphere;
             diaper.GetComponent<Rigidbody>().AddTorque(randomTorque*75);
             return cooldown;
