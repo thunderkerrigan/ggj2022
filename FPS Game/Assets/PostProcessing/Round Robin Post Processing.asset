@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb84e30e02715445aeb9959894e3b4d, type: 3}
   m_Name: ColorGrading
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -1329,16 +1329,16 @@ MonoBehaviour:
     value: 1
   focusDistance:
     overrideState: 1
-    value: 5.1
+    value: 0.48
   aperture:
     overrideState: 1
-    value: 3
+    value: 5.2
   focalLength:
     overrideState: 1
-    value: 50
+    value: 17
   kernelSize:
     overrideState: 1
-    value: 1
+    value: 3
 --- !u!114 &-27789324203980027
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1351,13 +1351,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
   intensity:
     overrideState: 1
-    value: 0
+    value: 8.3
   threshold:
     overrideState: 1
     value: 1
@@ -1415,7 +1415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cb7e9e120078f43bce4f0b1be547a7, type: 3}
   m_Name: AmbientOcclusion
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -1424,10 +1424,10 @@ MonoBehaviour:
     value: 0
   intensity:
     overrideState: 1
-    value: 2.77
+    value: 0.52
   color:
-    overrideState: 0
-    value: {r: 0, g: 0, b: 0, a: 1}
+    overrideState: 1
+    value: {r: 0.0754717, g: 0.033133917, b: 0, a: 1}
   ambientOnly:
     overrideState: 0
     value: 0
@@ -1442,7 +1442,7 @@ MonoBehaviour:
     value: -12
   thicknessModifier:
     overrideState: 1
-    value: 8
+    value: 1.05
   directLightingStrength:
     overrideState: 0
     value: 0
@@ -1451,4 +1451,4 @@ MonoBehaviour:
     value: 0.29
   quality:
     overrideState: 1
-    value: 2
+    value: 4
