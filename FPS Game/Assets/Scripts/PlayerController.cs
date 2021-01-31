@@ -216,7 +216,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
-            this.playAudioClip("grunt");
+            this.playAudioClip("grunt", true);
         }
     }
 
@@ -227,7 +227,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (item.GetComponent<PhotonView>() == null) return;
         if (!item.GetComponent<PhotonView>().IsMine) return;
         if (item.GetComponent<Doudou>() == null) return;
-        this.playAudioClip("relieved");
+        this.playAudioClip("relieved", true);
         DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
         CanvasManager.Instance.showGoToEndZoneText();
     }
@@ -260,7 +260,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            this.playAudioClip("surprised");
+            this.playAudioClip("surprised", true);
 
             PhotonNetwork.Destroy(item);
         }
@@ -386,7 +386,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         else if (changedProps.ContainsKey("audioClipIndex")) {
             // Play sound for other players
             if (!PV.IsMine && targetPlayer == PV.Owner) {
-                this.playAudioClip((string) changedProps["audioClipType"], (int) changedProps["audioClipIndex"]);
+                this.playAudioClip((string) changedProps["audioClipType"], false, (int) changedProps["audioClipIndex"]);
             }
         }
         else if (changedProps.ContainsKey("malus"))
@@ -445,7 +445,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public void TakeDamage(float damage)
     {
-        this.playAudioClip("complaints");
+        this.playAudioClip("complaints", true);
         PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
     }
 
@@ -498,10 +498,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         playerManager.Die();
     }
 
-    public void playAudioClip (string audioClipType, int givenClipIndex = -1) {
+    public void playAudioClip (string audioClipType, bool spreadInLan, int givenClipIndex = -1) {
         int audioClipIndex = this.audioManager_Baby.playAudioClip(audioClipType, givenClipIndex);
         // givenClipIndex is set only when it's not the local player
-        if(givenClipIndex == -1 && audioClipIndex != -1) {
+        if(spreadInLan) {
             Hashtable hash = new Hashtable();
             hash.Add("audioClipIndex", audioClipIndex);
             hash.Add("audioClipType", audioClipType);

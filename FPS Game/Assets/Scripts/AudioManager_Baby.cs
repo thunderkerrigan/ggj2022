@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class AudioManager_Baby : MonoBehaviour{
+public class AudioManager_Baby : AudioManager{
 
-    private AudioSource babyAudioSource;
     [SerializeField] public List<AudioClip> complaints;
     [SerializeField] public List<AudioClip> grunt;
     [SerializeField] public List<AudioClip> happy;
@@ -14,10 +12,6 @@ public class AudioManager_Baby : MonoBehaviour{
     [SerializeField] public List<AudioClip> relieved;
     [SerializeField] public List<AudioClip> sad;
     [SerializeField] public List<AudioClip> surprised;
-
-	private void Awake () {
-        babyAudioSource = this.gameObject.GetComponent<AudioSource>();
-	}
 
     public int playAudioClip (string audioType) {
         return this.playAudioClip(audioType, this.babyAudioSource);
@@ -63,17 +57,5 @@ public class AudioManager_Baby : MonoBehaviour{
                 break;
         }
         return result;
-    }
-
-    private int playClip (List<AudioClip> clipList, AudioSource audioSource, int givenIndex = -1) {
-        int clipIndex = -1;
-        if(clipList != null && clipList.Count > 0 && audioSource != null) {
-            clipIndex = 0;
-            if(givenIndex == -1 && clipList.Count > 1) { clipIndex = Random.Range(0, clipList.Count); } // /!\ max range is exclusive
-            else if (givenIndex != -1) { clipIndex = givenIndex; }
-
-            audioSource.PlayOneShot(clipList[clipIndex]);
-		}
-        return clipIndex;
     }
 }
