@@ -26,7 +26,7 @@ public class ScoreSceneManager : MonoBehaviourPunCallbacks
         var i = 1 ;
         foreach( KeyValuePair<string,float> entry in ScoreSingleton.Instance.playerTimes.OrderBy( x => x.Value ).ThenByDescending( x => x.Key ) )
         {
-            text += $"#{i} {entry.Key} — {entry.Value}sec\n";
+            text += $"#{i} {entry.Key} — {entry.Value.ToString("N1")}sec\n";
             i += 1;
         }
 
