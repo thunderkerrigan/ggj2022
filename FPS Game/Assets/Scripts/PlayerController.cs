@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     [SerializeField] Item[] items_local;
 
     [SerializeField] Animator animator;
+    [SerializeField] AudioManager_Baby audioManager_Baby;
 
     int itemIndex;
     int previousItemIndex = -1;
@@ -213,6 +214,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     {
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
+            this.playAudioClip("grunt");
             animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
             StartCoroutine(startPowerUpMachineGunRoutine());
@@ -226,6 +228,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (item.GetComponent<PhotonView>() == null) return;
         if (!item.GetComponent<PhotonView>().IsMine) return;
         if (item.GetComponent<Doudou>() == null) return;
+        this.playAudioClip("relieved");
         DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
         CanvasManager.Instance.showGoToEndZoneText();
     }
@@ -242,6 +245,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             {
                 item.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
+         this.playAudioClip("surprised");
             switch (item.GetComponent<PowerUp>().type)
             {
                 case PowerUpType.MachineGun:
@@ -365,20 +369,18 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if (changedProps.ContainsKey("itemIndex"))
+        if (!changedProps.ContainsKey("itemIndex") && !changedProps.ContainsKey("audioClipIndex")) return;
+        if (!PV.IsMine && targetPlayer == PV.Owner)
         {
-            if (!PV.IsMine && targetPlayer == PV.Owner)
-            {
-                // Display weapon for other players
-                if (!(bool) changedProps.ContainsKey("itemEnable"))
-                {
-                    EquipItem((int) changedProps["itemIndex"]);
-                }
-                else
-                {
-                    items[(int) changedProps["itemIndex"]].transform.GetChild(0).gameObject
-                        .SetActive((bool) changedProps["itemEnable"]);
-                }
+			// Display weapon for other players
+			if (changedProps.ContainsKey("itemIndex")) {
+                if (!(bool) changedProps.ContainsKey("itemEnable")) { EquipItem((int) changedProps["itemIndex"]); }
+                else{ items[(int) changedProps["itemIndex"]].transform.GetChild(0).gameObject.SetActive((bool) changedProps["itemEnable"]); }
+			}
+
+            // Play sound for other players
+            if (changedProps.ContainsKey("audioClipIndex")) {
+                this.playAudioClip((string) changedProps["audioClipType"], (int) changedProps["audioClipIndex"]);
             }
         }
         else if (changedProps.ContainsKey("malus"))
@@ -437,6 +439,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public void TakeDamage(float damage)
     {
+        this.playAudioClip("complaints");
         PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
     }
 
@@ -487,5 +490,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
 
         playerManager.Die();
+    }
+
+    public void playAudioClip (string audioClipType, int givenClipIndex = -1) {
+        int audioClipIndex = this.audioManager_Baby.playAudioClip(audioClipType, givenClipIndex);
+        // givenClipIndex is set only when it's not the local player
+        if(givenClipIndex == -1 && audioClipIndex != -1) {
+            Hashtable hash = new Hashtable();
+            hash.Add("audioClipIndex", audioClipIndex);
+            hash.Add("audioClipType", audioClipType);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+		}
     }
 }
