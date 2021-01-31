@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
-            this.playAudioClip("grunt", false);
+            this.playAudioClip("grunt", true);
         }
     }
 
@@ -228,7 +228,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (item.GetComponent<PhotonView>() == null) return;
         if (!item.GetComponent<PhotonView>().IsMine) return;
         if (item.GetComponent<Doudou>() == null) return;
-        this.playAudioClip("relieved", false);
+        this.playAudioClip("relieved", true);
         DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
         CanvasManager.Instance.showGoToEndZoneText();
     }
@@ -241,8 +241,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (item.GetComponent<PickableItem>() == null) return;
         if (item.GetComponent<PowerUp>() != null)
         {
-            if (!item.GetComponent<PhotonView>().IsMine)
-            {
+            if (!item.GetComponent<PhotonView>().IsMine) {
                 item.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
 
@@ -257,15 +256,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
                 case PowerUpType.ReverseControl:
                     TakeReverseControlMalus();
                     break;
-                /*
-                 case PowerUpType.Stunt:
-                     TakeStuntMalus();
-                     break;
-                     */
+                /*case PowerUpType.Stunt:
+                    TakeStuntMalus();
+                    break;*/
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            this.playAudioClip("surprised", false);
+            this.playAudioClip("surprised", true);
 
             PhotonNetwork.Destroy(item);
         }
@@ -388,11 +385,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
                 }
             }
         }
-        else if (changedProps.ContainsKey("audioClipIndex"))
-        {
+        else if (changedProps.ContainsKey("audioClipIndex")) {
             // Play sound for other players
-            if (!PV.IsMine && targetPlayer == PV.Owner)
-            {
+            if (!PV.IsMine && targetPlayer == PV.Owner) {
                 this.playAudioClip((string) changedProps["audioClipType"], false, (int) changedProps["audioClipIndex"]);
             }
         }
@@ -504,10 +499,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     {
         if (!PV.IsMine)
             return;
-
+        
         GetDiapered(2.0f);
         return;
-
+        
         currentHealth -= damage;
 
         if (currentHealth <= 0)
@@ -526,16 +521,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         playerManager.Die();
     }
 
-    public void playAudioClip(string audioClipType, bool spreadInLan, int givenClipIndex = -1)
-    {
+    public void playAudioClip (string audioClipType, bool spreadInLan, int givenClipIndex = -1) {
         int audioClipIndex = this.audioManager_Baby.playAudioClip(audioClipType, givenClipIndex);
         // givenClipIndex is set only when it's not the local player
-        if (spreadInLan)
-        {
+        if(spreadInLan) {
             Hashtable hash = new Hashtable();
             hash.Add("audioClipIndex", audioClipIndex);
             hash.Add("audioClipType", audioClipType);
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-        }
+		}
     }
 }
