@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 139938300012696472}
   - component: {fileID: 1462609416877269356}
   - component: {fileID: 1590097345291501311}
+  - component: {fileID: -7938928751913986434}
   m_Layer: 0
   m_Name: Bear_0
   m_TagString: Untagged
@@ -185,3 +186,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-7938928751913986434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611368340095639946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e59cdc2b4e3d40d48a4c53bf4124b8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

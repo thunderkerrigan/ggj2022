@@ -2,7 +2,9 @@ using UnityEngine;
 
 public enum PowerUpType {
     MachineGun,
-    Speed
+    Speed,
+    ReverseControl,
+    Stunt
 };
 
 public class PowerUp : MonoBehaviour
