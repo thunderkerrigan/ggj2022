@@ -652,7 +652,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 3
 --- !u!114 &5353915076702350881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,6 +761,9 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 1
     Name: z
+  - Type: 9
+    SynchronizeType: 0
+    Name: died
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0

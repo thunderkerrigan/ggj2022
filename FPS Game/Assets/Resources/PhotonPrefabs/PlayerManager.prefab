@@ -66,5 +66,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1d50a3d25d051e4a865eb50e03d0553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countDownValue: 5
-  globalGameCountDownValue: 300
+  countDownValue: 1

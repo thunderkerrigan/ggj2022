@@ -8,6 +8,7 @@ namespace DefaultNamespace
 {
     public class MilkPool : MonoBehaviour
     {
+        [SerializeField] Animator _animator;
         PhotonView PV;
         private bool fusing = false;
         private bool enable = false;
@@ -25,26 +26,38 @@ namespace DefaultNamespace
             }
         }
 */
+        private void Start()
+        {
+            
+
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             print("OnTriggerEnter");
 
             if (enable)
             {
-                other.gameObject.GetComponent<IDamageable>()?.TakeDamage(3000);
+                
+     
                 if (other.gameObject.tag == "Player" || other.gameObject.tag == "ThrowingWeapon")
                 {
-                    PhotonNetwork.Destroy(gameObject);
+                    other.gameObject.GetComponent<IDamageable>()?.GetStunned(5);
+                    _animator.enabled = true;
+                    _animator.SetTrigger("trapped");
+                    IEnumerator death()
+                    {
+                        yield return new WaitForSeconds(1);
+                        PhotonNetwork.Destroy(gameObject);
+                    }
+
+                    StartCoroutine(death());
                 }
             }
             else
             {
                 StartCoroutine(BuildUp());
             }
-
-            //GetComponent<Collider>().isTrigger = false;
-            // GetComponent<Rigidbody>().useGravity = false;
-            //GetComponent<Rigidbody>().isKinematic = true;
         }
 
         public void SetGroundedState(bool _state)
@@ -56,7 +69,12 @@ namespace DefaultNamespace
         {
             PV = GetComponent<PhotonView>();
             StartCoroutine(BuildUp());
-            //GetComponent<Rigidbody>().useGravity = true;
+            IEnumerator Wallah()
+            {
+                yield return new WaitForSeconds(1);
+            }
+
+            StartCoroutine(Wallah());
         }
 
         IEnumerator BuildUp()
@@ -64,7 +82,7 @@ namespace DefaultNamespace
             yield return new WaitForSeconds(1);
             //GetComponent<Collider>().isTrigger = false;
             enable = true;
-            print("isEnable");
+            
         }
     }
 }

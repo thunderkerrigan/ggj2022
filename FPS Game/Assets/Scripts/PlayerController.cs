@@ -344,6 +344,30 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
     }
 
+    public void GetStunned(float duration)
+    {
+        canMove = false;
+        moveAmount = Vector3.zero;
+        animator.SetFloat("x", moveAmount.x);
+        animator.SetFloat("z", moveAmount.z);
+        animator.SetFloat("y", moveAmount.y);
+        animator.SetTrigger("died");
+        IEnumerator Stunned()
+        {
+            yield return new WaitForSeconds(duration);
+            GetComponent<Rigidbody>().isKinematic = false;
+
+            canMove = true;
+        }
+
+        StartCoroutine(Stunned());
+    }
+
+    public void GetDiapered(float duration)
+    {
+        //TODO: put diaper on face; snared?
+    }
+
     [PunRPC]
     void RPC_TakeDamage(float damage)
     {
