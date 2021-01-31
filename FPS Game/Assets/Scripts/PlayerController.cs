@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
-            this.playAudioClip("grunt", true);
+            //this.playAudioClip("grunt", true);
         }
     }
 
