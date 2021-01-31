@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     private List<Coroutine> CooldownCoroutines = new List<Coroutine>();
 
     public bool canMove = false;
+    public bool reverseControl = false;
 
     void Awake()
     {
@@ -139,7 +140,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         // Hide/show current item depend on it's CD
         bool itemEnable = ((Weapon) items[itemIndex]).enable;
         GameObject itemChild = items_local[itemIndex].transform.GetChild(0).gameObject;
-        if(itemEnable != itemChild.activeSelf ) {
+        if (itemEnable != itemChild.activeSelf)
+        {
             itemChild.SetActive(itemEnable);
             Hashtable hash = new Hashtable();
             hash.Add("itemIndex", itemIndex);
@@ -190,6 +192,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     void Move()
     {
         Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        if (reverseControl)
+        {
+            moveDir = new Vector3(-Input.GetAxisRaw("Horizontal"), 0, -Input.GetAxisRaw("Vertical")).normalized;
+        }
         moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * sprintSpeed, ref smoothMoveVelocity, smoothTime);
         animator.SetFloat("x", moveAmount.x);
         animator.SetFloat("z", moveAmount.z);
@@ -202,6 +208,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
+            StartCoroutine(startPowerUpMachineGunRoutine());
+
         }
     }
 
@@ -232,6 +240,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
                 case PowerUpType.Speed:
                     StartCoroutine(startPowerUpSpeedRoutine());
                     break;
+                case PowerUpType.ReverseControl:
+                    TakeReverseControlMalus();
+                    break;
+                case PowerUpType.Stunt:
+                    TakeStuntMalus();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -239,21 +253,40 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             PhotonNetwork.Destroy(item);
         }
     }
+    
+    void TakeStuntMalus()
+    {
+        Hashtable hash = new Hashtable();
+        hash.Add("malus", 0);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+    }
+    
+    void TakeReverseControlMalus()
+    {
+        Hashtable hash = new Hashtable();
+        hash.Add("malus", 1);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+    }
 
     IEnumerator startPowerUpMachineGunRoutine()
     {
-        GetComponentInChildren<DiaperWeapon>().setCooldown(0.15f);
+        foreach (var diaperWeapon in GetComponentsInChildren<DiaperWeapon>().ToList())
+        {
+            diaperWeapon.setCooldown(0.15f);   
+        }
         yield return new WaitForSeconds(5);
-        GetComponentInChildren<DiaperWeapon>().resetCooldown();
+        foreach (var diaperWeapon in GetComponentsInChildren<DiaperWeapon>().ToList())
+        {
+            diaperWeapon.resetCooldown();
+        }
     }
-    
+
     IEnumerator startPowerUpSpeedRoutine()
     {
         var currentSprintSpeed = sprintSpeed;
         sprintSpeed = currentSprintSpeed * 2;
         yield return new WaitForSeconds(10);
         sprintSpeed = currentSprintSpeed;
-        GetComponentInChildren<DiaperWeapon>().resetCooldown();
     }
 
     void DropItem()
@@ -297,11 +330,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         itemIndex = _index;
         Item[] playerItem = items;
-		if (PV.IsMine) { playerItem = items_local; }
+        if (PV.IsMine)
+        {
+            playerItem = items_local;
+        }
 
         playerItem[itemIndex].itemGameObject.SetActive(true);
 
-        if (previousItemIndex != -1){
+        if (previousItemIndex != -1)
+        {
             playerItem[previousItemIndex].itemGameObject.SetActive(false);
         }
 
@@ -317,13 +354,58 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if (!changedProps.ContainsKey("itemIndex")) return;
-        if (!PV.IsMine && targetPlayer == PV.Owner)
+        if (changedProps.ContainsKey("itemIndex"))
         {
-            // Display weapon for other players
-            if (!(bool) changedProps.ContainsKey("itemEnable")) { EquipItem((int) changedProps["itemIndex"]); }
-            else{ items[(int) changedProps["itemIndex"]].transform.GetChild(0).gameObject.SetActive((bool) changedProps["itemEnable"]); }
+            if (!PV.IsMine && targetPlayer == PV.Owner)
+            {
+                // Display weapon for other players
+                if (!(bool) changedProps.ContainsKey("itemEnable"))
+                {
+                    EquipItem((int) changedProps["itemIndex"]);
+                }
+                else
+                {
+                    items[(int) changedProps["itemIndex"]].transform.GetChild(0).gameObject
+                        .SetActive((bool) changedProps["itemEnable"]);
+                }
+            }
         }
+        else if (changedProps.ContainsKey("malus"))
+        {
+            if (PV.IsMine && targetPlayer != PhotonNetwork.LocalPlayer)
+            {
+                if ((int) changedProps["malus"] == 0)
+                {
+                    StartCoroutine(startStuntRoutine());
+                }
+                else
+                {
+                    StartCoroutine(startReverseControlRoutine());
+                }
+            }
+        }
+    }
+
+    IEnumerator startStuntRoutine()
+    {
+        // Stop
+        canMove = false;
+        moveAmount = Vector3.zero;
+        animator.SetFloat("x", moveAmount.x);
+        animator.SetFloat("z", moveAmount.z);
+        animator.SetFloat("y", moveAmount.y);
+        
+        CanvasManager.Instance.showStunnedView();
+        yield return new WaitForSeconds(3);
+        canMove = true;
+    }
+
+    IEnumerator startReverseControlRoutine()
+    {
+        reverseControl = true;
+        CanvasManager.Instance.showControlReverseView();
+        yield return new WaitForSeconds(5);
+        reverseControl = false;
     }
 
     public void SetGroundedState(bool _grounded, float _y)
@@ -334,7 +416,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     void FixedUpdate()
     {
-        if (!PV.IsMine) { return; }
+        if (!PV.IsMine)
+        {
+            return;
+        }
 
         rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
     }

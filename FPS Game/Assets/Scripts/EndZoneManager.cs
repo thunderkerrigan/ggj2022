@@ -49,7 +49,7 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
         if (!changedProps.ContainsKey("PLAYER_FINISHED")) return;
         print("PLAYER_FINISHED " + changedProps["PLAYER_FINISHED"]);
         var time = (float) changedProps["PLAYER_FINISHED"];
-        CanvasManager.Instance.addCombatLog($"{targetPlayer} has finish");
+        CanvasManager.Instance.addCombatLog($"{targetPlayer.NickName} has finish");
         onPlayerEnterEndZone(targetPlayer.NickName, time);
     }
 
