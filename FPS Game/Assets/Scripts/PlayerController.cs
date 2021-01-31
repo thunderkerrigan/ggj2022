@@ -214,10 +214,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     {
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
-            this.playAudioClip("grunt");
             animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
-            StartCoroutine(startPowerUpMachineGunRoutine());
+            this.playAudioClip("grunt");
         }
     }
 
@@ -241,13 +240,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (item.GetComponent<PickableItem>() == null) return;
         if (item.GetComponent<PowerUp>() != null)
         {
-            if (!item.GetComponent<PhotonView>().IsMine)
-            {
+            if (!item.GetComponent<PhotonView>().IsMine) {
                 item.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
-         this.playAudioClip("surprised");
-            switch (item.GetComponent<PowerUp>().type)
-            {
+
+            switch (item.GetComponent<PowerUp>().type){
                 case PowerUpType.MachineGun:
                     StartCoroutine(startPowerUpMachineGunRoutine());
                     break;
@@ -263,6 +260,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            this.playAudioClip("surprised");
 
             PhotonNetwork.Destroy(item);
         }
@@ -369,17 +367,25 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if (!changedProps.ContainsKey("itemIndex") && !changedProps.ContainsKey("audioClipIndex")) return;
-        if (!PV.IsMine && targetPlayer == PV.Owner)
+        if (changedProps.ContainsKey("itemIndex"))
         {
-			// Display weapon for other players
-			if (changedProps.ContainsKey("itemIndex")) {
-                if (!(bool) changedProps.ContainsKey("itemEnable")) { EquipItem((int) changedProps["itemIndex"]); }
-                else{ items[(int) changedProps["itemIndex"]].transform.GetChild(0).gameObject.SetActive((bool) changedProps["itemEnable"]); }
-			}
-
+            if (!PV.IsMine && targetPlayer == PV.Owner)
+            {
+                // Display weapon for other players
+                if (!changedProps.ContainsKey("itemEnable"))
+                {
+                    EquipItem((int) changedProps["itemIndex"]);
+                }
+                else
+                {
+                    items[(int) changedProps["itemIndex"]].transform.GetChild(0).gameObject
+                        .SetActive((bool) changedProps["itemEnable"]);
+                }
+            }
+        }
+        else if (changedProps.ContainsKey("audioClipIndex")) {
             // Play sound for other players
-            if (changedProps.ContainsKey("audioClipIndex")) {
+            if (!PV.IsMine && targetPlayer == PV.Owner) {
                 this.playAudioClip((string) changedProps["audioClipType"], (int) changedProps["audioClipIndex"]);
             }
         }
