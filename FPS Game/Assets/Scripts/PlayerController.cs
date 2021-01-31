@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     [SerializeField] Item[] items_local;
 
     [SerializeField] Animator animator;
+    [SerializeField] AudioManager_Baby audioManager_Baby;
 
     int itemIndex;
     int previousItemIndex = -1;
@@ -215,7 +216,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
-            StartCoroutine(startPowerUpMachineGunRoutine());
+            this.playAudioClip("grunt");
         }
     }
 
@@ -226,6 +227,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (item.GetComponent<PhotonView>() == null) return;
         if (!item.GetComponent<PhotonView>().IsMine) return;
         if (item.GetComponent<Doudou>() == null) return;
+        this.playAudioClip("relieved");
         DoudouManager.Instance.onPlayerLootDoudou(item.GetComponent<PhotonView>().Owner, item);
         CanvasManager.Instance.showGoToEndZoneText();
     }
@@ -238,12 +240,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (item.GetComponent<PickableItem>() == null) return;
         if (item.GetComponent<PowerUp>() != null)
         {
-            if (!item.GetComponent<PhotonView>().IsMine)
-            {
+            if (!item.GetComponent<PhotonView>().IsMine) {
                 item.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
-            switch (item.GetComponent<PowerUp>().type)
-            {
+
+            switch (item.GetComponent<PowerUp>().type){
                 case PowerUpType.MachineGun:
                     StartCoroutine(startPowerUpMachineGunRoutine());
                     break;
@@ -259,6 +260,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            this.playAudioClip("surprised");
 
             PhotonNetwork.Destroy(item);
         }
@@ -370,7 +372,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             if (!PV.IsMine && targetPlayer == PV.Owner)
             {
                 // Display weapon for other players
-                if (!(bool) changedProps.ContainsKey("itemEnable"))
+                if (!changedProps.ContainsKey("itemEnable"))
                 {
                     EquipItem((int) changedProps["itemIndex"]);
                 }
@@ -379,6 +381,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
                     items[(int) changedProps["itemIndex"]].transform.GetChild(0).gameObject
                         .SetActive((bool) changedProps["itemEnable"]);
                 }
+            }
+        }
+        else if (changedProps.ContainsKey("audioClipIndex")) {
+            // Play sound for other players
+            if (!PV.IsMine && targetPlayer == PV.Owner) {
+                this.playAudioClip((string) changedProps["audioClipType"], (int) changedProps["audioClipIndex"]);
             }
         }
         else if (changedProps.ContainsKey("malus"))
@@ -437,6 +445,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public void TakeDamage(float damage)
     {
+        this.playAudioClip("complaints");
         PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
     }
 
@@ -487,5 +496,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
 
         playerManager.Die();
+    }
+
+    public void playAudioClip (string audioClipType, int givenClipIndex = -1) {
+        int audioClipIndex = this.audioManager_Baby.playAudioClip(audioClipType, givenClipIndex);
+        // givenClipIndex is set only when it's not the local player
+        if(givenClipIndex == -1 && audioClipIndex != -1) {
+            Hashtable hash = new Hashtable();
+            hash.Add("audioClipIndex", audioClipIndex);
+            hash.Add("audioClipType", audioClipType);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+		}
     }
 }
