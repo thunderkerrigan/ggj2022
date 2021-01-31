@@ -1,14 +1,14 @@
 fileFormatVersion: 2
 guid: 94e1f351e7d209445afce2b8e8d8be01
 ModelImporter:
-  serializedVersion: 26
+  serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: Take 001
+    second: Dance_03
   externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -19,9 +19,53 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: 
+    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
+      copied configuration does not match position in animation file:\n\t'Character1_LeftUpLeg'
+      : position error = 109.110207 mm\n\t'Character1_LeftLeg' : position error =
+      108.303444 mm\n\t'Character1_LeftFoot' : position error = 212.637009 mm\n\t'Character1_LeftToeBase'
+      : position error = 94.419655 mm\n\t'Character1_RightUpLeg' : position error
+      = 109.110085 mm\n\t'Character1_RightLeg' : position error = 108.303589 mm\n\t'Character1_RightFoot'
+      : position error = 212.637268 mm\n\t'Character1_RightToeBase' : position error
+      = 94.419716 mm\n\t'Character1_Spine' : position error = 93.276741 mm\n\t'Character1_Spine1'
+      : position error = 194.435883 mm\n\t'Character1_LeftShoulder' : position error
+      = 163.329163 mm\n\t'Character1_LeftArm' : position error = 69.830200 mm\n\t'Character1_LeftForeArm'
+      : position error = 120.560913 mm\n\t'Character1_LeftHand' : position error
+      = 205.903168 mm\n\t'Character1_LeftHandThumb1' : position error = 67.839371
+      mm\n\t'Character1_LeftHandThumb2' : position error = 24.568153 mm\n\t'Character1_LeftHandThumb3'
+      : position error = 23.805897 mm\n\t'Character1_LeftHandIndex1' : position error
+      = 97.313797 mm\n\t'Character1_LeftHandIndex2' : position error = 30.025944
+      mm\n\t'Character1_LeftHandIndex3' : position error = 16.054672 mm\n\t'Character1_LeftHandMiddle1'
+      : position error = 93.815422 mm\n\t'Character1_LeftHandMiddle2' : position
+      error = 31.261492 mm\n\t'Character1_LeftHandMiddle3' : position error = 23.554674
+      mm\n\t'Character1_LeftHandRing1' : position error = 88.215775 mm\n\t'Character1_LeftHandRing2'
+      : position error = 31.480183 mm\n\t'Character1_LeftHandRing3' : position error
+      = 18.235785 mm\n\t'Character1_LeftHandPinky1' : position error = 80.720230
+      mm\n\t'Character1_LeftHandPinky2' : position error = 34.045383 mm\n\t'Character1_LeftHandPinky3'
+      : position error = 12.925806 mm\n\t'Character1_RightShoulder' : position error
+      = 163.329086 mm\n\t'Character1_RightArm' : position error = 69.830437 mm\n\t'Character1_RightForeArm'
+      : position error = 120.560799 mm\n\t'Character1_RightHand' : position error
+      = 205.902908 mm\n\t'Character1_RightHandThumb1' : position error = 67.839371
+      mm\n\t'Character1_RightHandThumb2' : position error = 24.568150 mm\n\t'Character1_RightHandThumb3'
+      : position error = 23.805845 mm\n\t'Character1_RightHandIndex1' : position
+      error = 97.313782 mm\n\t'Character1_RightHandIndex2' : position error = 30.025965
+      mm\n\t'Character1_RightHandIndex3' : position error = 16.054604 mm\n\t'Character1_RightHandMiddle1'
+      : position error = 93.815323 mm\n\t'Character1_RightHandMiddle2' : position
+      error = 31.261478 mm\n\t'Character1_RightHandMiddle3' : position error = 23.554619
+      mm\n\t'Character1_RightHandRing1' : position error = 88.215767 mm\n\t'Character1_RightHandRing2'
+      : position error = 31.480125 mm\n\t'Character1_RightHandRing3' : position error
+      = 18.235802 mm\n\t'Character1_RightHandPinky1' : position error = 80.720116
+      mm\n\t'Character1_RightHandPinky2' : position error = 34.045418 mm\n\t'Character1_RightHandPinky3'
+      : position error = 12.925802 mm\n\t'Character1_Neck' : position error = 194.435852
+      mm\n\t'Character1_Head' : position error = 1.862949 mm\nCopied Avatar Rig Configuration
+      mis-match. Inbetween bone rotation in copied configuration does not match rotation
+      in animation file:\n\t'Character1_Spine1' : rotation error = 18.611263 deg\n"
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Character1_LeftLeg' has translation animation
+      that will be discarded.\n\t'Character1_RightLeg' has translation animation
+      that will be discarded.\n\t'Character1_Spine1' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -33,7 +77,36 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Dance_03
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1
+      lastFrame: 594
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0.9
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -46,11 +119,13 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
@@ -60,6 +135,9 @@ ModelImporter:
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -72,7 +150,6 @@ ModelImporter:
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 1
-  copyAvatar: 1
   humanDescription:
     serializedVersion: 3
     human:
@@ -831,8 +908,11 @@ ModelImporter:
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: b6542c21b9ecd1f4fba56774700eaa16,
     type: 3}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 2
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
