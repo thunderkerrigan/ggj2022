@@ -179,13 +179,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (item == null) return;
         if (item.GetComponent<PhotonView>() == null) return;
         if (item.GetComponent<PickableItem>() == null) return;
-        if (item.GetPhotonView().IsMine)
+        if (item.GetComponent<Doudou>() != null)
+        {
+            if (item.GetPhotonView().IsMine)
+            {
+                GameEventMessage.SendEvent("Use");
+            }
+            else
+            {
+                GameEventMessage.SendEvent("CantUse");
+            }
+        } else if (item.GetComponent<PowerUp>() != null)
         {
             GameEventMessage.SendEvent("Use");
-        }
-        else
-        {
-            GameEventMessage.SendEvent("CantUse");
         }
     }
 
@@ -196,6 +202,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             moveDir = new Vector3(-Input.GetAxisRaw("Horizontal"), 0, -Input.GetAxisRaw("Vertical")).normalized;
         }
+
         moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * sprintSpeed, ref smoothMoveVelocity, smoothTime);
         animator.SetFloat("x", moveAmount.x);
         animator.SetFloat("z", moveAmount.z);
@@ -209,7 +216,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             animator.Play("Jump_to_Run");
             rb.AddForce(transform.up * jumpForce);
             StartCoroutine(startPowerUpMachineGunRoutine());
-
         }
     }
 
@@ -232,6 +238,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (item.GetComponent<PickableItem>() == null) return;
         if (item.GetComponent<PowerUp>() != null)
         {
+            if (!item.GetComponent<PhotonView>().IsMine)
+            {
+                item.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+            }
             switch (item.GetComponent<PowerUp>().type)
             {
                 case PowerUpType.MachineGun:
@@ -253,14 +263,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             PhotonNetwork.Destroy(item);
         }
     }
-    
+
     void TakeStuntMalus()
     {
         Hashtable hash = new Hashtable();
         hash.Add("malus", 0);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }
-    
+
     void TakeReverseControlMalus()
     {
         Hashtable hash = new Hashtable();
@@ -272,8 +282,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     {
         foreach (var diaperWeapon in GetComponentsInChildren<DiaperWeapon>().ToList())
         {
-            diaperWeapon.setCooldown(0.15f);   
+            diaperWeapon.setCooldown(0.15f);
         }
+
         yield return new WaitForSeconds(5);
         foreach (var diaperWeapon in GetComponentsInChildren<DiaperWeapon>().ToList())
         {
@@ -394,7 +405,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         animator.SetFloat("x", moveAmount.x);
         animator.SetFloat("z", moveAmount.z);
         animator.SetFloat("y", moveAmount.y);
-        
+
         CanvasManager.Instance.showStunnedView();
         yield return new WaitForSeconds(3);
         canMove = true;
@@ -437,6 +448,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         animator.SetFloat("z", moveAmount.z);
         animator.SetFloat("y", moveAmount.y);
         animator.SetTrigger("died");
+
         IEnumerator Stunned()
         {
             yield return new WaitForSeconds(duration);
