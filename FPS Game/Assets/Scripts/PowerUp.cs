@@ -4,7 +4,7 @@ public enum PowerUpType {
     MachineGun,
     Speed,
     ReverseControl,
-    Stunt
+    //Stunt
 };
 
 public class PowerUp : MonoBehaviour

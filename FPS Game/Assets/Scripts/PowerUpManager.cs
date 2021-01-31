@@ -55,11 +55,13 @@ public class PowerUpManager : MonoBehaviour
                             Path.Combine("PhotonPrefabs", "PowerUpReverseControl"),
                             spawnpoint.position, spawnpoint.rotation);
                         break;
+                    /*
                     case PowerUpType.Stunt:
                         PhotonNetwork.Instantiate(
                             Path.Combine("PhotonPrefabs", "PowerUpStunt"),
                             spawnpoint.position, spawnpoint.rotation);
                         break;
+                        */
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
