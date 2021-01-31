@@ -118,16 +118,30 @@ public class Launcher : MonoBehaviourPunCallbacks {
     public void setPlayerNickName(bool checkPlayersNickName = false){
         string playerName = PhotonNetwork.NickName;
         // Init playerName
-        if (playerName == "") { playerName = "Player_" + Random.Range(0, 1000).ToString("0000"); }
+        if (playerName == "")
+        {
+            var defaultName = "Player_" + Random.Range(0, 1000).ToString("0000");
+            playerName = PlayerPrefs.GetString("playerName", defaultName);
+        }
         if (this.playerNameInput != null){
-            if (this.playerNameInput.text == "") { this.playerNameInput.text = playerName; }
-            else{ playerName = this.playerNameInput.text; }
+            if (this.playerNameInput.text == "")
+            {
+                this.playerNameInput.text = playerName;
+            }
+            else
+            {
+                playerName = this.playerNameInput.text;
+            }
         }
 
         // Check nickname duplicate
-        if(checkPlayersNickName) { playerName = this.incrementeNickName(PhotonNetwork.LocalPlayer); }
+        if (checkPlayersNickName)
+        {
+            playerName = this.incrementeNickName(PhotonNetwork.LocalPlayer);
+        }
 
         PhotonNetwork.NickName = playerName;
+        PlayerPrefs.SetString("playerName", playerName);
     }
 
     private string incrementeNickName (Player player) {
