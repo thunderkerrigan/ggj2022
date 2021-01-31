@@ -32,7 +32,7 @@ namespace DefaultNamespace
                 var frontPosition = cam.transform.TransformPoint(Vector3.forward * 3);
                 
                 var direction = (frontPosition - playerPosition).normalized;
-                var puddle = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "MilkPool"), transform.position, Random.rotation);
+                var puddle = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "MilkPool"), frontPosition, Random.rotation);
                 puddle.GetComponent<Rigidbody>().AddForceAtPosition(playerPosition, puddle.transform.position + Vector3.up);
                 puddle.GetComponent<Rigidbody>().velocity = direction * 3;
                 var randomTorque = Random.insideUnitSphere;
