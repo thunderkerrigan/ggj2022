@@ -6,6 +6,11 @@ using UnityEngine;
 
 public class Diaper : MonoBehaviour
 {
+    public PlayerController launcherPlayerController;
+	public string launcherAudioType;
+	public int launcherAudioClipIndex = -1;
+	public string targetAudioType;
+	public int targetAudioClipIndex = -1;
     PhotonView PV;
     private void OnCollisionEnter(Collision other)
     {
@@ -13,6 +18,13 @@ public class Diaper : MonoBehaviour
         if (other.gameObject.GetComponent<IDamageable>() != null)
         {
             PhotonNetwork.Destroy(gameObject);
+
+            PlayerController targetPlayerController =  other.gameObject.GetComponent<PlayerController>();
+            // Play sound on launcher player
+            if (targetPlayerController != launcherPlayerController) { launcherPlayerController.playAudioClip(launcherAudioType, true, launcherAudioClipIndex); }
+            
+            // Play sound on target player
+            targetPlayerController?.playAudioClip(targetAudioType, true, targetAudioClipIndex);
         }
         else
         {

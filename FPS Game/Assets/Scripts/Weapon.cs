@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class Weapon : Item
 {
+    public PlayerController playerController;
+	public string audioType;
+	public int audioClipIndex = -1;
 	public abstract override float Use();
 
 	protected float nextAttack;

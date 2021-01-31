@@ -8,6 +8,11 @@ namespace DefaultNamespace
 {
     public class MilkPool : MonoBehaviour
     {
+        public PlayerController launcherPlayerController;
+	    public string launcherAudioType;
+	    public int launcherAudioClipIndex = -1;
+	    public string targetAudioType;
+	    public int targetAudioClipIndex = -1;
         [SerializeField] Animator _animator;
         PhotonView PV;
         private bool fusing = false;
@@ -43,6 +48,16 @@ namespace DefaultNamespace
                 if (other.gameObject.tag == "Player" || other.gameObject.tag == "ThrowingWeapon")
                 {
                     other.gameObject.GetComponent<IDamageable>()?.GetStunned(3);
+
+                    if(other.gameObject.GetComponent<IDamageable>() != null) {
+                        PlayerController targetPlayerController =  other.gameObject.GetComponent<PlayerController>();
+                        // Play sound on launcher player
+                        if (targetPlayerController != launcherPlayerController) { launcherPlayerController.playAudioClip(launcherAudioType, true, launcherAudioClipIndex); }
+            
+                        // Play sound on target player
+                        targetPlayerController?.playAudioClip(targetAudioType, true, targetAudioClipIndex);
+					}
+
                     _animator.enabled = true;
                     _animator.SetTrigger("trapped");
                     IEnumerator death()

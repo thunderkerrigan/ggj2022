@@ -35,6 +35,10 @@ namespace DefaultNamespace
                 var puddle = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "MilkPool"), frontPosition, Random.rotation);
                 puddle.GetComponent<Rigidbody>().AddForceAtPosition(playerPosition, puddle.transform.position + Vector3.up);
                 puddle.GetComponent<Rigidbody>().velocity = direction * 3;
+                MilkPool diaperComponent = puddle.GetComponent<MilkPool>();
+                diaperComponent.launcherPlayerController = this.playerController;
+                diaperComponent.launcherAudioType = this.audioType;
+                diaperComponent.launcherAudioClipIndex = this.audioClipIndex;
                 var randomTorque = Random.insideUnitSphere;
                 puddle.GetComponent<Rigidbody>().AddTorque(randomTorque*7599999);
                 StartCoroutine(OnCooldown());
