@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
+using Doozy.Engine.Soundy;
 using NUnit.Framework.Constraints;
 using Photon.Pun;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
 {
@@ -14,6 +16,9 @@ namespace DefaultNamespace
 	    public string targetAudioType;
 	    public int targetAudioClipIndex = -1;
         [SerializeField] Animator _animator;
+        [SerializeField] private AudioClip[] ImpactSounds;
+        [SerializeField] private AudioClip ThrowSound;
+
         PhotonView PV;
         private bool fusing = false;
         private bool enable = false;
@@ -51,11 +56,12 @@ namespace DefaultNamespace
 
                     if(other.gameObject.GetComponent<IDamageable>() != null) {
                         PlayerController targetPlayerController =  other.gameObject.GetComponent<PlayerController>();
-                        // Play sound on launcher player
-                        if (targetPlayerController != launcherPlayerController) { launcherPlayerController.playAudioClip(launcherAudioType, true, launcherAudioClipIndex); }
-            
-                        // Play sound on target player
-                        targetPlayerController?.playAudioClip(targetAudioType, true, targetAudioClipIndex);
+                    
+                        if (ImpactSounds.Length > 0)
+                        {
+                            SoundyManager.Play(ImpactSounds[Random.Range(0, ImpactSounds.Length - 1)], other.transform.position);
+
+                        }
 					}
 
                     _animator.enabled = true;
@@ -84,12 +90,8 @@ namespace DefaultNamespace
         {
             PV = GetComponent<PhotonView>();
             StartCoroutine(BuildUp());
-            IEnumerator Wallah()
-            {
-                yield return new WaitForSeconds(1);
-            }
+            SoundyManager.Play(ThrowSound, transform);
 
-            StartCoroutine(Wallah());
         }
 
         IEnumerator BuildUp()

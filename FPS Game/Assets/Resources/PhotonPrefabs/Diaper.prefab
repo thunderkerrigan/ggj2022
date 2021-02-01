@@ -171,6 +171,14 @@ MonoBehaviour:
   launcherAudioClipIndex: -1
   targetAudioType: complaints_short
   targetAudioClipIndex: -1
+  ImpactSounds:
+  - {fileID: 8300000, guid: 17db71656e1073a4c8499cab90b3eb44, type: 3}
+  - {fileID: 8300000, guid: 48dff4ecb20efef4e92650eb284dd976, type: 3}
+  - {fileID: 8300000, guid: aa718a9e2645c3c43a0a5cea09f6b58a, type: 3}
+  - {fileID: 8300000, guid: 504cb5a8ca1237441a640d3f8a82613c, type: 3}
+  - {fileID: 8300000, guid: ea15092f5b44d52478427d2e8a5d7641, type: 3}
+  - {fileID: 8300000, guid: 764e10691dce3a24c89a791eef12be27, type: 3}
+  ThrowSound: {fileID: 8300000, guid: a94571c78c26e0142abf1c87c0ef3d73, type: 3}
 --- !u!1001 &5839698337535433534
 PrefabInstance:
   m_ObjectHideFlags: 0

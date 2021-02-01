@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Doozy.Engine.Soundy;
 using Photon.Pun;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Diaper : MonoBehaviour
 {
@@ -11,20 +13,24 @@ public class Diaper : MonoBehaviour
 	public int launcherAudioClipIndex = -1;
 	public string targetAudioType;
 	public int targetAudioClipIndex = -1;
+    [SerializeField] private AudioClip[] ImpactSounds;
+    [SerializeField] private AudioClip ThrowSound;
+
     PhotonView PV;
     private void OnCollisionEnter(Collision other)
     {
+        if (ImpactSounds.Length > 0)
+        {
+            SoundyManager.Play(ImpactSounds[Random.Range(0, ImpactSounds.Length - 1)], other.transform.position);
+        }
         other.gameObject.GetComponent<IDamageable>()?.TakeDamage(60);
         if (other.gameObject.GetComponent<IDamageable>() != null)
         {
             PhotonNetwork.Destroy(gameObject);
 
-            PlayerController targetPlayerController =  other.gameObject.GetComponent<PlayerController>();
-            // Play sound on launcher player
-            if (targetPlayerController != launcherPlayerController) { launcherPlayerController.playAudioClip(launcherAudioType, true, launcherAudioClipIndex); }
             
-            // Play sound on target player
-            targetPlayerController?.playAudioClip(targetAudioType, true, targetAudioClipIndex);
+            PlayerController targetPlayerController =  other.gameObject.GetComponent<PlayerController>();
+            
         }
         else
         {
@@ -36,6 +42,7 @@ public class Diaper : MonoBehaviour
     void Awake()
     {
         PV = GetComponent<PhotonView>();
+        SoundyManager.Play(ThrowSound, transform);
     }
 
     private void FixedUpdate()
