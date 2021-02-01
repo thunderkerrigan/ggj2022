@@ -29,6 +29,35 @@ MonoBehaviour:
   Sounds:
   - AudioClip: {fileID: 8300000, guid: 3a0afae24da0ec441b4f960cd67ec8e4, type: 3}
     Weight: 1
+--- !u!114 &-9119004949347912564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f6c631d933489d4ca7328a2a5983e10, type: 3}
+  m_Name: InGame
+  m_EditorClassIdentifier: 
+  DatabaseName: LostandFound
+  SoundName: InGame
+  IgnoreListenerPause: 1
+  Volume:
+    MinValue: 0
+    MaxValue: 0
+  Pitch:
+    MinValue: 0
+    MaxValue: 0
+  SpatialBlend: 0
+  Loop: 0
+  Mode: 0
+  ResetSequenceAfterInactiveTime: 0
+  SequenceResetTime: 5
+  Sounds:
+  - AudioClip: {fileID: 8300000, guid: 5e0466e1c99c41749bb4ef93bf5150e1, type: 3}
+    Weight: 1
 --- !u!114 &-7784433827861168943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,12 +160,14 @@ MonoBehaviour:
     type: 2}
   SoundNames:
   - No Sound
+  - InGame
   - kindergarten-v0.9
   - mouseclick
   - mouseover
   - No Sound
   Database:
   - {fileID: -7784433827861168943}
+  - {fileID: -9119004949347912564}
   - {fileID: -2017939246779996079}
   - {fileID: -6077076736401666210}
   - {fileID: -9158073032631324593}

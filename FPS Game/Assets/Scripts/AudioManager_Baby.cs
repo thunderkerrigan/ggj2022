@@ -14,51 +14,51 @@ public class AudioManager_Baby : AudioManager{
     [SerializeField] public List<AudioClip> sad;
     [SerializeField] public List<AudioClip> surprised;
 
-    public int playAudioClip (string audioType) {
-        return this.playAudioClip(audioType, this.babyAudioSource);
+    public int PlaySound (string category) {
+        return this.PlaySound(category, transform.position);
     }
 
-    public int playAudioClip (string audioType, int givenIndex) {
-        return this.playAudioClip(audioType, this.babyAudioSource, givenIndex);
+    public int PlaySound (string category, int givenIndex) {
+        return this.PlaySound(category, transform.position, givenIndex);
     }
 
-    public int playAudioClip (string audioType, AudioSource audioSource, int givenIndex = -1) {
+    public int PlaySound (string audioType, Vector3 position, int givenIndex = -1) {
         int result = -1;
         switch (audioType) {
             case "complaints_short":
-                result = this.playClip(this.complaints_short, audioSource, givenIndex);
+                result = this.playClip(this.complaints_short, position, givenIndex);
                 break;
                 
             case "complaints_long":
-                result = this.playClip(this.complaints_long, audioSource, givenIndex);
+                result = this.playClip(this.complaints_long, position, givenIndex);
                 break;
 
             case "grunt":
-                result = this.playClip(this.grunt, audioSource, givenIndex);
+                result = this.playClip(this.grunt, position, givenIndex);
                 break;
 
             case "happy":
-                result = this.playClip(this.happy, audioSource, givenIndex);
+                result = this.playClip(this.happy, position, givenIndex);
                 break;
 
             case "laugh":
-                result = this.playClip(this.laugh, audioSource, givenIndex);
+                result = this.playClip(this.laugh, position, givenIndex);
                 break;
 
             case "playful":
-                result = this.playClip(this.playful, audioSource, givenIndex);
+                result = this.playClip(this.playful, position, givenIndex);
                 break;
 
             case "relieved":
-                result = this.playClip(this.relieved, audioSource, givenIndex);
+                result = this.playClip(this.relieved, position, givenIndex);
                 break;
             
             case "sad":
-                result = this.playClip(this.sad, audioSource, givenIndex);
+                result = this.playClip(this.sad, position, givenIndex);
                 break;
 
             case "surprised":
-                result = this.playClip(this.surprised, audioSource, givenIndex);
+                result = this.playClip(this.surprised, position, givenIndex);
                 break;
         }
         return result;
