@@ -149,6 +149,11 @@ MonoBehaviour:
   targetAudioType: complaints_long
   targetAudioClipIndex: -1
   _animator: {fileID: 8175649653604755043}
+  ImpactSounds:
+  - {fileID: 8300000, guid: 50f5e45ffd15a284c98bd608ca7df88f, type: 3}
+  - {fileID: 8300000, guid: d3895e5727eb8244591fab80c7670c26, type: 3}
+  - {fileID: 8300000, guid: 4354719a27cc498479d07adbb2fd2153, type: 3}
+  ThrowSound: {fileID: 8300000, guid: ef20894136792474fba4097e7ee04ead, type: 3}
 --- !u!114 &4448294898378344193
 MonoBehaviour:
   m_ObjectHideFlags: 0
