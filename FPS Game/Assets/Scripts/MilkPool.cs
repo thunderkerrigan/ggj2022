@@ -55,13 +55,21 @@ namespace DefaultNamespace
                     other.gameObject.GetComponent<IDamageable>()?.GetStunned(3);
 
                     if(other.gameObject.GetComponent<IDamageable>() != null) {
-                        PlayerController targetPlayerController =  other.gameObject.GetComponent<PlayerController>();
+                        var targetPlayerController =  other.gameObject.GetComponent<PlayerController>();
                     
                         if (ImpactSounds.Length > 0)
                         {
                             SoundyManager.Play(ImpactSounds[Random.Range(0, ImpactSounds.Length - 1)], other.transform.position);
 
                         }
+                        // Play sound on launcher player
+                        if (targetPlayerController != launcherPlayerController)
+                        {
+                            launcherPlayerController.playAudioClip(launcherAudioType, true, launcherAudioClipIndex);
+                        }
+            
+                        // Play sound on target player
+                        targetPlayerController?.playAudioClip(targetAudioType, true, targetAudioClipIndex);
 					}
 
                     _animator.enabled = true;

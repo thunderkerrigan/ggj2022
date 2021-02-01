@@ -15,14 +15,14 @@ public class AudioManager_Baby : AudioManager{
     [SerializeField] public List<AudioClip> surprised;
 
     public int PlaySound (string category) {
-        return this.PlaySound(category, transform.position);
+        return this.PlaySound(category, transform);
     }
 
     public int PlaySound (string category, int givenIndex) {
-        return this.PlaySound(category, transform.position, givenIndex);
+        return this.PlaySound(category, transform, givenIndex);
     }
 
-    public int PlaySound (string audioType, Vector3 position, int givenIndex = -1) {
+    public int PlaySound (string audioType, Transform position, int givenIndex = -1) {
         int result = -1;
         switch (audioType) {
             case "complaints_short":

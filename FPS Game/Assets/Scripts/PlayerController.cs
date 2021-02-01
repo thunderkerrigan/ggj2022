@@ -390,7 +390,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             // Play sound for other players
             if (!PV.IsMine && targetPlayer == PV.Owner) {
                 // this.playAudioClip((string) changedProps["audioClipType"], false, (int) changedProps["audioClipIndex"]);
-                audioManager_Baby.PlaySound((string) changedProps["audioClipType"], PV.transform.position,
+                audioManager_Baby.PlaySound((string) changedProps["audioClipType"], PV.transform,
                     (int) changedProps["audioClipIndex"]);
             }
         }
@@ -528,7 +528,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     }
 
     public void playAudioClip (string audioClipType, bool spreadInLan, int givenClipIndex = -1) {
-        int audioClipIndex = this.audioManager_Baby.PlaySound(audioClipType, givenClipIndex);
+        int audioClipIndex = this.audioManager_Baby.PlaySound(audioClipType, transform, givenClipIndex);
         // givenClipIndex is set only when it's not the local player
         if(spreadInLan) {
             Hashtable hash = new Hashtable();
