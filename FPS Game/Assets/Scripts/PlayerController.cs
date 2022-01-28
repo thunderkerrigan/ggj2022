@@ -61,7 +61,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         Cursor.lockState = CursorLockMode.Locked;
         playerManager = PhotonView.Find((int) PV.InstantiationData[0]).GetComponent<PlayerManager>();
         var materialIndex = (int) PV.InstantiationData[1];
-        GetComponentInChildren<CaracterHolder>().updateMaterial(materialIndex);
     }
 
 
