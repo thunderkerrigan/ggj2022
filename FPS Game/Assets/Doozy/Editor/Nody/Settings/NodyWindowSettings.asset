@@ -48,8 +48,8 @@ MonoBehaviour:
   - IsRootTab: 1
     Graph: {fileID: 11400000, guid: c9a23949659d15a448a3203222aebc90, type: 2}
     SubGraphNode: {fileID: 0}
-    Zoom: 0.9
-    PanOffset: {x: 289.87643, y: 177.48718}
+    Zoom: 0.6
+    PanOffset: {x: 616.5687, y: 289.49094}
     SelectedNodes: []
     DeletedNodes: []
   CurrentView: 1
