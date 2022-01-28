@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// Weapon found on the ground
-public abstract class WeaponDrop
+public abstract class WeaponDrop: Item
 {
     public PlayerController playerController;
 	public string audioType;
