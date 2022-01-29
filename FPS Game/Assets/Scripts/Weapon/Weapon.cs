@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// Weapon in the hand of a player
 public abstract class Weapon : Item
 {
     public PlayerController playerController;

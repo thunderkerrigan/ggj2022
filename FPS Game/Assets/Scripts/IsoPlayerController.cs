@@ -1,13 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class IsoPlayerController : MonoBehaviour
 {
-   
+   public PhotonView PV;
    public Vector2 moveVal;
    public float moveSpeed, dashSpeed, dashCooldownTimer;
    bool grounded, canDash = true;
@@ -35,12 +37,14 @@ public class IsoPlayerController : MonoBehaviour
             Destroy(GetComponent<AudioListener>());
          }
       }
-      
    }
    
    private void FixedUpdate()
    {
-      transform.Translate(new Vector3(moveVal.x, 0, moveVal.y) * moveSpeed * Time.deltaTime);
+      if (!PV.IsMine)
+         return;
+      rb.velocity = new Vector3(moveVal.x, 0, moveVal.y) * moveSpeed;
+      //transform.Translate(new Vector3(moveVal.x, 0, moveVal.y) * moveSpeed * Time.deltaTime);
    }
 
    
@@ -78,10 +82,11 @@ public class IsoPlayerController : MonoBehaviour
       canDash = true;
    }
 
-   private void OnJoin(InputAction.CallbackContext context)
+   private void OnJoin(InputValue value)
    {
       transform.position = new Vector3(Random.Range(-75, 75), 0.5f, Random.Range(-75, 75));
-      moveSpeed = 30;
+      var spawnManager = GameObject.Find("PlayerSpawnManager").GetComponent<SpawnManager>();
+      spawnManager.GetSpawnpoint(0);
    }
    
    // CUSTOM FUNCTION

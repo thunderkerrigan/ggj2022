@@ -21,13 +21,15 @@ public class Launcher : MonoBehaviourPunCallbacks {
     [SerializeField] GameObject startGameButton;
     [SerializeField] TMP_InputField playerNameInput;
 
+    private Coroutine startGame;
+
     void Awake() {
         Instance = this;
     }
 
     void Start() {
         Debug.Log("Connecting to Master");
-        PhotonNetwork.ConnectUsingSettings();
+        StartCoroutine(Connect());
     }
 
     public override void OnConnectedToMaster() {
@@ -42,7 +44,9 @@ public class Launcher : MonoBehaviourPunCallbacks {
         this.setPlayerNickName(false);
     }
 
-    public void CreateRoom() {
+    public void CreateRoom()
+    {
+        PhotonNetwork.OfflineMode = false;
         if (string.IsNullOrEmpty(roomNameInputField.text)) { return; }
 
         var roomOptions = new RoomOptions {MaxPlayers = 10};
@@ -51,6 +55,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
     }
 
     public override void OnJoinedRoom() {
+        PhotonNetwork.OfflineMode = false;
         this.setPlayerNickName(true);
         //MenuManager.Instance.OpenMenu("room");
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
@@ -81,7 +86,15 @@ public class Launcher : MonoBehaviourPunCallbacks {
     public void StartGame() {
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
-        PhotonNetwork.LoadLevel(1);
+        PhotonNetwork.LoadLevel(2);
+    }
+    public void StartLocalGame() { 
+      //  PhotonNetwork.CurrentRoom.IsOpen = false;
+      // PhotonNetwork.CurrentRoom.IsVisible = false;
+      if (startGame == null) {
+          startGame = StartCoroutine(StartLocalGameAsync());
+
+      }
     }
 
     public void LeaveRoom() {
@@ -168,5 +181,42 @@ public class Launcher : MonoBehaviourPunCallbacks {
 
         player.NickName = playerName;
         return playerName;
+    }
+    
+    IEnumerator Connect()
+
+    {
+        Debug.Log("TA MERE");
+
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.OfflineMode = false;
+            PhotonNetwork.ConnectUsingSettings();
+        }
+        while (!PhotonNetwork.IsConnected)
+        {
+            Debug.Log("LA PUTE");
+            yield return null;
+
+        }
+    }
+    
+    IEnumerator StartLocalGameAsync()
+
+    {
+
+        PhotonNetwork.Disconnect();
+
+        while (PhotonNetwork.IsConnected)
+
+        {
+
+            yield return null;
+
+        }
+
+        PhotonNetwork.OfflineMode = true;
+        PhotonNetwork.LoadLevel(3);
+
     }
 }
