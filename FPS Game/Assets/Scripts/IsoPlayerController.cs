@@ -60,10 +60,11 @@ public class IsoPlayerController : MonoBehaviour
       canDash = true;
    }
 
-   private void OnJoin(InputAction.CallbackContext context)
+   private void OnJoin(InputValue value)
    {
       transform.position = new Vector3(Random.Range(-75, 75), 0.5f, Random.Range(-75, 75));
-      moveSpeed = 30;
+      var spawnManager = GameObject.Find("PlayerSpawnManager").GetComponent<SpawnManager>();
+      spawnManager.GetSpawnpoint(0);
    }
    
    // CUSTOM FUNCTION
