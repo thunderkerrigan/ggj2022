@@ -42,14 +42,14 @@ public class ScoreSceneManager : MonoBehaviourPunCallbacks
         restartButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
-    private void RestartGame()
+    public void RestartGame()
     {
         if (!PhotonNetwork.OfflineMode)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
         }
-        PhotonNetwork.LoadLevel(0);
+        PhotonNetwork.LoadLevel(2);
     }
     
 }

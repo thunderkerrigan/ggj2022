@@ -29,7 +29,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
 
     void Start() {
         Debug.Log("Connecting to Master");
-        PhotonNetwork.ConnectUsingSettings();
+        StartCoroutine(Connect());
     }
 
     public override void OnConnectedToMaster() {
@@ -186,19 +186,19 @@ public class Launcher : MonoBehaviourPunCallbacks {
     IEnumerator Connect()
 
     {
+        Debug.Log("TA MERE");
 
-        PhotonNetwork.ConnectUsingSettings();
-
-        while (!PhotonNetwork.IsConnected)
-
+        if (!PhotonNetwork.IsConnected)
         {
-
+            PhotonNetwork.OfflineMode = false;
+            PhotonNetwork.ConnectUsingSettings();
+        }
+        while (!PhotonNetwork.IsConnected)
+        {
+            Debug.Log("LA PUTE");
             yield return null;
 
         }
-
-        PhotonNetwork.OfflineMode = false;
-
     }
     
     IEnumerator StartLocalGameAsync()
