@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,7 +10,7 @@ using UnityEngine.InputSystem;
 public delegate void TimerUpdateHandler(float value);
 public class LocalGameManager : MonoBehaviour
 {
-    
+    public PhotonView PV;
     public event TimerUpdateHandler OnTimerUpdate;
     private PlayerInputManager playerInputManager;
     
@@ -18,18 +20,21 @@ public class LocalGameManager : MonoBehaviour
     {
         StartCoroutine(Cooldown());
         playerInputManager = GetComponent<PlayerInputManager>();
-        playerInputManager.JoinPlayer(splitScreenIndex: 0);
         if (PhotonNetwork.OfflineMode)
         {
             Debug.Log("Offline mode; 2 players!");
-            playerInputManager.JoinPlayer(splitScreenIndex:1);
+            playerInputManager.JoinPlayer();
+            playerInputManager.JoinPlayer();
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        else if (PV.IsMine)
+        {
+            var index = PhotonNetwork.PlayerList.ToList().IndexOf(PhotonNetwork.LocalPlayer);
+            Debug.Log("spawning player " + index);
+            var spawnPoint = SpawnManager.Instance.GetSpawnpoint(index);
+            Debug.Log("spawning player at " + spawnPoint.position);
+            PhotonNetwork.Instantiate(Path.Combine("Prefabs", "Player"),  spawnPoint.position,
+                spawnPoint.rotation, 0, new object[] {PV.ViewID, index});
+        }
     }
 
     private IEnumerator Cooldown()
