@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "FPS/New weapon")]
+[CreateAssetMenu(menuName = "HappyTree/New weapon")]
 public class WeaponInfo : ItemInfo
 {
 	public float damage;
