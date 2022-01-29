@@ -26,6 +26,8 @@ public class LocalGameManager : MonoBehaviour
             Debug.Log("Offline mode; 2 players!");
             playerInputManager.JoinPlayer();
             playerInputManager.JoinPlayer();
+            StartCoroutine(Cooldown());
+
         }
         else if (PV.IsMine)
         {
@@ -36,12 +38,13 @@ public class LocalGameManager : MonoBehaviour
             Debug.Log("spawning player at " + spawnPoint.position);
             PhotonNetwork.Instantiate(Path.Combine("Prefabs", "Player"),  spawnPoint.position,
                 spawnPoint.rotation, 0, new object[] {PV.ViewID, index});
+            if (PhotonNetwork.IsMasterClient)
+            {
+                StartCoroutine(Cooldown());
+            }
         }
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            StartCoroutine(Cooldown());
-        }
+        
     }
 
     private IEnumerator Cooldown()
@@ -60,18 +63,18 @@ public class LocalGameManager : MonoBehaviour
         else
         {
             Debug.Log("Game Over");
-            RestartGame();
+            GoToScore();
         }
     }
     
-    private void RestartGame()
+    private void GoToScore()
     {
         if (!PhotonNetwork.OfflineMode)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
         }
-        PhotonNetwork.LoadLevel(0);
+        PhotonNetwork.LoadLevel(3);
     }
 
 }
