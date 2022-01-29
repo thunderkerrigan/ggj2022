@@ -42,6 +42,7 @@ public class WeaponDropItem: MonoBehaviourPunCallbacks
 	}
 
 	private void OnTriggerEnter(Collider other) {
+		Debug.Log("RAKE TRIGGER ENTER " + other.transform.parent.gameObject.GetType());
 		if (other.gameObject.tag == "Player") {
 			// TODO: the player cannot pickup if he already has a weapon
 			// TODO: Give weapon to player
