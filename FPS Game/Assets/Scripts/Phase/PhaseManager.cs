@@ -60,7 +60,7 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
     }
 
     private void killAllEnemies() {
-        var enemies = GetComponents<Enemy>();
+        var enemies = FindObjectsOfType(typeof(Enemy));
         foreach (Enemy enemy in enemies) {
             enemy.TakeDamage(1000f);
         }

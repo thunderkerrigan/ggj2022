@@ -142,6 +142,6 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         this.isAlive = false;
         StopCoroutine(Attack());
         this.enabled = false;
-        Destroy(this, 0.2f);
+        Destroy(this.gameObject, 0.2f);
     }
 }
