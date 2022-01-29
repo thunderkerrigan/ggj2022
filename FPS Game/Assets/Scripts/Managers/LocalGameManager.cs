@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public delegate void TimerUpdateHandler(float value);
@@ -9,12 +10,20 @@ public class LocalGameManager : MonoBehaviour
 {
     
     public event TimerUpdateHandler OnTimerUpdate;
+    private PlayerInputManager playerInputManager;
     
     public int gameDuration = 60;
     // Start is called before the first frame update
     void Awake()
     {
         StartCoroutine(Cooldown());
+        playerInputManager = GetComponent<PlayerInputManager>();
+        playerInputManager.JoinPlayer(splitScreenIndex: 0);
+        if (PhotonNetwork.OfflineMode)
+        {
+            Debug.Log("Offline mode; 2 players!");
+            playerInputManager.JoinPlayer(splitScreenIndex:1);
+        }
     }
 
     // Update is called once per frame

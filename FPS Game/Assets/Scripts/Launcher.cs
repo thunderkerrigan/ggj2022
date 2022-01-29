@@ -86,7 +86,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
     public void StartGame() {
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
-        PhotonNetwork.LoadLevel(1);
+        PhotonNetwork.LoadLevel(2);
     }
     public void StartLocalGame() { 
       //  PhotonNetwork.CurrentRoom.IsOpen = false;
