@@ -275,7 +275,8 @@ namespace Doozy.Engine.Soundy
         /// Returns null if the AudioClip is null.
         /// </summary>
         /// <param name="audioClip"> The AudioClip to play </param>
-        public static SoundyController Play(AudioClip audioClip)
+        /// <param name="pitch"></param>
+        public static SoundyController Play(AudioClip audioClip, float pitch)
         {
             if (!s_initialized) s_instance = Instance;
             return Play(audioClip, null, Pooler.transform);

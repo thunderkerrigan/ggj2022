@@ -50,7 +50,6 @@ public class EnemySpawnManager: MonoBehaviourPunCallbacks
         
         var enemy = Instantiate(Resources.Load("Prefabs/Enemy_Base"), spawnpoint.transform.position, spawnpoint.transform.rotation);
        // var enemy = PhotonNetwork.Instantiate("Prefabs/Enemy_Base", spawnpoint.transform.position, spawnpoint.transform.rotation);
-        Debug.Log("SPAWN");
 
         StartCoroutine(SpawnEnemy());
     }

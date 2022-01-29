@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Doozy.Engine.Soundy;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.AI;
@@ -16,12 +17,16 @@ public class IsoPlayerController : MonoBehaviour
    public float moveSpeed, dashSpeed, dashCooldownTimer;
    bool grounded, canDash = true;
    private float currentFloorY = -1;
+   private bool canAttack = true;
    Rigidbody rb;
+   public AudioClip dashSound;
+   public AudioClip attackSound;
 
    
    void Awake()
    {
       rb = GetComponent<Rigidbody>();
+      canAttack = true;
    }
    
    private void Start()
@@ -59,10 +64,12 @@ public class IsoPlayerController : MonoBehaviour
 
    private void OnLightAttack(InputValue value)
    {
-      Debug.Log(value.Get<Vector2>());
-      attackVal = value.Get<Vector2>();
-      Debug.Log("Light Attack");
-      triggerAttack();
+      var newVal = value.Get<Vector2>();
+      if (!newVal.Equals(Vector2.zero) && canAttack)
+      {
+         attackVal = newVal;
+         StartCoroutine(triggerAttack());
+      }
    }
 
    private void OnHeavyAttack(InputValue value)
@@ -98,15 +105,19 @@ public class IsoPlayerController : MonoBehaviour
    
    public void SetGroundedState(bool _grounded, float _y)
    {
-      Debug.Log("SetGroundedState: " + _grounded);
       currentFloorY = _y;
       grounded = _grounded;
    }
 
-   private void triggerAttack()
+   private IEnumerator triggerAttack()
    {
+      canAttack = false;
       Vector3 directionVector3 = weapon.transform.position + new Vector3(attackVal.x, 0, attackVal.y);
       weapon.transform.rotation = Quaternion.LookRotation(new Vector3(attackVal.x, 0, attackVal.y), Vector3.up);
+      weapon.GetComponent<WeaponHandler>().TriggerWeapon();
+      SoundyManager.Play(audioClip: attackSound , pitch: Random.Range(0.9f, 1.1f));
+      yield return new WaitForSeconds(0.5f);
+      canAttack = true;
    }
    
 
