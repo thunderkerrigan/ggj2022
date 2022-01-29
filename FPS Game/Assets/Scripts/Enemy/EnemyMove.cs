@@ -20,6 +20,7 @@ public class EnemyMove : MonoBehaviourPunCallbacks
     private Garden destinationGarden;
 
     private NavMeshAgent navMeshAgent;
+    private NavMeshObstacle navMeshObstacle;
 
     private bool stop = false;
 
@@ -29,6 +30,8 @@ public class EnemyMove : MonoBehaviourPunCallbacks
     {
         navMeshAgent = this.GetComponent<NavMeshAgent>();
         navMeshAgent.speed = this.speed;
+
+        navMeshObstacle = this.GetComponent<NavMeshObstacle>();
 
         if (this.PView == null)
         {
@@ -90,7 +93,11 @@ public class EnemyMove : MonoBehaviourPunCallbacks
         if (stop == false) {
             FindClosestDestination();
         } else {
-            navMeshAgent.SetDestination(this.transform.position);
+            navMeshAgent.enabled = false;
+            //navMeshAgent.SetDestination(this.transform.position);
+
+            navMeshObstacle.enabled = true;
+
         }
         
     }
