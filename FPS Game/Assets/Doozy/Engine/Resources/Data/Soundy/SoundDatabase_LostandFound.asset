@@ -114,6 +114,35 @@ MonoBehaviour:
   Sounds:
   - AudioClip: {fileID: 8300000, guid: da51f53d1c3337e4a8894a76d92961c3, type: 3}
     Weight: 1
+--- !u!114 &-3315093229310492213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f6c631d933489d4ca7328a2a5983e10, type: 3}
+  m_Name: Test_3
+  m_EditorClassIdentifier: 
+  DatabaseName: LostandFound
+  SoundName: Test_3
+  IgnoreListenerPause: 1
+  Volume:
+    MinValue: 0
+    MaxValue: 0
+  Pitch:
+    MinValue: 0
+    MaxValue: 0
+  SpatialBlend: 0
+  Loop: 1
+  Mode: 0
+  ResetSequenceAfterInactiveTime: 0
+  SequenceResetTime: 5
+  Sounds:
+  - AudioClip: {fileID: 8300000, guid: ebb729f3dcfe00d4eb581e724b75f5b3, type: 3}
+    Weight: 1
 --- !u!114 &-2017939246779996079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,9 +194,11 @@ MonoBehaviour:
   - mouseclick
   - mouseover
   - No Sound
+  - Test_3
   Database:
   - {fileID: -7784433827861168943}
   - {fileID: -9119004949347912564}
   - {fileID: -2017939246779996079}
   - {fileID: -6077076736401666210}
   - {fileID: -9158073032631324593}
+  - {fileID: -3315093229310492213}
