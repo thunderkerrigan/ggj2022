@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b087f8bb181f564dbb45a8581318c7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PV: {fileID: 3489501739415512494}
   moveVal: {x: 0, y: 0}
   moveSpeed: 15
   dashSpeed: 12
@@ -300,7 +301,8 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 0
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
