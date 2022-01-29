@@ -29,4 +29,15 @@ public class WeaponDropItem: MonoBehaviourPunCallbacks
 	public int audioClipIndex = -1;
 	//public abstract override float Use();
 	public WeaponType type = WeaponType.Rateau;
+
+	private Spawnpoint spawnpoint;
+
+	void setSpawnpoint(Spawnpoint spawnpoint) {
+		this.spawnpoint = spawnpoint;
+		spawnpoint.setBusy(true);
+	}
+
+	private void OnDestroy() {
+		spawnpoint.setBusy(false);
+	}
 }
