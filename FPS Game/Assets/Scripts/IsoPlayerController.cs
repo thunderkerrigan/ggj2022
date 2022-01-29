@@ -24,15 +24,18 @@ public class IsoPlayerController : MonoBehaviour
    
    private void Start()
    {
-      if (PV.IsMine)
+      if (PhotonNetwork.IsConnected)
       {
+         if ( PV.IsMine)
+         {
 // TODO
-      }
-      else
-      {
-         Destroy(GetComponentInChildren<Camera>().gameObject);
-         Destroy(rb);
-         Destroy(GetComponent<AudioListener>());
+         }
+         else
+         {
+            Destroy(GetComponentInChildren<Camera>().gameObject);
+            Destroy(rb);
+            Destroy(GetComponent<AudioListener>());
+         }
       }
    }
    
