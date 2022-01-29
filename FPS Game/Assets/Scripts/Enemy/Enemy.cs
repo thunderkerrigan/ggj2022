@@ -9,8 +9,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-
-public class EnemyMove : MonoBehaviourPunCallbacks
+public class Enemy : MonoBehaviourPunCallbacks
 {
 
     [Tooltip("Aribitrary value for enemy speed")]
@@ -105,7 +104,7 @@ public class EnemyMove : MonoBehaviourPunCallbacks
     private void OnTriggerEnter(Collider other) {
         Debug.Log("TRIGGER ENTER " + other.transform.root.gameObject.GetType());
         var garden = other.transform.root.gameObject.GetComponent<Garden>();
-        if (garden != null && garden.isAlive() == true) {
+        if (garden != null && garden.isAlive() == true && garden == this.destinationGarden) {
             Debug.Log("ET C EST PARTI!");
             stop = true;
         }
