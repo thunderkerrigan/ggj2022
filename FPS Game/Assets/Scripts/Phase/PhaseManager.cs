@@ -33,7 +33,7 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
     }
 
     private void Update() {
-        if (this.currentPhase.hasTimer()) {
+        if (this.currentPhase.hasTimer() && this.timer.isTimerFinished()) {
             Debug.Log("TIMER FINISHED");
             // SWITCH TO PHASE 2
             if (currentPhase.identifier == "PHASE_1") {
