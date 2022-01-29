@@ -20,7 +20,25 @@ public class IsoPlayerController : MonoBehaviour
       rb = GetComponent<Rigidbody>();
    }
    
-   private void Update()
+   private void Start()
+   {
+      if (PhotonNetwork.IsConnected)
+      {
+         if ( PV.IsMine)
+         {
+// TODO
+         }
+         else
+         {
+            Destroy(GetComponentInChildren<Camera>().gameObject);
+            Destroy(rb);
+            Destroy(GetComponent<AudioListener>());
+         }
+      }
+      
+   }
+   
+   private void FixedUpdate()
    {
       transform.Translate(new Vector3(moveVal.x, 0, moveVal.y) * moveSpeed * Time.deltaTime);
    }
