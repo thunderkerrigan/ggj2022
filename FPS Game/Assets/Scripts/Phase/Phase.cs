@@ -3,6 +3,10 @@ using System.IO;
 using Photon.Pun;
 using UnityEngine;
 
+// enum PhaseId {
+//     PHASE_1,
+//     PHASE_2
+// }
 
 public class Phase : MonoBehaviour
 {

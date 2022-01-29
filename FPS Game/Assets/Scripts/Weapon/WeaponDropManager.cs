@@ -8,7 +8,6 @@ using TMPro;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-
 public class WeaponDropManager: MonoBehaviourPunCallbacks
 {
     public static WeaponDropManager Instance;
