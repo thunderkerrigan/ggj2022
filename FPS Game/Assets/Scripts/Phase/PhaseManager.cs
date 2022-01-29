@@ -17,20 +17,6 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
             Debug.LogError("No enemySpawnManager");
         }
 
-
-    }
-    
-
-    IEnumerator SpawnEnemy()
-    {
-        yield return new WaitForSeconds(this.attackCooldown);
-
-        if (this.isAlive == false) { StopCoroutine(Attack()); yield break; }
-        if (this.mode != EnemyMode.Attack) { StopCoroutine(Attack()); yield break; }
-
-        this.Attack(garden: this.destinationGarden);
-
-        StartCoroutine(Attack());
-    }
-    
+        enemySpawnManager.startSpawn();
+    }    
 }

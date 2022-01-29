@@ -135,6 +135,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1662423848488620132, guid: f8b101a21414b40a3998e197efaca5ea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1662423848488620137, guid: f8b101a21414b40a3998e197efaca5ea,
         type: 3}
       propertyPath: m_RootOrder
@@ -480,6 +485,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1662423848488620132, guid: f8b101a21414b40a3998e197efaca5ea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1662423848488620137, guid: f8b101a21414b40a3998e197efaca5ea,
         type: 3}
       propertyPath: m_RootOrder
@@ -551,6 +561,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 988683706}
+  - component: {fileID: 988683707}
   m_Layer: 0
   m_Name: PhaseManager
   m_TagString: Untagged
@@ -572,6 +583,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &988683707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988683705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5803d6a05b9f74400a8c21c1ca2dc703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPhase: {fileID: 142743667756032120, guid: 0cb620f705e8d4be18cf900547d27a8b,
+    type: 3}
 --- !u!1 &1026312656
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,6 +643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1311b0c851a74fe6b5dbc440da63cd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnCooldown: 2
 --- !u!1 &1109896491
 GameObject:
   m_ObjectHideFlags: 0
@@ -893,6 +919,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1662423848488620132, guid: f8b101a21414b40a3998e197efaca5ea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1662423848488620133, guid: f8b101a21414b40a3998e197efaca5ea,
         type: 3}

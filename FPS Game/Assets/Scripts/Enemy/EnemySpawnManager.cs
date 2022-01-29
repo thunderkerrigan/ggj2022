@@ -13,29 +13,45 @@ public class EnemySpawnManager: MonoBehaviourPunCallbacks
 {
     public static EnemySpawnManager Instance;
 
-    List<Spawnpoint> _spawnpoints;
+    public float spawnCooldown;
+
+    private List<Spawnpoint> spawnpoints;
 
     void Awake()
     {
         Instance = this;
-        _spawnpoints = GetComponentsInChildren<Spawnpoint>().OrderBy(x => Random.value).ToList();
+        spawnpoints = GetComponentsInChildren<Spawnpoint>().OrderBy(x => Random.value).ToList();
     }
 
     private Transform GetSpawnpoint(int index)
     {
-        return _spawnpoints[index].transform;
+        return spawnpoints[index].transform;
     }
 
-    public void spawn()
+    public void startSpawn()
     {
-        foreach (var player in PhotonNetwork.PlayerList)
-        {
-            var index = PhotonNetwork.PlayerList.ToList().IndexOf(player);
-            var spawnpoint = GetSpawnpoint(index);
-            var doudou = PhotonNetwork.Instantiate(
-                Path.Combine("TeddyBears", "Prefabs", "Bear_" + index),
-                spawnpoint.position, spawnpoint.rotation);
-            doudou.GetPhotonView().TransferOwnership(player);
-        }
+        this.enabled = true;
+        StartCoroutine(SpawnEnemy());
+    }
+
+    public void stopSpawn() {
+        StopCoroutine(SpawnEnemy());
+        this.enabled = false;
+    }     
+
+    IEnumerator SpawnEnemy()
+    {
+        yield return new WaitForSeconds(this.spawnCooldown);
+
+        if (this.enabled == false) { StopCoroutine(SpawnEnemy()); yield break; }
+
+        // SPAWN LOGIC
+        var spawnpoint = spawnpoints[Random.Range(0, spawnpoints.Count-1)];
+        
+        var enemy = Instantiate(Resources.Load("Prefabs/Enemy_Base"), spawnpoint.transform.position, spawnpoint.transform.rotation);
+       // var enemy = PhotonNetwork.Instantiate("Enemy_Base", spawnpoint.transform.position, spawnpoint.transform.rotation);
+        Debug.Log("SPAWN");
+
+        StartCoroutine(SpawnEnemy());
     }
 }
