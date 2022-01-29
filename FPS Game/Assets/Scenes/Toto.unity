@@ -190,11 +190,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1662423848488620142, guid: f8b101a21414b40a3998e197efaca5ea,
-        type: 3}
-      propertyPath: speed
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1662423848488620143, guid: f8b101a21414b40a3998e197efaca5ea,
         type: 3}
       propertyPath: viewIdField
@@ -665,6 +660,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07b4590841bb143629e55cf9c8cbebbc, type: 3}
+--- !u!1 &2073549330 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2938559359918171896, guid: 07b4590841bb143629e55cf9c8cbebbc,
+    type: 3}
+  m_PrefabInstance: {fileID: 2938559360150208630}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &2073549332
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073549330}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &1662423849853713426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -747,11 +762,15 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 137901175, guid: 07b4590841bb143629e55cf9c8cbebbc, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.04
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 137901175, guid: 07b4590841bb143629e55cf9c8cbebbc, type: 3}
-      propertyPath: m_LocalScale.z
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 137901176, guid: 07b4590841bb143629e55cf9c8cbebbc, type: 3}
+      propertyPath: m_Direction
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2938559361228262986, guid: 07b4590841bb143629e55cf9c8cbebbc,
@@ -814,5 +833,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Garden (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5465462038450146466, guid: 07b4590841bb143629e55cf9c8cbebbc,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5465462038450146466, guid: 07b4590841bb143629e55cf9c8cbebbc,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5465462038450146466, guid: 07b4590841bb143629e55cf9c8cbebbc,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 137901176, guid: 07b4590841bb143629e55cf9c8cbebbc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 07b4590841bb143629e55cf9c8cbebbc, type: 3}
