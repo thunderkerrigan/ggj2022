@@ -16,21 +16,12 @@
                 },
                 {
                     "name": "Light Attack",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "4bca5b97-e0b6-4c45-95f1-7db6a7a5fe5f",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Quaternion",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Heavy Attack",
-                    "type": "Button",
-                    "id": "f24e8029-8518-4b63-ad8c-155eafd02eba",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Dash",
@@ -121,51 +112,128 @@
                 {
                     "name": "",
                     "id": "6f964da3-bbff-4042-bfc8-f1c205182ddc",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Default",
+                    "action": "Light Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Keyboard",
+                    "id": "a5c92050-437a-4edb-a967-74a181d1c387",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Light Attack",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "2a75bc96-547e-4acb-81e7-769ba4fc3410",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Light Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "0610a319-e115-4cc8-97c6-7bc30a6fd581",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Light Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "adb2b718-b7b7-4b97-8a29-997b7f8a624d",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Light Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "15146047-8d13-4323-abe3-1860e93f11d2",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Light Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "gamepad",
+                    "id": "f273b794-4ad2-4bf1-9721-34aa4fd03c2d",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Light Attack",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "e12b94e0-986d-4622-8fc5-3d0507cd2c87",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Default",
+                    "action": "Light Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "b3bb1eaa-800d-4c29-93fe-4841ac7a7402",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Default",
                     "action": "Light Attack",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "ac4a0c6e-1309-419a-beec-960f61cc3a96",
-                    "path": "<Keyboard>/v",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Light Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d8e0058a-7adc-468d-a4db-26b9c07e4362",
-                    "path": "<Gamepad>/buttonNorth",
+                    "name": "left",
+                    "id": "39f651b9-18b4-43f8-96b7-7c2eff0e8871",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Default",
-                    "action": "Heavy Attack",
+                    "action": "Light Attack",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "fefd9cc1-b7bf-41b7-9d60-6629fb30d6d5",
-                    "path": "<Keyboard>/b",
+                    "name": "right",
+                    "id": "f7f04d7a-1029-44e8-ad49-8528615b9ee3",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Heavy Attack",
+                    "groups": "Default",
+                    "action": "Light Attack",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
                     "id": "ba75a9cc-9550-4a86-91de-617878336ec4",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Default",
@@ -176,7 +244,7 @@
                 {
                     "name": "",
                     "id": "97a6bf4c-178f-46b5-90fc-da2d37985c66",
-                    "path": "<Keyboard>/n",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
