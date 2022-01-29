@@ -106,19 +106,8 @@ public class IsoPlayerController : MonoBehaviour
    private void triggerAttack()
    {
       Vector3 directionVector3 = weapon.transform.position + new Vector3(attackVal.x, 0, attackVal.y);
-      
-      Debug.Log("directionVector3: " + directionVector3);
-      Debug.Log("Attack val : " + attackVal);
-      Debug.Log("transform val : " + weapon.transform.position);
-
       weapon.transform.rotation = Quaternion.LookRotation(new Vector3(attackVal.x, 0, attackVal.y), Vector3.up);
    }
    
-   IEnumerator DashCooldown()
-   {
-      canDash = false;
-      yield return new WaitForSeconds(dashCooldownTimer);
-      yield return new WaitForSeconds(0.2f);
-      canDash = true;
-   }
+
 }
