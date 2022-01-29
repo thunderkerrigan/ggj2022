@@ -18,7 +18,7 @@ public class Garden: MonoBehaviour
         return (hitPoints > 0);
     }
 
-    public void Attack(int damage) {
+    public void TakeDamage(int damage) {
         this.hitPoints -= damage;
     }
 }

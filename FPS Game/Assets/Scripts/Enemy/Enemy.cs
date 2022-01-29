@@ -13,7 +13,7 @@ enum EnemyMode {
     Move,
     Attack
 }
-public class Enemy : MonoBehaviourPunCallbacks
+public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 {
 
     [Tooltip("Aribitrary value for enemy speed")]
@@ -99,19 +99,14 @@ public class Enemy : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        // if (PView.IsMine == false) { return; }
         if (this.mode == EnemyMode.Move) {
             FindClosestDestination();
-        } else {
-            // TODO: this should be done only once
-          //  Attack(this.destinationGarden);
         }
-        
     }
 
     private void Attack(Garden garden) {
         Debug.Log("ATTACK!");
-        garden.Attack(damage: this.damage);
+        garden.TakeDamage(damage: this.damage);
 
         if (garden.isAlive() == false) {
             this.mode = EnemyMode.Move;
@@ -135,7 +130,6 @@ public class Enemy : MonoBehaviourPunCallbacks
         Debug.Log("TRIGGER ENTER " + other.transform.root.gameObject.GetType());
         var garden = other.transform.root.gameObject.GetComponent<Garden>();
         if (garden != null && garden.isAlive() == true && garden == this.destinationGarden) {
-            Debug.Log("ET C EST PARTI!");
             this.mode = EnemyMode.Attack;
             navMeshAgent.enabled = false;
             navMeshObstacle.enabled = true;
@@ -144,13 +138,10 @@ public class Enemy : MonoBehaviourPunCallbacks
         }
     }
 
-    /// <summary>
-    /// OnCollisionEnter is called when this collider/rigidbody has begun
-    /// touching another rigidbody/collider.
-    /// </summary>
-    /// <param name="other">The Collision data associated with this collision.</param>
-    void OnCollisionEnter(Collision other)
-    {
-        Debug.Log("COLLISION ENTER " + other.gameObject.name);
+    public void TakeDamage(float damage) {
+        this.isAlive = false;
+        StopCoroutine(Attack());
+        this.enabled = false;
+        Destroy(this, 0.2f);
     }
 }
