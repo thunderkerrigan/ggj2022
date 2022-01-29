@@ -113,7 +113,7 @@
                     "name": "",
                     "id": "6f964da3-bbff-4042-bfc8-f1c205182ddc",
                     "path": "<Gamepad>/rightStick",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "processors": "",
                     "groups": "Default",
                     "action": "Light Attack",
