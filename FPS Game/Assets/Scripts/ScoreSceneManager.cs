@@ -18,9 +18,13 @@ public class ScoreSceneManager : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.None;
         print("IsMasterClient" + PhotonNetwork.IsMasterClient);
 
-        PhotonNetwork.CurrentRoom.IsOpen = true;
-        PhotonNetwork.CurrentRoom.IsVisible = true;
-        restartButton.SetActive(PhotonNetwork.IsMasterClient);
+
+            if (!PhotonNetwork.OfflineMode)
+            {
+                PhotonNetwork.CurrentRoom.IsOpen = true;
+                PhotonNetwork.CurrentRoom.IsVisible = true;
+            } 
+            restartButton.SetActive(PhotonNetwork.IsMasterClient);
         var text = "Score\n\n";
 
         var i = 1 ;
@@ -32,17 +36,20 @@ public class ScoreSceneManager : MonoBehaviourPunCallbacks
 
         testMesh.text = text;
     }
-    
+
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         restartButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
-    public void restartGame()
+    private void RestartGame()
     {
-        PhotonNetwork.CurrentRoom.IsOpen = false;
-        PhotonNetwork.CurrentRoom.IsVisible = false;
-        PhotonNetwork.LoadLevel(1);
+        if (!PhotonNetwork.OfflineMode)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+        }
+        PhotonNetwork.LoadLevel(0);
     }
     
 }

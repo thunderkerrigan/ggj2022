@@ -21,6 +21,8 @@ public class Launcher : MonoBehaviourPunCallbacks {
     [SerializeField] GameObject startGameButton;
     [SerializeField] TMP_InputField playerNameInput;
 
+    private Coroutine startGame;
+
     void Awake() {
         Instance = this;
     }
@@ -42,7 +44,9 @@ public class Launcher : MonoBehaviourPunCallbacks {
         this.setPlayerNickName(false);
     }
 
-    public void CreateRoom() {
+    public void CreateRoom()
+    {
+        PhotonNetwork.OfflineMode = false;
         if (string.IsNullOrEmpty(roomNameInputField.text)) { return; }
 
         var roomOptions = new RoomOptions {MaxPlayers = 10};
@@ -51,6 +55,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
     }
 
     public override void OnJoinedRoom() {
+        PhotonNetwork.OfflineMode = false;
         this.setPlayerNickName(true);
         //MenuManager.Instance.OpenMenu("room");
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
@@ -82,6 +87,14 @@ public class Launcher : MonoBehaviourPunCallbacks {
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
         PhotonNetwork.LoadLevel(1);
+    }
+    public void StartLocalGame() { 
+      //  PhotonNetwork.CurrentRoom.IsOpen = false;
+      // PhotonNetwork.CurrentRoom.IsVisible = false;
+      if (startGame == null) {
+          startGame = StartCoroutine(StartLocalGameAsync());
+
+      }
     }
 
     public void LeaveRoom() {
@@ -168,5 +181,42 @@ public class Launcher : MonoBehaviourPunCallbacks {
 
         player.NickName = playerName;
         return playerName;
+    }
+    
+    IEnumerator Connect()
+
+    {
+
+        PhotonNetwork.ConnectUsingSettings();
+
+        while (!PhotonNetwork.IsConnected)
+
+        {
+
+            yield return null;
+
+        }
+
+        PhotonNetwork.OfflineMode = false;
+
+    }
+    
+    IEnumerator StartLocalGameAsync()
+
+    {
+
+        PhotonNetwork.Disconnect();
+
+        while (PhotonNetwork.IsConnected)
+
+        {
+
+            yield return null;
+
+        }
+
+        PhotonNetwork.OfflineMode = true;
+        PhotonNetwork.LoadLevel(2);
+
     }
 }
