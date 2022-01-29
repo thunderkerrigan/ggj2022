@@ -43,6 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8956806903015175818}
   - component: {fileID: 788269760330067769}
+  - component: {fileID: 644248830}
   m_Layer: 0
   m_Name: DropObject
   m_TagString: Untagged
@@ -80,6 +81,20 @@ MonoBehaviour:
   audioType: 
   audioClipIndex: -1
   type: 0
+--- !u!136 &644248830
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127151739797057059}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1.09
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3791548602501424753
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +186,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3053710409680419108}
-  - component: {fileID: 6002257148506482119}
   m_Layer: 0
   m_Name: PickUpZone
   m_TagString: Untagged
@@ -193,17 +207,3 @@ Transform:
   m_Father: {fileID: 3593521474369894849}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &6002257148506482119
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8484049543752216216}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 1.02
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
