@@ -651,12 +651,12 @@ PrefabInstance:
     - target: {fileID: 2938559361228262988, guid: 07b4590841bb143629e55cf9c8cbebbc,
         type: 3}
       propertyPath: m_Name
-      value: Garden (dead)
+      value: 'Garden '
       objectReference: {fileID: 0}
     - target: {fileID: 2938559361228262989, guid: 07b4590841bb143629e55cf9c8cbebbc,
         type: 3}
       propertyPath: hitPoints
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07b4590841bb143629e55cf9c8cbebbc, type: 3}
@@ -731,6 +731,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1662423848488620142, guid: f8b101a21414b40a3998e197efaca5ea,
+        type: 3}
+      propertyPath: damage
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1662423848488620143, guid: f8b101a21414b40a3998e197efaca5ea,
         type: 3}

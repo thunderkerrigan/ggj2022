@@ -9,11 +9,16 @@ using UnityEngine;
 using UnityEngine.AI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
+enum EnemyMode {
+    Move,
+    Attack
+}
 public class Enemy : MonoBehaviourPunCallbacks
 {
 
     [Tooltip("Aribitrary value for enemy speed")]
     [SerializeField] private int speed;
+    [SerializeField] private int damage;
 
     private Transform destinationPoint;
     private Garden destinationGarden;
@@ -22,6 +27,8 @@ public class Enemy : MonoBehaviourPunCallbacks
     private NavMeshObstacle navMeshObstacle;
 
     private bool stop = false;
+
+    private EnemyMode mode = EnemyMode.Move;
 
     private PhotonView PView;
 
@@ -58,7 +65,8 @@ public class Enemy : MonoBehaviourPunCallbacks
 
     private void FindClosestDestination()
     {
-        if (navMeshAgent.enabled == false) { return; }
+        navMeshAgent.enabled = true;
+        navMeshObstacle.enabled = false;
 
         Garden[] gardens = (Garden[])GameObject.FindObjectsOfType(typeof(Garden));
         Garden closestGarden = null;
@@ -89,16 +97,21 @@ public class Enemy : MonoBehaviourPunCallbacks
     private void Update()
     {
         // if (PView.IsMine == false) { return; }
-        if (stop == false) {
+        if (this.mode == EnemyMode.Move) {
             FindClosestDestination();
         } else {
-            navMeshAgent.enabled = false;
-            //navMeshAgent.SetDestination(this.transform.position);
-
-            navMeshObstacle.enabled = true;
-
+            // TODO: this should be done only once
+            Attack(this.destinationGarden);
         }
         
+    }
+
+    private void Attack(Garden garden) {
+        garden.Attack(damage: this.damage);
+
+        if (garden.isAlive() == false) {
+            this.mode = EnemyMode.Move;
+        }
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -106,7 +119,9 @@ public class Enemy : MonoBehaviourPunCallbacks
         var garden = other.transform.root.gameObject.GetComponent<Garden>();
         if (garden != null && garden.isAlive() == true && garden == this.destinationGarden) {
             Debug.Log("ET C EST PARTI!");
-            stop = true;
+            this.mode = EnemyMode.Attack;
+            navMeshAgent.enabled = false;
+            navMeshObstacle.enabled = true;
         }
     }
 

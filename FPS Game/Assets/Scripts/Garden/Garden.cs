@@ -17,4 +17,8 @@ public class Garden: MonoBehaviour
     public bool isAlive() {
         return (hitPoints > 0);
     }
+
+    public void Attack(int damage) {
+        this.hitPoints -= damage;
+    }
 }
