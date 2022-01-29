@@ -21,6 +21,8 @@ public class EnemyMove : MonoBehaviourPunCallbacks
 
     private NavMeshAgent navMeshAgent;
 
+    private bool stop = false;
+
     private PhotonView PView;
 
     private void Start()
@@ -54,6 +56,8 @@ public class EnemyMove : MonoBehaviourPunCallbacks
 
     private void FindClosestDestination()
     {
+        if (navMeshAgent.enabled == false) { return; }
+
         Garden[] gardens = (Garden[])GameObject.FindObjectsOfType(typeof(Garden));
         Garden closestGarden = null;
         float minDistance = 10000;
@@ -83,14 +87,20 @@ public class EnemyMove : MonoBehaviourPunCallbacks
     private void Update()
     {
         // if (PView.IsMine == false) { return; }
-
-        FindClosestDestination();
+        if (stop == false) {
+            FindClosestDestination();
+        } else {
+            navMeshAgent.SetDestination(this.transform.position);
+        }
+        
     }
 
     private void OnTriggerEnter(Collider other) {
         Debug.Log("TRIGGER ENTER " + other.transform.root.gameObject.GetType());
-        if (other.transform.root.gameObject.GetComponent<Garden>()) {
+        var garden = other.transform.root.gameObject.GetComponent<Garden>();
+        if (garden != null && garden.isAlive() == true) {
             Debug.Log("ET C EST PARTI!");
+            stop = true;
         }
     }
 
