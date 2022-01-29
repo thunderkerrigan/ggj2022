@@ -292,8 +292,46 @@ AnimationClip:
       m_RotationOrder: 4
     path: hero1_face_angry_front
   m_ScaleCurves: []
-  m_FloatCurves: []
-  m_PPtrCurves: []
+  m_FloatCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: hero1_face_angry_front
+    classID: 212
+    script: {fileID: 0}
+  m_PPtrCurves:
+  - curve:
+    - time: 0
+      value: {fileID: -8381674447002514930, guid: fafba1354cd884ecc9838f821c5abc62,
+        type: 3}
+    - time: 1
+      value: {fileID: -8381674447002514930, guid: fafba1354cd884ecc9838f821c5abc62,
+        type: 3}
+    attribute: m_Sprite
+    path: hero1_body_back1
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0
+      value: {fileID: 4008588775485439327, guid: faed16392c05641f7ac8d2284d37cd47,
+        type: 3}
+    attribute: m_Sprite
+    path: hero1_head_back
+    classID: 212
+    script: {fileID: 0}
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -343,13 +381,37 @@ AnimationClip:
       typeID: 4
       customType: 4
       isPPtrCurve: 0
-    pptrCurveMapping: []
+    - serializedVersion: 2
+      path: 2296689691
+      attribute: 3305885265
+      script: {fileID: 0}
+      typeID: 212
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 3933724984
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 1146280231
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    pptrCurveMapping:
+    - {fileID: -8381674447002514930, guid: fafba1354cd884ecc9838f821c5abc62, type: 3}
+    - {fileID: -8381674447002514930, guid: fafba1354cd884ecc9838f821c5abc62, type: 3}
+    - {fileID: 4008588775485439327, guid: faed16392c05641f7ac8d2284d37cd47, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1
+    m_StopTime: 1.0166667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -1246,6 +1308,25 @@ AnimationClip:
     attribute: localEulerAnglesRaw.z
     path: hero1_face_angry_front
     classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: hero1_face_angry_front
+    classID: 212
     script: {fileID: 0}
   m_EulerEditorCurves:
   - curve:
