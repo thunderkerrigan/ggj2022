@@ -57,6 +57,8 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
         } else {
             timer.stop();
         }
+
+        // TODO: enable PVP
     }
 
     private void killAllEnemies() {
