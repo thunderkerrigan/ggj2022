@@ -7,6 +7,7 @@ using UnityEngine;
 public class PhaseManager : MonoBehaviourPunCallbacks {
 
     private EnemySpawnManager enemySpawnManager;
+    private WeaponDropManager weaponDropManager;
 
     [SerializeField] private Phase currentPhase;
 
@@ -16,6 +17,11 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
         enemySpawnManager = GameObject.FindObjectOfType<EnemySpawnManager>();
         if (enemySpawnManager == null) {
             Debug.LogError("No enemySpawnManager");
+        }
+
+        weaponDropManager = GameObject.FindObjectOfType<WeaponDropManager>();
+        if (weaponDropManager == null) {
+            Debug.LogError("No weaponDropManager");
         }
 
         if (currentPhase == null) {
@@ -30,6 +36,9 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
         }
 
         this.newPhaseStarted();
+
+        // Start to drop weapons directly
+        weaponDropManager.startSpawn();
     }
 
     private void Update() {

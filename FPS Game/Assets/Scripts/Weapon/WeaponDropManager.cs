@@ -43,6 +43,8 @@ public class WeaponDropManager : MonoBehaviourPunCallbacks
     }
 
 
+    // TODO: we want a max weapon spawned
+
     IEnumerator SpawnWeapon()
     {
         yield return new WaitForSeconds(this.spawnCooldown);
@@ -63,7 +65,8 @@ public class WeaponDropManager : MonoBehaviourPunCallbacks
 
         WeaponType weaponType = (WeaponType) weaponTypes.GetValue(UnityEngine.Random.Range(0, weaponTypes.Length-1));
         var prefabPath = WeaponTypePrefabProvider.prefabPath(weaponType);
-        var weapon = (WeaponDropItem) Instantiate(Resources.Load(prefabPath), spawnpoint.transform.position, spawnpoint.transform.rotation);
+        var weaponGameObject = (GameObject) Instantiate(Resources.Load(prefabPath), spawnpoint.transform.position, spawnpoint.transform.rotation);
+        var weapon = weaponGameObject.GetComponentInChildren<WeaponDropItem>();
         weapon.setSpawnpoint(spawnpoint: spawnpoint);
         // TODO: Photon
         // var enemy = PhotonNetwork.Instantiate("Prefabs/Enemy_Base", spawnpoint.transform.position, spawnpoint.transform.rotation);
