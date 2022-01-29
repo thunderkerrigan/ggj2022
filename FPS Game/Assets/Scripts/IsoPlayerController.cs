@@ -41,8 +41,9 @@ public class IsoPlayerController : MonoBehaviour
    
    private void FixedUpdate()
    {
-      if (!PV.IsMine)
+      if (PhotonNetwork.IsConnected && !PV.IsMine)
          return;
+      
       rb.velocity = new Vector3(moveVal.x, 0, moveVal.y) * moveSpeed;
       //transform.Translate(new Vector3(moveVal.x, 0, moveVal.y) * moveSpeed * Time.deltaTime);
    }
@@ -56,6 +57,7 @@ public class IsoPlayerController : MonoBehaviour
 
    private void OnLightAttack(InputValue value)
    {
+      Debug.Log(moveVal);
       Debug.Log("Light Attack");
    }
 
