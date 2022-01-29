@@ -66,7 +66,7 @@ public class EndZoneManager : MonoBehaviourPunCallbacks
 
         if (everyOneIsArrived)
         {
-            PhotonNetwork.LoadLevel(2);
+            PhotonNetwork.LoadLevel(3);
         }
     }
 }
