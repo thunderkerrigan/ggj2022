@@ -216,7 +216,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
         }
 
         PhotonNetwork.OfflineMode = true;
-        PhotonNetwork.LoadLevel(2);
+        PhotonNetwork.LoadLevel(3);
 
     }
 }

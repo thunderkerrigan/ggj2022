@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,28 +10,38 @@ using UnityEngine.InputSystem;
 public delegate void TimerUpdateHandler(float value);
 public class LocalGameManager : MonoBehaviour
 {
-    
+    public PhotonView PV;
     public event TimerUpdateHandler OnTimerUpdate;
     private PlayerInputManager playerInputManager;
     
     public int gameDuration = 60;
     // Start is called before the first frame update
     void Awake()
-    {
-        StartCoroutine(Cooldown());
+    {    
+        Debug.Log("Awake player ");
         playerInputManager = GetComponent<PlayerInputManager>();
-        playerInputManager.JoinPlayer(splitScreenIndex: 0);
+        Debug.Log(PhotonNetwork.PlayerList.ToList().Count);
         if (PhotonNetwork.OfflineMode)
         {
             Debug.Log("Offline mode; 2 players!");
-            playerInputManager.JoinPlayer(splitScreenIndex:1);
+            playerInputManager.JoinPlayer();
+            playerInputManager.JoinPlayer();
         }
-    }
+        else if (PV.IsMine)
+        {
+            
+            var index = PhotonNetwork.PlayerList.ToList().IndexOf(PhotonNetwork.LocalPlayer);
+            Debug.Log("spawning player " + index);
+            var spawnPoint = SpawnManager.Instance.GetSpawnpoint(index);
+            Debug.Log("spawning player at " + spawnPoint.position);
+            PhotonNetwork.Instantiate(Path.Combine("Prefabs", "Player"),  spawnPoint.position,
+                spawnPoint.rotation, 0, new object[] {PV.ViewID, index});
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(Cooldown());
+        }
     }
 
     private IEnumerator Cooldown()

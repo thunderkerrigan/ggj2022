@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
@@ -39,7 +40,8 @@ public class IsoPlayerController : MonoBehaviour
    {
       if (!PV.IsMine)
          return;
-      transform.Translate(new Vector3(moveVal.x, 0, moveVal.y) * moveSpeed * Time.deltaTime);
+      rb.velocity = new Vector3(moveVal.x, 0, moveVal.y) * moveSpeed;
+      //transform.Translate(new Vector3(moveVal.x, 0, moveVal.y) * moveSpeed * Time.deltaTime);
    }
 
    
