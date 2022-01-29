@@ -10,7 +10,9 @@ using Random = UnityEngine.Random;
 public class IsoPlayerController : MonoBehaviour
 {
    public PhotonView PV;
+   public GameObject weapon;
    public Vector2 moveVal;
+   public Vector2 attackVal;
    public float moveSpeed, dashSpeed, dashCooldownTimer;
    bool grounded, canDash = true;
    private float currentFloorY = -1;
@@ -57,8 +59,10 @@ public class IsoPlayerController : MonoBehaviour
 
    private void OnLightAttack(InputValue value)
    {
-      Debug.Log(moveVal);
+      Debug.Log(value.Get<Vector2>());
+      attackVal = value.Get<Vector2>();
       Debug.Log("Light Attack");
+      triggerAttack();
    }
 
    private void OnHeavyAttack(InputValue value)
@@ -86,9 +90,8 @@ public class IsoPlayerController : MonoBehaviour
 
    private void OnJoin(InputValue value)
    {
-      transform.position = new Vector3(Random.Range(-75, 75), 0.5f, Random.Range(-75, 75));
       var spawnManager = GameObject.Find("PlayerSpawnManager").GetComponent<SpawnManager>();
-      spawnManager.GetSpawnpoint(0);
+      transform.position = spawnManager.GetSpawnpoint(0).position;
    }
    
    // CUSTOM FUNCTION
@@ -98,5 +101,24 @@ public class IsoPlayerController : MonoBehaviour
       Debug.Log("SetGroundedState: " + _grounded);
       currentFloorY = _y;
       grounded = _grounded;
+   }
+
+   private void triggerAttack()
+   {
+      Vector3 directionVector3 = weapon.transform.position + new Vector3(attackVal.x, 0, attackVal.y);
+      
+      Debug.Log("directionVector3: " + directionVector3);
+      Debug.Log("Attack val : " + attackVal);
+      Debug.Log("transform val : " + weapon.transform.position);
+
+      weapon.transform.rotation = Quaternion.LookRotation(new Vector3(attackVal.x, 0, attackVal.y), Vector3.up);
+   }
+   
+   IEnumerator DashCooldown()
+   {
+      canDash = false;
+      yield return new WaitForSeconds(dashCooldownTimer);
+      yield return new WaitForSeconds(0.2f);
+      canDash = true;
    }
 }
