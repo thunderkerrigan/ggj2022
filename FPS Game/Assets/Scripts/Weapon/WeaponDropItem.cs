@@ -40,4 +40,12 @@ public class WeaponDropItem: MonoBehaviourPunCallbacks
 	private void OnDestroy() {
 		spawnpoint.setBusy(false);
 	}
+
+	private void OnTriggerEnter(Collider other) {
+		if (other.gameObject.tag == "Player") {
+			// TODO: the player cannot pickup if he already has a weapon
+			// TODO: Give weapon to player
+			GameObject.Destroy(this.gameObject);
+		}
+	}
 }
