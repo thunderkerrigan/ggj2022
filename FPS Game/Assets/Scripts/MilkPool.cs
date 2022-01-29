@@ -52,7 +52,7 @@ namespace DefaultNamespace
      
                 if (other.gameObject.tag == "Player" || other.gameObject.tag == "ThrowingWeapon")
                 {
-                    other.gameObject.GetComponent<IDamageable>()?.GetStunned(3);
+                    //other.gameObject.GetComponent<IDamageable>()?.GetStunned(3);
 
                     if(other.gameObject.GetComponent<IDamageable>() != null) {
                         var targetPlayerController =  other.gameObject.GetComponent<PlayerController>();

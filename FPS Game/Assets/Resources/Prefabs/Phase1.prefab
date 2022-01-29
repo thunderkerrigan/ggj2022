@@ -44,5 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTimer: 180
+  _shouldSpawnEnemies: 1
   pvpEnabled: 0
   identifier: PHASE_1

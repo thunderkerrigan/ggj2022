@@ -9,6 +9,8 @@ public class Phase : MonoBehaviour
     [Tooltip("Duration of the timer for the phase. -1 = No timer")]
     [SerializeField] private int maxTimer;
 
+    [SerializeField] private bool _shouldSpawnEnemies;
+
     // [Tooltip("Max amount of enemies on the field. -1 = no limit")]
     // [SerializeField] private int maxEnemySpawnedCount;
 
@@ -21,4 +23,8 @@ public class Phase : MonoBehaviour
 
     [Tooltip("Identifier of the scene, DO NOT CHANGE ONCE SET")]
     public string identifier;
+
+    public bool ShouldSpawnEnemies() {
+        return _shouldSpawnEnemies;
+    }
 }
