@@ -4,7 +4,6 @@ using Photon.Pun;
 using UnityEngine;
 
 
-
 public class PhaseManager : MonoBehaviourPunCallbacks {
 
     private EnemySpawnManager enemySpawnManager;
@@ -23,11 +22,27 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
             currentPhase = prefab.GetComponent<Phase>();
         }
 
+        this.newPhaseStarted();
+       
+    }    
+
+    private void newPhaseStarted() {
         if (currentPhase.ShouldSpawnEnemies() == true) {
              enemySpawnManager.startSpawn();
         } else {
             enemySpawnManager.stopSpawn();
+            this.killAllEnemies();
         }
-       
-    }    
+
+        if (currentPhase.MaxTimer() > 0) {
+
+        }
+    }
+
+    private void killAllEnemies() {
+        var enemies = GetComponents<Enemy>();
+        foreach (Enemy enemy in enemies) {
+            enemy.TakeDamage(1000f);
+        }
+    }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 public class Phase : MonoBehaviour
 {
     [Tooltip("Duration of the timer for the phase. -1 = No timer")]
-    [SerializeField] private int maxTimer;
+    [SerializeField] private int _maxTimer;
 
     [SerializeField] private bool _shouldSpawnEnemies;
 
@@ -26,5 +26,9 @@ public class Phase : MonoBehaviour
 
     public bool ShouldSpawnEnemies() {
         return _shouldSpawnEnemies;
+    }
+
+    public int MaxTimer() {
+        return _maxTimer;
     }
 }
