@@ -20,13 +20,16 @@ public class Enemy : MonoBehaviourPunCallbacks
     [SerializeField] private int speed;
     [SerializeField] private int damage;
 
+    [Tooltip("Attack cooldown in seconds")]
+    [SerializeField] private float attackCooldown;
+
     private Transform destinationPoint;
     private Garden destinationGarden;
 
     private NavMeshAgent navMeshAgent;
     private NavMeshObstacle navMeshObstacle;
 
-    private bool stop = false;
+    private bool isAlive = true;
 
     private EnemyMode mode = EnemyMode.Move;
 
@@ -101,17 +104,31 @@ public class Enemy : MonoBehaviourPunCallbacks
             FindClosestDestination();
         } else {
             // TODO: this should be done only once
-            Attack(this.destinationGarden);
+          //  Attack(this.destinationGarden);
         }
         
     }
 
     private void Attack(Garden garden) {
+        Debug.Log("ATTACK!");
         garden.Attack(damage: this.damage);
 
         if (garden.isAlive() == false) {
             this.mode = EnemyMode.Move;
         }
+    }
+
+    IEnumerator Attack()
+
+    {
+        yield return new WaitForSeconds(this.attackCooldown);
+
+        if (this.isAlive == false) { StopCoroutine(Attack()); yield break; }
+        if (this.mode != EnemyMode.Attack) { StopCoroutine(Attack()); yield break; }
+
+        this.Attack(garden: this.destinationGarden);
+
+        StartCoroutine(Attack());
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -122,6 +139,8 @@ public class Enemy : MonoBehaviourPunCallbacks
             this.mode = EnemyMode.Attack;
             navMeshAgent.enabled = false;
             navMeshObstacle.enabled = true;
+
+            StartCoroutine(Attack());
         }
     }
 
