@@ -14,7 +14,7 @@ public class EnemyMove : MonoBehaviourPunCallbacks
 {
 
     [Tooltip("Aribitrary value for enemy speed")]
-    [SerializeField] private int speed = 100;
+    [SerializeField] private int speed;
 
     private Transform destinationPoint;
     private Garden destinationGarden;
@@ -26,6 +26,7 @@ public class EnemyMove : MonoBehaviourPunCallbacks
     private void Start()
     {
         navMeshAgent = this.GetComponent<NavMeshAgent>();
+        navMeshAgent.speed = this.speed;
 
         if (this.PView == null)
         {
