@@ -10,7 +10,7 @@ public enum WeaponType {
 
 public class WeaponTypePrefabProvider {
 
-	static string prefabPath(WeaponType type) {
+	public static string prefabPath(WeaponType type) {
 		switch (type) {
 			case WeaponType.Rateau:
 				return "Prefabs/Drop_Rateau_TEST";
@@ -32,7 +32,7 @@ public class WeaponDropItem: MonoBehaviourPunCallbacks
 
 	private Spawnpoint spawnpoint;
 
-	void setSpawnpoint(Spawnpoint spawnpoint) {
+	public void setSpawnpoint(Spawnpoint spawnpoint) {
 		this.spawnpoint = spawnpoint;
 		spawnpoint.setBusy(true);
 	}

@@ -16,8 +16,7 @@ public class Spawnpoint : MonoBehaviour
 		return (this.isBusy == false);
 	}
 
-	void Awake()
-	{
+	void Awake() {
 		graphics.SetActive(false);
 	}
 }

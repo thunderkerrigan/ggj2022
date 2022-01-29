@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3245899831048613328}
   - component: {fileID: 1330305321073450997}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: DEBUG_Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,9 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 738779662041528421}
+  - {fileID: 7915487321762486830}
   m_Father: {fileID: 5451307403913823535}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -110,8 +112,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4055928614234672267}
-  - {fileID: 7915487321762486830}
-  - {fileID: 738779662041528421}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e155a89eaf18714db65487a1e34b85a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphics: {fileID: 0}
+  graphics: {fileID: 5023378496372440924}
 --- !u!1 &8390699702288707476
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,7 +158,7 @@ Transform:
   m_LocalPosition: {x: 0.147, y: -0.452, z: 0.47}
   m_LocalScale: {x: 0.9, y: 0.29999998, z: 0.59999996}
   m_Children: []
-  m_Father: {fileID: 5451307403913823535}
+  m_Father: {fileID: 4055928614234672267}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1102839687532430568
@@ -253,8 +253,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.54, z: 0.411}
   m_LocalScale: {x: 0.9, y: 0.29999998, z: 0.59999996}
   m_Children: []
-  m_Father: {fileID: 5451307403913823535}
-  m_RootOrder: 2
+  m_Father: {fileID: 4055928614234672267}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7107385976847821476
 MeshFilter:

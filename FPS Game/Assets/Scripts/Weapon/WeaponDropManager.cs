@@ -9,7 +9,7 @@ using TMPro;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class WeaponDropManager: MonoBehaviourPunCallbacks
+public class WeaponDropManager : MonoBehaviourPunCallbacks
 {
     public static WeaponDropManager Instance;
 
@@ -18,7 +18,7 @@ public class WeaponDropManager: MonoBehaviourPunCallbacks
     [SerializeField] private float spawnCooldown;
 
     private Array weaponTypes = Enum.GetValues(typeof(WeaponType));
-    
+
     void Awake()
     {
         Instance = this;
@@ -30,17 +30,20 @@ public class WeaponDropManager: MonoBehaviourPunCallbacks
         return spawnpoints[index].transform;
     }
 
-     public void startSpawn()
+    public void startSpawn()
     {
         this.enabled = true;
         StartCoroutine(SpawnWeapon());
     }
 
-    public void stopSpawn() {
+    public void stopSpawn()
+    {
         StopCoroutine(SpawnWeapon());
         this.enabled = false;
-    }     
+    }
 
+
+    // TODO: we want a max weapon spawned
 
     IEnumerator SpawnWeapon()
     {
@@ -49,14 +52,39 @@ public class WeaponDropManager: MonoBehaviourPunCallbacks
         if (this.enabled == false) { StopCoroutine(SpawnWeapon()); yield break; }
 
         // SPAWN LOGIC
-        var spawnpoint = spawnpoints[UnityEngine.Random.Range(0, spawnpoints.Count-1)];
-        
+
+
+        var shuffledSpawnpoints = Shuffle(spawnpoints: this.spawnpoints);
+
+        Spawnpoint spawnpoint = null;
+        foreach (Spawnpoint sp in shuffledSpawnpoints) {
+            if (sp.canSpawn() == false) { continue; }
+            
+            spawnpoint = sp;
+        }
+
+        WeaponType weaponType = (WeaponType) weaponTypes.GetValue(UnityEngine.Random.Range(0, weaponTypes.Length-1));
+        var prefabPath = WeaponTypePrefabProvider.prefabPath(weaponType);
+        var weaponGameObject = (GameObject) Instantiate(Resources.Load(prefabPath), spawnpoint.transform.position, spawnpoint.transform.rotation);
+        var weapon = weaponGameObject.GetComponentInChildren<WeaponDropItem>();
+        weapon.setSpawnpoint(spawnpoint: spawnpoint);
         // TODO: Photon
-        // TODO: we want to spawn something only on the spawners that are not "busy"
-        //var enemy = Instantiate(Resources.Load("Prefabs/Enemy_Base"), spawnpoint.transform.position, spawnpoint.transform.rotation);
-       // var enemy = PhotonNetwork.Instantiate("Prefabs/Enemy_Base", spawnpoint.transform.position, spawnpoint.transform.rotation);
+        // var enemy = PhotonNetwork.Instantiate("Prefabs/Enemy_Base", spawnpoint.transform.position, spawnpoint.transform.rotation);
         Debug.Log("SPAWN");
 
         StartCoroutine(SpawnWeapon());
     }
+
+    private List<Spawnpoint> Shuffle(List<Spawnpoint> spawnpoints) {
+        var shuffledSpawnpoints = spawnpoints;
+        for (int i = 0; i < shuffledSpawnpoints.Count - 1; i++)
+        {
+            int rnd = UnityEngine.Random.Range(i, shuffledSpawnpoints.Count);
+            var tempGO = shuffledSpawnpoints[rnd];
+            shuffledSpawnpoints[rnd] = shuffledSpawnpoints[i];
+            shuffledSpawnpoints[i] = tempGO;
+        }
+
+        return shuffledSpawnpoints;
+ }
 }
