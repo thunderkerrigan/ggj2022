@@ -4,22 +4,22 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 8162068800180624564
-    second: hero1_body_front1
+    second: hero1_body_0
   - first:
       213: 4892030131124653956
-    second: hero1_body_front2
+    second: hero1_body_1
   - first:
       213: -8381674447002514930
-    second: hero1_body_back1
+    second: hero1_body_2
   - first:
       213: -6751266268789099583
-    second: hero1_body_back2
+    second: hero1_body_3
   - first:
       213: -2855274997674776481
-    second: hero1_body_side1
+    second: hero1_body_4
   - first:
       213: -1539369332323398710
-    second: hero1_body_side2
+    second: hero1_body_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -121,7 +121,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hero1_body_front1
+      name: hero1_body_0
       rect:
         serializedVersion: 2
         x: 0
@@ -142,7 +142,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hero1_body_front2
+      name: hero1_body_1
       rect:
         serializedVersion: 2
         x: 256
@@ -163,7 +163,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hero1_body_back1
+      name: hero1_body_2
       rect:
         serializedVersion: 2
         x: 512
@@ -184,7 +184,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hero1_body_back2
+      name: hero1_body_3
       rect:
         serializedVersion: 2
         x: 768
@@ -205,7 +205,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hero1_body_side1
+      name: hero1_body_4
       rect:
         serializedVersion: 2
         x: 1024
@@ -226,7 +226,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hero1_body_side2
+      name: hero1_body_5
       rect:
         serializedVersion: 2
         x: 1280

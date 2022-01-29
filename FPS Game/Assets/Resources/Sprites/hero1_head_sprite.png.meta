@@ -4,13 +4,13 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 6985734648037178526
-    second: hero1_head_front
+    second: hero1_head_sprite_0
   - first:
       213: 4008588775485439327
-    second: hero1_head_back
+    second: hero1_head_sprite_1
   - first:
       213: 8245255134686711870
-    second: hero1_head_side
+    second: hero1_head_sprite_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -112,7 +112,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hero1_head_front
+      name: hero1_head_sprite_0
       rect:
         serializedVersion: 2
         x: 0
@@ -133,7 +133,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hero1_head_back
+      name: hero1_head_sprite_1
       rect:
         serializedVersion: 2
         x: 280
@@ -154,7 +154,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hero1_head_side
+      name: hero1_head_sprite_2
       rect:
         serializedVersion: 2
         x: 560

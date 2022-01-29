@@ -1,19 +1,25 @@
 fileFormatVersion: 2
-guid: b8a3ef9b8f1174920b85ae8c9ec40d70
+guid: eae4464f3f4604bc3b38b8642782bab5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8151570106274399851
-    second: hero1_face_sprite_0
+      213: 7895986486564443068
+    second: hero2_body 1_0
   - first:
-      213: -4296864380497709820
-    second: hero1_face_sprite_1
+      213: -3022037915014737167
+    second: hero2_body 1_1
   - first:
-      213: -1979734873217555487
-    second: hero1_face_sprite_2
+      213: -97885328957525515
+    second: hero2_body 1_2
   - first:
-      213: -1249378784815455788
-    second: hero1_face_sprite_3
+      213: 5396333259893984397
+    second: hero2_body 1_3
+  - first:
+      213: -8586888968784650795
+    second: hero2_body 1_4
+  - first:
+      213: -6487229705570916952
+    second: hero2_body 1_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -115,13 +121,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hero1_face_sprite_0
+      name: hero2_body 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 280
-        height: 280
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,20 +135,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b66cd22a2d1302170800000000000000
-      internalID: 8151570106274399851
+      spriteID: cb355f2ffdd249d60800000000000000
+      internalID: 7895986486564443068
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hero1_face_sprite_1
+      name: hero2_body 1_1
       rect:
         serializedVersion: 2
-        x: 280
+        x: 256
         y: 0
-        width: 280
-        height: 280
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 405b7689c987e54c0800000000000000
-      internalID: -4296864380497709820
+      spriteID: 1f2d8c917809f06d0800000000000000
+      internalID: -3022037915014737167
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hero1_face_sprite_2
+      name: hero2_body 1_2
       rect:
         serializedVersion: 2
-        x: 560
+        x: 512
         y: 0
-        width: 280
-        height: 280
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +177,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e32a643f919684e0800000000000000
-      internalID: -1979734873217555487
+      spriteID: 5f1b3cadfcd34aef0800000000000000
+      internalID: -97885328957525515
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hero1_face_sprite_3
+      name: hero2_body 1_3
       rect:
         serializedVersion: 2
-        x: 840
+        x: 768
         y: 0
-        width: 280
-        height: 280
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,8 +198,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4d16a2d5d9059aee0800000000000000
-      internalID: -1249378784815455788
+      spriteID: d8c4b954280a3ea40800000000000000
+      internalID: 5396333259893984397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hero2_body 1_4
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ddded96afd35d880800000000000000
+      internalID: -8586888968784650795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hero2_body 1_5
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a5651f14fab8f5a0800000000000000
+      internalID: -6487229705570916952
       vertices: []
       indices: 
       edges: []
@@ -201,7 +249,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: a0f1b0d5e669e4e3b8120be91c7efedc
+    spriteID: c32c844880d614c34bb820b5511c2c74
     internalID: 0
     vertices: []
     indices: 
