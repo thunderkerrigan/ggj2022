@@ -105,7 +105,6 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     }
 
     private void Attack(Garden garden) {
-        Debug.Log("ATTACK!");
         garden.TakeDamage(damage: this.damage);
 
         if (garden.isAlive() == false) {
@@ -127,7 +126,6 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     }
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("TRIGGER ENTER " + other.transform.root.gameObject.GetType());
         var garden = other.transform.parent.gameObject.GetComponent<Garden>();
         if (garden != null && garden.isAlive() == true && garden == this.destinationGarden) {
             this.mode = EnemyMode.Attack;
