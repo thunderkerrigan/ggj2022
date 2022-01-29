@@ -18,7 +18,7 @@
                     "name": "Light Attack",
                     "type": "Value",
                     "id": "4bca5b97-e0b6-4c45-95f1-7db6a7a5fe5f",
-                    "expectedControlType": "Quaternion",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
