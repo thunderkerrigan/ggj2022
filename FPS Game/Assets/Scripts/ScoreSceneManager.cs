@@ -28,13 +28,13 @@ public class ScoreSceneManager : MonoBehaviourPunCallbacks
         var text = "Score\n\n";
 
         var i = 1 ;
-        foreach( KeyValuePair<string,float> entry in ScoreSingleton.Instance.playerTimes.OrderBy( x => x.Value ).ThenByDescending( x => x.Key ) )
-        {
-            text += $"#{i} {entry.Key} — {entry.Value.ToString("N1")}sec\n";
-            i += 1;
-        }
+        //foreach( KeyValuePair<string,float> entry in ScoreSingleton.Instance.playerTimes.OrderBy( x => x.Value ).ThenByDescending( x => x.Key ) )
+       //{
+       //     text += $"#{i} {entry.Key} — {entry.Value.ToString("N1")}sec\n";
+       //     i += 1;
+       // }
 
-        testMesh.text = text;
+      //  testMesh.text = text;
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
