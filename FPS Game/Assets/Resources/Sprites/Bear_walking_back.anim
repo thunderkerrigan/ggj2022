@@ -317,9 +317,6 @@ AnimationClip:
     - time: 0
       value: {fileID: -8381674447002514930, guid: fafba1354cd884ecc9838f821c5abc62,
         type: 3}
-    - time: 1
-      value: {fileID: -8381674447002514930, guid: fafba1354cd884ecc9838f821c5abc62,
-        type: 3}
     attribute: m_Sprite
     path: hero1_body_back1
     classID: 212
@@ -404,14 +401,13 @@ AnimationClip:
       isPPtrCurve: 1
     pptrCurveMapping:
     - {fileID: -8381674447002514930, guid: fafba1354cd884ecc9838f821c5abc62, type: 3}
-    - {fileID: -8381674447002514930, guid: fafba1354cd884ecc9838f821c5abc62, type: 3}
     - {fileID: 4008588775485439327, guid: faed16392c05641f7ac8d2284d37cd47, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.0166667
+    m_StopTime: 1
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
