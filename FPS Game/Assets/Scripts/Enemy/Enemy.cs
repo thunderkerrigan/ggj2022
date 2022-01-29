@@ -128,7 +128,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     private void OnTriggerEnter(Collider other) {
         Debug.Log("TRIGGER ENTER " + other.transform.root.gameObject.GetType());
-        var garden = other.transform.root.gameObject.GetComponentInChildren<Garden>();
+        var garden = other.transform.parent.gameObject.GetComponent<Garden>();
         if (garden != null && garden.isAlive() == true && garden == this.destinationGarden) {
             this.mode = EnemyMode.Attack;
             navMeshAgent.enabled = false;
