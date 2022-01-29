@@ -114,11 +114,5 @@ public class IsoPlayerController : MonoBehaviour
       weapon.transform.rotation = Quaternion.LookRotation(new Vector3(attackVal.x, 0, attackVal.y), Vector3.up);
    }
    
-   IEnumerator DashCooldown()
-   {
-      canDash = false;
-      yield return new WaitForSeconds(dashCooldownTimer);
-      yield return new WaitForSeconds(0.2f);
-      canDash = true;
-   }
+
 }
