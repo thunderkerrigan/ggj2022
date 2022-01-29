@@ -562,6 +562,7 @@ GameObject:
   m_Component:
   - component: {fileID: 988683706}
   - component: {fileID: 988683707}
+  - component: {fileID: 988683708}
   m_Layer: 0
   m_Name: PhaseManager
   m_TagString: Untagged
@@ -596,6 +597,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPhase: {fileID: 0}
+--- !u!114 &988683708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988683705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5806ef7a7b7ec4df8b92bd544aef0885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1026312656
 GameObject:
   m_ObjectHideFlags: 0

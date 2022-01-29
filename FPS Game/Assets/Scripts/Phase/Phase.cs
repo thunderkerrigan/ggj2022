@@ -31,4 +31,8 @@ public class Phase : MonoBehaviour
     public int MaxTimer() {
         return _maxTimer;
     }
+
+    public bool hasTimer() {
+        return _maxTimer > 0;
+    }
 }

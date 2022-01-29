@@ -9,6 +9,8 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
     private EnemySpawnManager enemySpawnManager;
 
     [SerializeField] private Phase currentPhase;
+
+    private Timer timer;
     
     private void Start() {
         enemySpawnManager = GameObject.FindObjectOfType<EnemySpawnManager>();
@@ -22,9 +24,25 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
             currentPhase = prefab.GetComponent<Phase>();
         }
 
+        timer = GetComponent<Timer>();
+        if (timer == null) {
+            Debug.LogError("TIMER NOT FOUND");
+        }
+
         this.newPhaseStarted();
-       
-    }    
+    }
+
+    private void Update() {
+        if (this.currentPhase.hasTimer()) {
+            Debug.Log("TIMER FINISHED");
+            // SWITCH TO PHASE 2
+            if (currentPhase.identifier == "PHASE_1") {
+                var prefab = (GameObject) Instantiate(Resources.Load("Prefabs/Phase2"), this.transform);
+                currentPhase = prefab.GetComponent<Phase>();
+                this.newPhaseStarted();
+            }
+        }
+    }
 
     private void newPhaseStarted() {
         if (currentPhase.ShouldSpawnEnemies() == true) {
@@ -34,8 +52,10 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
             this.killAllEnemies();
         }
 
-        if (currentPhase.MaxTimer() > 0) {
-
+        if (currentPhase.hasTimer()) {
+            timer.startTimer(currentPhase.MaxTimer());
+        } else {
+            timer.stop();
         }
     }
 
