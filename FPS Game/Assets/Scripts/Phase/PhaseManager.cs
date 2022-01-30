@@ -5,7 +5,8 @@ using UnityEngine;
 
 public delegate void DefeatHandler(string reason);
 
-public class PhaseManager : MonoBehaviourPunCallbacks {
+public class PhaseManager : MonoBehaviourPunCallbacks
+{
 
     public event DefeatHandler OnDefeatHandler;
 
@@ -13,16 +14,23 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
 
     private Phase currentPhase;
     private Coroutine currentPhaseCoroutine;
+    private Coroutine checkVictoryOrDefeatConfitionCoroutine;
 
     [SerializeField] private Phase[] phases;
 
     private Timer timer;
-    
-    private void Start() {
+
+    private Garden[] gardens;
+
+    private void Start()
+    {
         weaponDropManager = GameObject.FindObjectOfType<WeaponDropManager>();
-        if (weaponDropManager == null) {
+        if (weaponDropManager == null)
+        {
             Debug.LogError("No weaponDropManager");
         }
+
+        gardens = GameObject.FindObjectsOfType<Garden>();
 
         // Start to drop weapons directly
         weaponDropManager.startSpawn();
@@ -34,8 +42,12 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
         {
             StopCoroutine(currentPhaseCoroutine);
         }
+
+        if (checkVictoryOrDefeatConfitionCoroutine != null) {
+            StopCoroutine(checkVictoryOrDefeatConfitionCoroutine);
+        } 
     }
-    
+
     public void StartGame()
     {
         if (currentPhaseCoroutine != null)
@@ -43,37 +55,80 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
             StopCoroutine(currentPhaseCoroutine);
         }
 
+        if (checkVictoryOrDefeatConfitionCoroutine != null) {
+            StopCoroutine(checkVictoryOrDefeatConfitionCoroutine);
+        } 
+
         currentPhaseCoroutine = StartCoroutine(deployPhaseCoroutine());
+        checkVictoryOrDefeatConfitionCoroutine = StartCoroutine(checkVictoryOrDefeatCondition());
+    }
+
+    private IEnumerator checkVictoryOrDefeatCondition() {
+
+        yield return new WaitForSeconds(1);
+       
+        if (currentPhase.identifier == "PHASE_1")
+        {
+             // Check defeat condition
+            var oneGardenAlive = false;
+            foreach (Garden garden in gardens)
+            {
+                // TODO: Photon?
+                if (garden.isAlive())
+                {
+                    oneGardenAlive = true;
+                    break;
+                }
+            }
+
+            if (oneGardenAlive == false)
+            {
+                OnDefeatHandler("All Gardens were eaten");
+                StopCoroutine(checkVictoryOrDefeatConfitionCoroutine);
+                yield return null;
+            }
+        } else if (currentPhase.identifier == "PHASE_2") {
+
+        }
+
+        checkVictoryOrDefeatConfitionCoroutine = StartCoroutine(checkVictoryOrDefeatCondition());
+        yield return null;
     }
 
     private IEnumerator deployPhaseCoroutine()
     {
         foreach (Phase phase in phases)
         {
+            currentPhase = phase;
             var players = GameObject.FindObjectsOfType<IsoPlayerController>();
             foreach (IsoPlayerController player in players)
-                {
-                    // TODO: handle with photon
-                    player.canTakeDamage = phase._pvpEnabled;
-                }
-            if (phase.ShouldSpawnEnemies()) {
+            {
+                // TODO: handle with photon
+                player.canTakeDamage = phase._pvpEnabled;
+            }
+            if (phase.ShouldSpawnEnemies())
+            {
                 EnemySpawnManager.Instance.startSpawn();
-            } else {
+            }
+            else
+            {
                 EnemySpawnManager.Instance.stopSpawn();
                 this.killAllEnemies();
             }
             yield return new WaitForSeconds(phase.MaxTimer());
         }
 
-        if (OnDefeatHandler != null)
-        {
-            OnDefeatHandler("You have been defeated");
-        }
+        // if (OnDefeatHandler != null)
+        // {
+        //     OnDefeatHandler("You have been defeated");
+        // }
     }
 
-    private void killAllEnemies() {
+    private void killAllEnemies()
+    {
         var enemies = FindObjectsOfType(typeof(Enemy));
-        foreach (Enemy enemy in enemies) {
+        foreach (Enemy enemy in enemies)
+        {
             enemy.TakeDamage(1000f);
         }
     }
