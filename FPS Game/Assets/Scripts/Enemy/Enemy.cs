@@ -188,6 +188,16 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     public void TakeDamage(float damage)
     {
+        photonView.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+       
+    }
+   
+    [PunRPC]
+    void RPC_TakeDamage(float damage)
+    {
+        if (!photonView.IsMine)
+            return;
+        
         animator.SetFloat("x", Random.Range(0, 100));
 
         Debug.Log("Enemy " + this.gameObject.name + " took " + damage + " damage");
@@ -201,6 +211,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         //this.gameObject.GetComponent<Collider>().enabled = false;
         StartCoroutine(destroyAfter(60));
     }
+    
     private IEnumerator destroyAfter(float time)
     {
         yield return new WaitForSeconds(time);
