@@ -161,7 +161,7 @@ MonoBehaviour:
   speed: 5
   damage: 10
   attackCollider: {fileID: 9096789717008695416}
-  attackCooldown: 1
+  attackCooldown: 3
   bloodPool: {fileID: 8141586350212809722}
   bloodSprites:
   - {fileID: -5175468258661589729, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
