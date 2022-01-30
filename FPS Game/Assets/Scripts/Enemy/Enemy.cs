@@ -79,6 +79,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     {
         navMeshAgent.enabled = true;
         navMeshObstacle.enabled = false;
+        animator.SetFloat("x", Random.Range(0, 100));
 
         Garden[] gardens = (Garden[])GameObject.FindObjectsOfType(typeof(Garden));
         Garden closestGarden = null;
@@ -110,7 +111,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!PView.IsMine)
         {
@@ -187,6 +188,8 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     public void TakeDamage(float damage)
     {
+        animator.SetFloat("x", Random.Range(0, 100));
+
         Debug.Log("Enemy " + this.gameObject.name + " took " + damage + " damage");
         this.isAlive = false;
         navMeshAgent.enabled = false;
@@ -194,6 +197,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         animator.Play("Rabbit_dead");
         bloodPool.sprite = bloodSprites[Random.Range(0, bloodSprites.Length)];
         this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        //this.gameObject.GetComponent<Collider>().enabled = false;
         //PhotonNetwork.Destroy(this.gameObject); Destroy(this.gameObject, 1f);
     }
 }

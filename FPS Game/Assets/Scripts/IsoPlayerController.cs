@@ -67,7 +67,8 @@ public class IsoPlayerController : MonoBehaviour
    private void OnMove(InputValue value)
    {
       moveVal = value.Get<Vector2>();
-	  
+      characterAnimator.SetFloat("x", moveVal.x);
+
 	  
 	  if(moveVal.x == 1 && moveVal.y == 0){
 	  	GetComponentInChildren<Animator>().Play("Bear_walking_right");
@@ -93,6 +94,7 @@ public class IsoPlayerController : MonoBehaviour
    private void OnLightAttack(InputValue value)
    {
       var newVal = value.Get<Vector2>();
+      characterAnimator.SetFloat("x", newVal.x);
       if (!newVal.Equals(Vector2.zero) && canAttack)
       {
 		  
