@@ -35,12 +35,17 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     private PhotonView PView;
 
+    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite[] sprites;
+
     private void Start()
     {
         navMeshAgent = this.GetComponent<NavMeshAgent>();
         navMeshAgent.speed = this.speed;
 
         navMeshObstacle = this.GetComponent<NavMeshObstacle>();
+
+        spriteRenderer = this.GetComponentInChildren<SpriteRenderer>();
 
         if (this.PView == null)
         {
@@ -102,6 +107,28 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         if (this.mode == EnemyMode.Move) {
             FindClosestDestination();
         }
+
+        
+        var direction = this.destinationPoint.transform.position - this.transform.position;
+
+        var look = Quaternion.LookRotation(direction, Vector3.up).eulerAngles;
+        Debug.Log("DIRECTION +" + look);
+        if (look.y < 45 && look.y > 0 || look.y <= 360 && look.y >= 315) { //(315??)
+            // FACE
+            spriteRenderer.sprite = sprites[2];
+        } else if (look.y >= 45 && look.y < 135) {
+            // LEFT
+            spriteRenderer.sprite = sprites[3];
+            spriteRenderer.transform.eulerAngles = new Vector3(0, 0, 0);
+        } else if  (look.y >= 135 && look.y < 225) {
+            // BACK
+            spriteRenderer.sprite = sprites[0];
+        } else if (look.y >= 225 && look.y < 315) {
+            // RIGHT
+            spriteRenderer.sprite = sprites[3];
+            spriteRenderer.transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+
 
         this.gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
     }
