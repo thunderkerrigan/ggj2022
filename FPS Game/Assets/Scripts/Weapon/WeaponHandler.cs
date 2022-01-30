@@ -27,6 +27,7 @@ public class WeaponHandler : MonoBehaviour
         weaponCollider.enabled = true;
         yield return new WaitForSeconds(disableColliderTime);
         weaponCollider.enabled = false;
+
     }
 
 }
