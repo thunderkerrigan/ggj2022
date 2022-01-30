@@ -34,8 +34,6 @@ public class PhaseManager : MonoBehaviourPunCallbacks
 
         gardens = GameObject.FindObjectsOfType<Garden>();
 
-        players = GameObject.FindObjectsOfType<IsoPlayerController>();
-
         // Start to drop weapons directly
         weaponDropManager.startSpawn();
     }
@@ -54,6 +52,9 @@ public class PhaseManager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
+
+        players = GameObject.FindObjectsOfType<IsoPlayerController>();
+
         if (currentPhaseCoroutine != null)
         {
             StopCoroutine(currentPhaseCoroutine);
