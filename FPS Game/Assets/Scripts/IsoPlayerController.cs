@@ -127,10 +127,10 @@ public class IsoPlayerController : MonoBehaviour
    }
 
    private void OnTriggerEnter(Collider other) {
-      //Debug.Log("PLAYER TRIGGER");
+      Debug.Log("PLAYER TRIGGER");
       WeaponHandler otherWeapon = other.GetComponent<WeaponHandler>();
       if (otherWeapon != null && weapon != otherWeapon.transform.parent && canTakeDamage == true) {
-         //Debug.Log("DAMAGE !");
+         Debug.Log("DAMAGE !");
       }
    }
    

@@ -14,6 +14,11 @@ public class Garden : MonoBehaviour
 
     [SerializeField] private int hitPoints;
 
+
+    private void Start() {
+        this.GetComponentInChildren<MeshRenderer>().enabled = false;
+    }
+
     public bool isAlive()
     {
         return (hitPoints > 0);
