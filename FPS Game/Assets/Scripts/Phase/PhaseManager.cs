@@ -22,6 +22,8 @@ public class PhaseManager : MonoBehaviourPunCallbacks
 
     private Garden[] gardens;
 
+    private IsoPlayerController[] players;
+
     private void Start()
     {
         weaponDropManager = GameObject.FindObjectOfType<WeaponDropManager>();
@@ -50,6 +52,9 @@ public class PhaseManager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
+
+        players = GameObject.FindObjectsOfType<IsoPlayerController>();
+
         if (currentPhaseCoroutine != null)
         {
             StopCoroutine(currentPhaseCoroutine);
@@ -69,6 +74,11 @@ public class PhaseManager : MonoBehaviourPunCallbacks
        
         if (currentPhase.identifier == "PHASE_1")
         {
+
+            // if (players.Length == 1) {
+            //     players = GameObject.FindObjectsOfType<IsoPlayerController>();
+            // }
+
              // Check defeat condition
             var oneGardenAlive = false;
             foreach (Garden garden in gardens)
@@ -88,7 +98,28 @@ public class PhaseManager : MonoBehaviourPunCallbacks
                 yield return null;
             }
         } else if (currentPhase.identifier == "PHASE_2") {
-
+            // if (players.Length > 1) {
+            //     foreach (IsoPlayerController player in players) {
+            //         if (player.isAlive == false) {
+            //             if (player.isCurrentPlayer()) {
+            //                 // DEFEAT
+            //                 OnDefeatHandler("You're dead");
+            //                 StopCoroutine(checkVictoryOrDefeatConfitionCoroutine);
+            //                 yield return null;
+            //             } else {
+            //                 // VICTORY
+            //                 OnDefeatHandler("Victory!");
+            //                 StopCoroutine(checkVictoryOrDefeatConfitionCoroutine);
+            //                 yield return null;
+            //             }
+            //         }
+            //     }
+            // } else {
+            //     // VICTORY
+            //     OnDefeatHandler("You're alone");
+            //     StopCoroutine(checkVictoryOrDefeatConfitionCoroutine);
+            //     yield return null;
+            // }
         }
 
         checkVictoryOrDefeatConfitionCoroutine = StartCoroutine(checkVictoryOrDefeatCondition());
@@ -100,7 +131,6 @@ public class PhaseManager : MonoBehaviourPunCallbacks
         foreach (Phase phase in phases)
         {
             currentPhase = phase;
-            var players = GameObject.FindObjectsOfType<IsoPlayerController>();
             foreach (IsoPlayerController player in players)
             {
                 // TODO: handle with photon

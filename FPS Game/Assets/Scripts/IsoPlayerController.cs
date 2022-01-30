@@ -27,7 +27,7 @@ public class IsoPlayerController : MonoBehaviour
 
    [SerializeField] private int healthPoints;
 
-   private bool isAlive = true;
+   public bool isAlive = true;
 
    
    void Awake()
@@ -67,7 +67,6 @@ public class IsoPlayerController : MonoBehaviour
    private void OnMove(InputValue value)
    {
       moveVal = value.Get<Vector2>();
-	  Debug.Log(moveVal.normalized);
 	  
 	  
 	  if(moveVal.x == 1 && moveVal.y == 0){
@@ -98,8 +97,6 @@ public class IsoPlayerController : MonoBehaviour
       {
 		  
 		  
-         Debug.Log("Light Attack: " + newVal);
-         Debug.Log("Light Attack: " + canAttack);
          attackVal = newVal;
          StartCoroutine(triggerAttack());
 		 
@@ -186,7 +183,10 @@ public class IsoPlayerController : MonoBehaviour
          this.isAlive = false;
          Debug.Log("DEAD");
       }
+   }
 
+   public bool isCurrentPlayer() {
+      return PV.IsMine;
    }
 
 }

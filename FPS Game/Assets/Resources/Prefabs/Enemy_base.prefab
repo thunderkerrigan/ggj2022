@@ -96,6 +96,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 8533570345257064832}
+  - {fileID: 1048438321258505167}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -180,7 +181,9 @@ MonoBehaviour:
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
   m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
+  m_SynchronizeLayers:
+  - SynchronizeType: 1
+    LayerIndex: 0
 --- !u!1 &6912361916912959906
 GameObject:
   m_ObjectHideFlags: 0

@@ -29,12 +29,10 @@ public class Launcher : MonoBehaviourPunCallbacks {
     }
 
     void Start() {
-        Debug.Log("Connecting to Master");
         StartCoroutine(Connect());
     }
 
     public override void OnConnectedToMaster() {
-        Debug.Log("Connected to Master");
         PhotonNetwork.JoinLobby();
             PhotonNetwork.AutomaticallySyncScene = true;
             isReady = true;
@@ -47,7 +45,6 @@ public class Launcher : MonoBehaviourPunCallbacks {
 
     public override void OnJoinedLobby() {
         //sMenuManager.Instance.OpenMenu("title");
-        Debug.Log("Joined Lobby");
         this.setPlayerNickName(false);
     }
 
