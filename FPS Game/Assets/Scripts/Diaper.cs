@@ -38,7 +38,7 @@ public class Diaper : MonoBehaviour
             
             // Play sound on target player
             targetPlayerController?.playAudioClip(targetAudioType, true, targetAudioClipIndex);
-            
+
         }
         else
         {

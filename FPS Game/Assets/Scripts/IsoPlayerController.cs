@@ -67,7 +67,6 @@ public class IsoPlayerController : MonoBehaviour
    private void OnMove(InputValue value)
    {
       moveVal = value.Get<Vector2>();
-	  Debug.Log(moveVal.normalized);
 	  
 	  
 	  if(moveVal.x == 1 && moveVal.y == 0){
@@ -98,8 +97,6 @@ public class IsoPlayerController : MonoBehaviour
       {
 		  
 		  
-         Debug.Log("Light Attack: " + newVal);
-         Debug.Log("Light Attack: " + canAttack);
          attackVal = newVal;
          StartCoroutine(triggerAttack());
 		 
