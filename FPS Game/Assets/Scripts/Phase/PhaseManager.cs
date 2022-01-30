@@ -98,15 +98,21 @@ public class PhaseManager : MonoBehaviourPunCallbacks
                         if (player.isCurrentPlayer()) {
                             // DEFEAT
                             OnDefeatHandler("You're dead");
+                            StopCoroutine(checkVictoryOrDefeatConfitionCoroutine);
+                            yield return null;
                         } else {
                             // VICTORY
                             OnDefeatHandler("Victory");
+                            StopCoroutine(checkVictoryOrDefeatConfitionCoroutine);
+                            yield return null;
                         }
                     }
                 }
             } else {
                 // VICTORY
                 OnDefeatHandler("Victory");
+                StopCoroutine(checkVictoryOrDefeatConfitionCoroutine);
+                yield return null;
             }
         }
 
@@ -119,7 +125,6 @@ public class PhaseManager : MonoBehaviourPunCallbacks
         foreach (Phase phase in phases)
         {
             currentPhase = phase;
-            var players = GameObject.FindObjectsOfType<IsoPlayerController>();
             foreach (IsoPlayerController player in players)
             {
                 // TODO: handle with photon
