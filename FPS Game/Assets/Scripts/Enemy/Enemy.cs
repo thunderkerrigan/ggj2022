@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     [Tooltip("Aribitrary value for enemy speed")]
     [SerializeField] private int speed;
     [SerializeField] private int damage;
-
+[SerializeField] private Collider attackCollider;
     [Tooltip("Attack cooldown in seconds")]
     [SerializeField] private float attackCooldown;
     [SerializeField] private SpriteRenderer bloodPool;
@@ -197,6 +197,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         animator.Play("Rabbit_dead");
         bloodPool.sprite = bloodSprites[Random.Range(0, bloodSprites.Length)];
         this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        attackCollider.enabled = false;
         //this.gameObject.GetComponent<Collider>().enabled = false;
         //PhotonNetwork.Destroy(this.gameObject); Destroy(this.gameObject, 1f);
     }
