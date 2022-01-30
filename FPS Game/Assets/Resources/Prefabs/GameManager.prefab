@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PV: {fileID: 8310983396468162749}
-  gameDuration: 10
+  gameDuration: 180
 --- !u!114 &8310983396468162749
 MonoBehaviour:
   m_ObjectHideFlags: 0
