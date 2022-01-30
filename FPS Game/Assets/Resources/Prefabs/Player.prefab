@@ -373,7 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b087f8bb181f564dbb45a8581318c7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterAnimator: {fileID: 7721227630489493421}
+  characterAnimator: {fileID: 0}
   PV: {fileID: 3489501739415512494}
   weapon: {fileID: 1499446654191138700}
   moveVal: {x: 0, y: 0}
@@ -508,12 +508,6 @@ PrefabInstance:
 --- !u!4 &3510110710262077530 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7258309542564199205, guid: 7fb6933395391a34683d88345f792684,
-    type: 3}
-  m_PrefabInstance: {fileID: 6056454215833412479}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &7721227630489493421 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4551897437973462226, guid: 7fb6933395391a34683d88345f792684,
     type: 3}
   m_PrefabInstance: {fileID: 6056454215833412479}
   m_PrefabAsset: {fileID: 0}

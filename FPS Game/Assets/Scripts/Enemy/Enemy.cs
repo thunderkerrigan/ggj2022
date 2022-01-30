@@ -182,6 +182,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     public void TakeDamage(float damage)
     {
+        
         this.isAlive = false;
         StopCoroutine(Attack());
         animator.Play("Rabbit_dead");

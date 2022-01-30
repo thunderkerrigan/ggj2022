@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7258309542564199205}
-  - component: {fileID: 4551897437973462226}
+  - component: {fileID: 6341850408431536176}
   m_Layer: 0
   m_Name: Bear
   m_TagString: Untagged
@@ -201,7 +201,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &4551897437973462226
+--- !u!95 &6341850408431536176
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
