@@ -22,6 +22,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
     [SerializeField] TMP_InputField playerNameInput;
 
     private Coroutine startGame;
+    private bool isReady = false;
 
     void Awake() {
         Instance = this;
@@ -35,7 +36,13 @@ public class Launcher : MonoBehaviourPunCallbacks {
     public override void OnConnectedToMaster() {
         Debug.Log("Connected to Master");
         PhotonNetwork.JoinLobby();
-        PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.AutomaticallySyncScene = true;
+            isReady = true;
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        isReady = false;
     }
 
     public override void OnJoinedLobby() {
@@ -86,7 +93,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
     public void StartGame() {
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
-        PhotonNetwork.LoadLevel(2);
+        PhotonNetwork.LoadLevel(1);
     }
     public void StartLocalGame() { 
       //  PhotonNetwork.CurrentRoom.IsOpen = false;
@@ -186,7 +193,6 @@ public class Launcher : MonoBehaviourPunCallbacks {
     IEnumerator Connect()
 
     {
-        Debug.Log("TA MERE");
 
         if (!PhotonNetwork.IsConnected)
         {
@@ -195,7 +201,6 @@ public class Launcher : MonoBehaviourPunCallbacks {
         }
         while (!PhotonNetwork.IsConnected)
         {
-            Debug.Log("LA PUTE");
             yield return null;
 
         }
@@ -204,19 +209,18 @@ public class Launcher : MonoBehaviourPunCallbacks {
     IEnumerator StartLocalGameAsync()
 
     {
-
         PhotonNetwork.Disconnect();
 
-        while (PhotonNetwork.IsConnected)
-
+        while (PhotonNetwork.IsConnected) 
         {
-
             yield return null;
 
         }
-
         PhotonNetwork.OfflineMode = true;
-        PhotonNetwork.LoadLevel(3);
-
+        while (!PhotonNetwork.IsConnected)
+        {
+            yield return null;
+        }
+        PhotonNetwork.LoadLevel(1);
     }
 }

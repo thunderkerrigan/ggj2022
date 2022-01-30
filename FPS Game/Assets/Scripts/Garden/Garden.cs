@@ -26,7 +26,6 @@ public class Garden : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("TRIGGER");
         var enemy = other.gameObject.GetComponentInParent<Enemy>();
         if (enemy != null) {
             // TODO: here garden is in Danger

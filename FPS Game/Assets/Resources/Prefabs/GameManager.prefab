@@ -70,7 +70,7 @@ MonoBehaviour:
       type: 3}
   m_PlayerPrefab: {fileID: 7644696743619202358, guid: 47d7d2e62c879be40803211dbd674fa9,
     type: 3}
-  m_SplitScreen: 0
+  m_SplitScreen: 1
   m_MaintainAspectRatioInSplitScreen: 0
   m_FixedNumberOfSplitScreens: -1
   m_SplitScreenRect:

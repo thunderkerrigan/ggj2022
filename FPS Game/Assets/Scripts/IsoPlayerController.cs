@@ -71,6 +71,8 @@ public class IsoPlayerController : MonoBehaviour
       var newVal = value.Get<Vector2>();
       if (!newVal.Equals(Vector2.zero) && canAttack)
       {
+         Debug.Log("Light Attack: " + newVal);
+         Debug.Log("Light Attack: " + canAttack);
          attackVal = newVal;
          StartCoroutine(triggerAttack());
       }
@@ -101,8 +103,8 @@ public class IsoPlayerController : MonoBehaviour
 
    private void OnJoin(InputValue value)
    {
-      var spawnManager = GameObject.Find("PlayerSpawnManager").GetComponent<SpawnManager>();
-      transform.position = spawnManager.GetSpawnpoint(0).position;
+//      var spawnManager = GameObject.Find("PlayerSpawnManager").GetComponent<SpawnManager>();
+  //    transform.position = spawnManager.GetSpawnpoint(0).position;
    }
    
    // CUSTOM FUNCTION
@@ -125,10 +127,10 @@ public class IsoPlayerController : MonoBehaviour
    }
 
    private void OnTriggerEnter(Collider other) {
-      Debug.Log("PLAYER TRIGGER");
+      //Debug.Log("PLAYER TRIGGER");
       WeaponHandler otherWeapon = other.GetComponent<WeaponHandler>();
       if (otherWeapon != null && weapon != otherWeapon.transform.parent && canTakeDamage == true) {
-         Debug.Log("DAMAGE !");
+         //Debug.Log("DAMAGE !");
       }
    }
    
