@@ -384,7 +384,7 @@ MonoBehaviour:
   dashSpeed: 30
   dashCooldownTimer: 1
   dashSound: {fileID: 0}
-  attackSound: {fileID: 8300000, guid: fca73b6b6f4d39747bb132311a57ed7f, type: 3}
+  attackSound: {fileID: 8300000, guid: 4a1ec1194eba6fb44824502ea9db3e65, type: 3}
   canTakeDamage: 0
   healthPoints: 20
   isAlive: 1
