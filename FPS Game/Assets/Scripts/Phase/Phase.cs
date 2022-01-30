@@ -23,7 +23,7 @@ public class Phase : MonoBehaviour
 
     // TODO audio?
 
-    [SerializeField] private bool pvpEnabled;
+    [SerializeField] private bool _pvpEnabled;
 
     [Tooltip("Identifier of the scene, DO NOT CHANGE ONCE SET")]
     public string identifier;
@@ -38,5 +38,9 @@ public class Phase : MonoBehaviour
 
     public bool hasTimer() {
         return _maxTimer > 0;
+    }
+
+    public bool hasPVPEnabled() {
+        return _pvpEnabled;
     }
 }
