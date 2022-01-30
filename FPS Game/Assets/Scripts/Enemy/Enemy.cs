@@ -102,6 +102,8 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         if (this.mode == EnemyMode.Move) {
             FindClosestDestination();
         }
+
+        this.gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
     }
 
     private void Attack(Garden garden) {
