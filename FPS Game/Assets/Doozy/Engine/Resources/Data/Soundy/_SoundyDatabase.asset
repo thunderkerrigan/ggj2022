@@ -17,6 +17,7 @@ MonoBehaviour:
   - Example Clicks
   - Example Music
   - Example Slides
+  - Gardens
   - General
   - LostandFound
   SoundDatabases:
@@ -26,3 +27,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f357811014801dc489af9b0c14c815e3, type: 2}
   - {fileID: 11400000, guid: f5bbc8cf3c5bf2e4d84f8d365587b48c, type: 2}
   - {fileID: 11400000, guid: 83e49ad383e4e604ebe2f2257a257945, type: 2}
+  - {fileID: 11400000, guid: 42eabad78068bb142880c06c59a94141, type: 2}

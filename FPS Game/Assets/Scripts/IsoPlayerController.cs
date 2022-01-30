@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 
 public class IsoPlayerController : MonoBehaviour
 {
+   public Animator characterAnimator;
    public PhotonView PV;
    public GameObject weapon;
    public Vector2 moveVal;
@@ -121,7 +122,7 @@ public class IsoPlayerController : MonoBehaviour
       Vector3 directionVector3 = weapon.transform.position + new Vector3(attackVal.x, 0, attackVal.y);
       weapon.transform.rotation = Quaternion.LookRotation(new Vector3(attackVal.x, 0, attackVal.y), Vector3.up);
       weapon.GetComponent<WeaponHandler>().TriggerWeapon();
-      SoundyManager.Play(audioClip: attackSound , pitch: Random.Range(0.9f, 1.1f));
+      SoundyManager.Play(audioClip: attackSound , Random.Range(0.7f, 1.4f));
       yield return new WaitForSeconds(0.5f);
       canAttack = true;
    }

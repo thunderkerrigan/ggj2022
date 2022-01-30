@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 8310983396468162750}
   - component: {fileID: 8310983396468162748}
   - component: {fileID: 8310983396468162749}
+  - component: {fileID: 8918921707997463354}
+  - component: {fileID: -4282239366819002965}
+  - component: {fileID: 6063524273553654345}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -115,3 +118,48 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &8918921707997463354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310983396468162737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5803d6a05b9f74400a8c21c1ca2dc703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPhase: {fileID: -4282239366819002965}
+--- !u!114 &-4282239366819002965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310983396468162737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad473944503164ed2adb0e69713e46f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxTimer: 180
+  _shouldSpawnEnemies: 1
+  pvpEnabled: 0
+  identifier: Phase 1
+--- !u!114 &6063524273553654345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310983396468162737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad473944503164ed2adb0e69713e46f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxTimer: 120
+  _shouldSpawnEnemies: 0
+  pvpEnabled: 1
+  identifier: Phase 2
