@@ -199,6 +199,11 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
         attackCollider.enabled = false;
         //this.gameObject.GetComponent<Collider>().enabled = false;
-        //PhotonNetwork.Destroy(this.gameObject); Destroy(this.gameObject, 1f);
+        StartCoroutine(destroyAfter(60));
+    }
+    private IEnumerator destroyAfter(float time)
+    {
+        yield return new WaitForSeconds(time);
+        PhotonNetwork.Destroy(this.gameObject);
     }
 }
