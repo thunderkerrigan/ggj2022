@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     [Tooltip("Attack cooldown in seconds")]
     [SerializeField] private float attackCooldown;
+    [SerializeField] private SpriteRenderer bloodPool;
+    [SerializeField] private Sprite[]  bloodSprites;
 
     private Transform destinationPoint;
     private Garden destinationGarden;
@@ -192,6 +194,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         navMeshAgent.enabled = false;
         StopCoroutine(Attack());
         animator.Play("Rabbit_dead");
+        bloodPool.sprite = bloodSprites[Random.Range(0, bloodSprites.Length)];
         this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
         //PhotonNetwork.Destroy(this.gameObject); Destroy(this.gameObject, 1f);
     }

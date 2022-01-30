@@ -51069,7 +51069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5803d6a05b9f74400a8c21c1ca2dc703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPhase: {fileID: 0}
+  phases: []
 --- !u!1001 &1403274981
 PrefabInstance:
   m_ObjectHideFlags: 0
