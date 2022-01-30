@@ -291,7 +291,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7644696743619202358}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -301,7 +301,7 @@ Transform:
   - {fileID: 6736249265895928067}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
 --- !u!114 &521661170830309664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,6 +443,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4336287310068638902}
     m_Modifications:
+    - target: {fileID: 791545919468628607, guid: 7fb6933395391a34683d88345f792684,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 7258309542075267109, guid: 7fb6933395391a34683d88345f792684,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 53
+      objectReference: {fileID: 0}
     - target: {fileID: 7258309542564199205, guid: 7fb6933395391a34683d88345f792684,
         type: 3}
       propertyPath: m_RootOrder
@@ -502,6 +512,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bear
+      objectReference: {fileID: 0}
+    - target: {fileID: 7258309543529186877, guid: 7fb6933395391a34683d88345f792684,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 52
+      objectReference: {fileID: 0}
+    - target: {fileID: 7258309543571291280, guid: 7fb6933395391a34683d88345f792684,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7444143004908610461, guid: 7fb6933395391a34683d88345f792684,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 54
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fb6933395391a34683d88345f792684, type: 3}
