@@ -23,7 +23,7 @@ public class ScoreSingleton : MonoBehaviour
 
     private Dictionary<string, List<string>> playerObjects = new Dictionary<string, List<string>>();
 
-    public string scoreText = "All garden were eaten";
+    public string scoreText = "All gardens were eaten";
 
     public bool playerHaveFinish(string playerName)
     {
