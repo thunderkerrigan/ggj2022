@@ -199,6 +199,11 @@ public class Launcher : MonoBehaviourPunCallbacks {
             PhotonNetwork.OfflineMode = false;
             PhotonNetwork.ConnectUsingSettings();
         }
+        
+        if (PhotonNetwork.CurrentRoom != null)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
         while (!PhotonNetwork.IsConnected)
         {
             yield return null;

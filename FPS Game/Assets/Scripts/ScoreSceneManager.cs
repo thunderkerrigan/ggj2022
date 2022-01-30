@@ -49,7 +49,7 @@ public class ScoreSceneManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
         }
-        PhotonNetwork.LoadLevel(1);
+        PhotonNetwork.LoadLevel(0);
     }
     
 }
