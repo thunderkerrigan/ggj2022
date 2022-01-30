@@ -36,6 +36,9 @@ public class LocalGameManager : MonoBehaviour
             var spawnPoint = SpawnManager.Instance.GetSpawnpoint(index);
             PhotonNetwork.Instantiate(Path.Combine("Prefabs", "Player"),  spawnPoint.position,
                 spawnPoint.rotation, 0, new object[] {PV.ViewID, index});
+            {
+                
+            }
             if (PhotonNetwork.IsMasterClient)
             {
                 phaseManager.StartGame();

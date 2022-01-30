@@ -21,7 +21,7 @@ public class Diaper : MonoBehaviour
     {
         if (ImpactSounds.Length > 0)
         {
-            SoundyManager.Play(ImpactSounds[Random.Range(0, ImpactSounds.Length - 1)], other.transform.position);
+            //SoundyManager.Play(ImpactSounds[Random.Range(0, ImpactSounds.Length - 1)], other.transform.position);
         }
         other.gameObject.GetComponent<IDamageable>()?.TakeDamage(60);
         if (other.gameObject.GetComponent<IDamageable>() != null)

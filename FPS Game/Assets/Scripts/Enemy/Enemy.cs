@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Doozy.Engine.Soundy;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -20,6 +21,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     [Tooltip("Aribitrary value for enemy speed")]
     [SerializeField] private int speed;
     [SerializeField] private int damage;
+    [SerializeField] private AudioClip splashClip;
 [SerializeField] private Collider attackCollider;
     [Tooltip("Attack cooldown in seconds")]
     [SerializeField] private float attackCooldown;
@@ -208,6 +210,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         bloodPool.sprite = bloodSprites[Random.Range(0, bloodSprites.Length)];
         this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
         attackCollider.enabled = false;
+        SoundyManager.Play(splashClip, transform);
         //this.gameObject.GetComponent<Collider>().enabled = false;
         StartCoroutine(destroyAfter(60));
     }

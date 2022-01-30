@@ -6,6 +6,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class IsoPlayerController : MonoBehaviour
@@ -46,6 +47,7 @@ public class IsoPlayerController : MonoBehaviour
          }
          else
          {
+             Destroy(GetComponent<AudioListener>());
             Destroy(GetComponentInChildren<Camera>().gameObject);
             Destroy(rb);
             Destroy(GetComponent<AudioListener>());
@@ -163,7 +165,7 @@ public class IsoPlayerController : MonoBehaviour
       Vector3 directionVector3 = weapon.transform.position + new Vector3(attackVal.x, 0, attackVal.y);
       weapon.transform.rotation = Quaternion.LookRotation(new Vector3(attackVal.x, 0, attackVal.y), Vector3.up);
       weapon.GetComponent<WeaponHandler>().TriggerWeapon();
-      SoundyManager.Play(audioClip: attackSound , Random.Range(0.7f, 1.4f));
+   SoundyManager.Play(attackSound, transform);
       yield return new WaitForSeconds(0.5f);
       canAttack = true;
    }

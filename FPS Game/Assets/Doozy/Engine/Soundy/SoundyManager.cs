@@ -208,8 +208,9 @@ namespace Doozy.Engine.Soundy
         /// Returns null if the AudioClip is null.
         /// </summary>
         /// <param name="audioClip"> The AudioClip to play </param>
+        /// <param name="pitch"></param>
         /// <param name="position"> The position from where this sound will play from </param>
-        public static SoundyController Play(AudioClip audioClip, Vector3 position)
+        public static SoundyController Play(AudioClip audioClip, float pitch, Vector3 position)
         {
             if (!s_initialized) s_instance = Instance;
             return Play(audioClip, null, position);
@@ -431,5 +432,6 @@ namespace Doozy.Engine.Soundy
         }
 
         #endregion
+        
     }
 }
