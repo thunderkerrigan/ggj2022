@@ -7,7 +7,6 @@ using UnityEngine.Serialization;
 public class WeaponHandler : MonoBehaviour
 {
     public CapsuleCollider weaponCollider;
-    public SpriteRenderer blowSprite;
     public float enableColliderTime;
     public float disableColliderTime;
 
@@ -15,7 +14,6 @@ public class WeaponHandler : MonoBehaviour
 
     private void Start() {
         weaponCollider.enabled = false;
-        blowSprite.enabled = false;    
     }
 
     public void TriggerWeapon()
@@ -27,15 +25,9 @@ public class WeaponHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(enableColliderTime);
         weaponCollider.enabled = true;
-        if (blowSprite != null) {
-            blowSprite.enabled = true;
-        }
-
         yield return new WaitForSeconds(disableColliderTime);
         weaponCollider.enabled = false;
-        if (blowSprite != null) {
-            blowSprite.enabled = false;
-        }
+
     }
 
 }

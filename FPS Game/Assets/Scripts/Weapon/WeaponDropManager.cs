@@ -32,14 +32,15 @@ public class WeaponDropManager : MonoBehaviourPunCallbacks
 
     public void startSpawn()
     {
-        this.enabled = true;
-        StartCoroutine(SpawnWeapon());
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(SpawnWeapon());
+        }
     }
 
     public void stopSpawn()
     {
         StopCoroutine(SpawnWeapon());
-        this.enabled = false;
     }
 
 
@@ -65,11 +66,9 @@ public class WeaponDropManager : MonoBehaviourPunCallbacks
 
         WeaponType weaponType = (WeaponType) weaponTypes.GetValue(UnityEngine.Random.Range(0, weaponTypes.Length-1));
         var prefabPath = WeaponTypePrefabProvider.prefabPath(weaponType);
-        var weaponGameObject = (GameObject) Instantiate(Resources.Load(prefabPath), spawnpoint.transform.position, spawnpoint.transform.rotation);
+        var weaponGameObject = (GameObject) PhotonNetwork.Instantiate(Path.Combine(prefabPath), spawnpoint.transform.position, spawnpoint.transform.rotation);
         var weapon = weaponGameObject.GetComponentInChildren<WeaponDropItem>();
         weapon.setSpawnpoint(spawnpoint: spawnpoint);
-        // TODO: Photon
-        // var enemy = PhotonNetwork.Instantiate("Prefabs/Enemy_Base", spawnpoint.transform.position, spawnpoint.transform.rotation);
         Debug.Log("SPAWN");
 
         StartCoroutine(SpawnWeapon());

@@ -100,14 +100,21 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         }
 
         this.destinationGarden = closestGarden;
-        this.destinationPoint = closestGarden.transform;
-        navMeshAgent.SetDestination(closestGarden.transform.position);
+        if (closestGarden != null)
+        {
+            this.destinationPoint = closestGarden.transform;
+            navMeshAgent.SetDestination(closestGarden.transform.position);
+        }
+
     }
 
     private void Update()
     {
-        if (this.mode == EnemyMode.Move && this.isAlive == false)
+        if (!PView.IsMine)
         {
+            return;
+        }
+         if (this.mode == EnemyMode.Move && this.isAlive == false) {
             FindClosestDestination();
 
             var direction = this.destinationPoint.transform.position - this.transform.position;
@@ -178,6 +185,6 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         this.isAlive = false;
         StopCoroutine(Attack());
         animator.Play("Rabbit_dead");
-        Destroy(this.gameObject, 1f);
+        //PhotonNetwork.Destroy(this.gameObject); Destroy(this.gameObject, 1f);
     }
 }
