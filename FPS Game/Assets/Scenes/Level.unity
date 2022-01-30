@@ -14499,7 +14499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a200b41180064c799e59c0f2778bea7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: Victory
+  scoreText: All gardens were eaten
 --- !u!1 &1655678148
 GameObject:
   m_ObjectHideFlags: 0
