@@ -3,79 +3,71 @@ using System.IO;
 using Photon.Pun;
 using UnityEngine;
 
+public delegate void DefeatHandler(string reason);
 
 public class PhaseManager : MonoBehaviourPunCallbacks {
 
-    private EnemySpawnManager enemySpawnManager;
+    public event DefeatHandler OnDefeatHandler;
+
     private WeaponDropManager weaponDropManager;
 
-    [SerializeField] private Phase currentPhase;
+    private Phase currentPhase;
+    private Coroutine currentPhaseCoroutine;
+
+    [SerializeField] private Phase[] phases;
 
     private Timer timer;
     
     private void Start() {
-        enemySpawnManager = GameObject.FindObjectOfType<EnemySpawnManager>();
-        if (enemySpawnManager == null) {
-            Debug.LogError("No enemySpawnManager");
-        }
-
         weaponDropManager = GameObject.FindObjectOfType<WeaponDropManager>();
         if (weaponDropManager == null) {
             Debug.LogError("No weaponDropManager");
         }
 
-        if (currentPhase == null) {
-            Debug.Log("STARTING PHASE 1");
-            var prefab = (GameObject) Instantiate(Resources.Load("Prefabs/Phase1"), this.transform);
-            currentPhase = prefab.GetComponent<Phase>();
-        }
-
-        timer = GetComponent<Timer>();
-        if (timer == null) {
-            Debug.LogError("TIMER NOT FOUND");
-        }
-
-        this.newPhaseStarted();
-
         // Start to drop weapons directly
         weaponDropManager.startSpawn();
     }
 
-    private void Update() {
-        if (this.currentPhase.hasTimer() && this.timer.isTimerFinished()) {
-            Debug.Log("TIMER FINISHED");
-            // SWITCH TO PHASE 2
-            if (currentPhase.identifier == "PHASE_1") {
-                var prefab = (GameObject) Instantiate(Resources.Load("Prefabs/Phase2"), this.transform);
-                currentPhase = prefab.GetComponent<Phase>();
-                this.newPhaseStarted();
-            }
+    public void StopGame()
+    {
+        if (currentPhaseCoroutine != null)
+        {
+            StopCoroutine(currentPhaseCoroutine);
         }
     }
-
-    private void newPhaseStarted() {
-        if (currentPhase.ShouldSpawnEnemies() == true) {
-             enemySpawnManager.startSpawn();
-        } else {
-            enemySpawnManager.stopSpawn();
-            this.killAllEnemies();
+    
+    public void StartGame()
+    {
+        if (currentPhaseCoroutine != null)
+        {
+            StopCoroutine(currentPhaseCoroutine);
         }
 
-        if (currentPhase.hasTimer()) {
-            timer.startTimer(currentPhase.MaxTimer());
-        } else {
-            timer.stop();
+        currentPhaseCoroutine = StartCoroutine(deployPhaseCoroutine());
+    }
+
+    private IEnumerator deployPhaseCoroutine()
+    {
+        foreach (Phase phase in phases)
+        {
+            var players = GameObject.FindObjectsOfType<IsoPlayerController>();
+            foreach (IsoPlayerController player in players)
+                {
+                    // TODO: handle with photon
+                    player.canTakeDamage = phase._pvpEnabled;
+                }
+            if (phase.ShouldSpawnEnemies()) {
+                EnemySpawnManager.Instance.startSpawn();
+            } else {
+                EnemySpawnManager.Instance.stopSpawn();
+                this.killAllEnemies();
+            }
+            yield return new WaitForSeconds(phase.MaxTimer());
         }
 
-        var players = GameObject.FindObjectsOfType<IsoPlayerController>();
-        if (currentPhase.hasPVPEnabled()) {
-            foreach (IsoPlayerController player in players) {
-                player.canTakeDamage = true;
-            }
-        } else {
-            foreach (IsoPlayerController player in players) {
-                player.canTakeDamage = false;
-            }
+        if (OnDefeatHandler != null)
+        {
+            OnDefeatHandler("You have been defeated");
         }
     }
 

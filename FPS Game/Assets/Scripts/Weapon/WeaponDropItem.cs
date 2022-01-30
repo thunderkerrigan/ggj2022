@@ -42,6 +42,10 @@ public class WeaponDropItem: MonoBehaviourPunCallbacks
 	}
 
 	private void OnTriggerEnter(Collider other) {
+		if (!photonView.IsMine)
+		{
+			return;
+		}
 		Debug.Log("RAKE TRIGGER ENTER " + other.gameObject.name);
 		if (other.gameObject.tag == "Player") {
 			// TODO: the player cannot pickup if he already has a weapon

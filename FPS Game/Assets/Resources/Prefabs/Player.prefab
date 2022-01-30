@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponCollider: {fileID: 1505626481467852835}
-  blowSprite: {fileID: 0}
   enableColliderTime: 0.1
   disableColliderTime: 0.2
   damage: 1

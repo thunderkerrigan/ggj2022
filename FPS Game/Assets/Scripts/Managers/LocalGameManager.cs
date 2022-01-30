@@ -13,6 +13,7 @@ public class LocalGameManager : MonoBehaviour
     public PhotonView PV;
     public event TimerUpdateHandler OnTimerUpdate;
     private PlayerInputManager playerInputManager;
+    private PhaseManager phaseManager;
     
     public int gameDuration = 60;
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class LocalGameManager : MonoBehaviour
     {    
         Debug.Log("Awake player ");
         playerInputManager = GetComponent<PlayerInputManager>();
+        phaseManager = GetComponent<PhaseManager>();
         Debug.Log(PhotonNetwork.PlayerList.ToList().Count);
         if (PhotonNetwork.OfflineMode)
         {
@@ -40,6 +42,8 @@ public class LocalGameManager : MonoBehaviour
                 spawnPoint.rotation, 0, new object[] {PV.ViewID, index});
             if (PhotonNetwork.IsMasterClient)
             {
+                phaseManager.StartGame();
+                phaseManager.OnDefeatHandler += GoToScore;
                 StartCoroutine(Cooldown());
             }
         }
@@ -50,24 +54,20 @@ public class LocalGameManager : MonoBehaviour
     private IEnumerator Cooldown()
     {
         // Propagate timer if something is listening to it
-        if (OnTimerUpdate != null)
+        while (gameDuration > 0)
         {
-            OnTimerUpdate(gameDuration);
-        }
-        yield return new WaitForSeconds(1);
-        gameDuration--;
-        if (gameDuration > 0)
-        {
+            if (OnTimerUpdate != null)
+            {
+                OnTimerUpdate(gameDuration);
+            }
+            yield return new WaitForSeconds(1);
+            gameDuration--;
+
             StartCoroutine(Cooldown());
         }
-        else
-        {
-            Debug.Log("Game Over");
-            GoToScore();
-        }
     }
-    
-    private void GoToScore()
+
+    private void GoToScore(string reason)
     {
         if (!PhotonNetwork.OfflineMode)
         {

@@ -93,12 +93,20 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         }
 
         this.destinationGarden = closestGarden;
-        this.destinationPoint = closestGarden.transform;
-        navMeshAgent.SetDestination(closestGarden.transform.position);
+        if (closestGarden != null)
+        {
+            this.destinationPoint = closestGarden.transform;
+            navMeshAgent.SetDestination(closestGarden.transform.position);
+        }
+
     }
 
     private void Update()
     {
+        if (!PView.IsMine)
+        {
+            return;
+        }
         if (this.mode == EnemyMode.Move) {
             FindClosestDestination();
         }
