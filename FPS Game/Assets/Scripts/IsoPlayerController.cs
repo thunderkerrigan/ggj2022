@@ -66,6 +66,28 @@ public class IsoPlayerController : MonoBehaviour
    private void OnMove(InputValue value)
    {
       moveVal = value.Get<Vector2>();
+	  Debug.Log(moveVal.normalized);
+	  
+	  
+	  if(moveVal.x == 1 && moveVal.y == 0){
+	  	GetComponentInChildren<Animator>().Play("Bear_walking_right");
+	  }
+	  
+	  else if(moveVal.x == 0 && moveVal.y == -1){
+	  	GetComponentInChildren<Animator>().Play("Bear_walking_front");
+	  }
+	  
+	  else if(moveVal.x == -1 && moveVal.y == 0){
+	  	GetComponentInChildren<Animator>().Play("Bear_walking_left");
+	  }
+	  
+	  else if(moveVal.x == 0 && moveVal.y == 1){
+	  	GetComponentInChildren<Animator>().Play("Bear_walking_back");
+	  }
+	  else{
+	  	GetComponentInChildren<Animator>().Play("Bear_idle");
+	  }
+	  
    }
 
    private void OnLightAttack(InputValue value)
@@ -73,10 +95,28 @@ public class IsoPlayerController : MonoBehaviour
       var newVal = value.Get<Vector2>();
       if (!newVal.Equals(Vector2.zero) && canAttack)
       {
+		  
+		  
          Debug.Log("Light Attack: " + newVal);
          Debug.Log("Light Attack: " + canAttack);
          attackVal = newVal;
          StartCoroutine(triggerAttack());
+		 
+   	  if(newVal.x == 1 && newVal.y == 0){
+   	  	GetComponentInChildren<Animator>().Play("Bear_attacking_right");
+   	  }
+	  
+   	  else if(newVal.x == 0 && newVal.y == -1){
+   	  	GetComponentInChildren<Animator>().Play("Bear_attacking_front");
+   	  }
+	  
+   	  else if(newVal.x == -1 && newVal.y == 0){
+   	  	GetComponentInChildren<Animator>().Play("Bear_attacking_left");
+   	  }
+	  
+   	  else if(newVal.x == 0 && newVal.y == 1){
+   	  	GetComponentInChildren<Animator>().Play("Bear_attacking_back");
+   	  }
       }
    }
 
