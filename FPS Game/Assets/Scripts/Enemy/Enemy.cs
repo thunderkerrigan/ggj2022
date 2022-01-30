@@ -195,8 +195,8 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     [PunRPC]
     void RPC_TakeDamage(float damage)
     {
-        if (!photonView.IsMine)
-            return;
+        //if (!photonView.IsMine)
+           // return;
         
         animator.SetFloat("x", Random.Range(0, 100));
 
