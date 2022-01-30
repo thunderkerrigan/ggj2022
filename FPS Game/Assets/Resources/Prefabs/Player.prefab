@@ -387,6 +387,7 @@ MonoBehaviour:
   attackSound: {fileID: 8300000, guid: fca73b6b6f4d39747bb132311a57ed7f, type: 3}
   canTakeDamage: 0
   healthPoints: 20
+  isAlive: 1
 --- !u!136 &3796692646361972880
 CapsuleCollider:
   m_ObjectHideFlags: 0
