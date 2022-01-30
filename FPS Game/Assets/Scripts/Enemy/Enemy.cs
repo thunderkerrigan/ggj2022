@@ -106,7 +106,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     private void Update()
     {
-        if (this.mode == EnemyMode.Move)
+        if (this.mode == EnemyMode.Move && this.isAlive == false)
         {
             FindClosestDestination();
 
@@ -177,7 +177,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
     {
         this.isAlive = false;
         StopCoroutine(Attack());
-        this.enabled = false;
-        Destroy(this.gameObject, 0.2f);
+        animator.Play("Rabbit_dead");
+        Destroy(this.gameObject, 1f);
     }
 }
