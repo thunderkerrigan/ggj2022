@@ -22,6 +22,8 @@ public class PhaseManager : MonoBehaviourPunCallbacks
 
     private Garden[] gardens;
 
+    private IsoPlayerController[] players;
+
     private void Start()
     {
         weaponDropManager = GameObject.FindObjectOfType<WeaponDropManager>();
@@ -31,6 +33,8 @@ public class PhaseManager : MonoBehaviourPunCallbacks
         }
 
         gardens = GameObject.FindObjectsOfType<Garden>();
+
+        players = GameObject.FindObjectsOfType<IsoPlayerController>();
 
         // Start to drop weapons directly
         weaponDropManager.startSpawn();
@@ -88,7 +92,22 @@ public class PhaseManager : MonoBehaviourPunCallbacks
                 yield return null;
             }
         } else if (currentPhase.identifier == "PHASE_2") {
-
+            if (players.Length > 1) {
+                foreach (IsoPlayerController player in players) {
+                    if (player.isAlive == false) {
+                        if (player.isCurrentPlayer()) {
+                            // DEFEAT
+                            OnDefeatHandler("You're dead");
+                        } else {
+                            // VICTORY
+                            OnDefeatHandler("Victory");
+                        }
+                    }
+                }
+            } else {
+                // VICTORY
+                OnDefeatHandler("Victory");
+            }
         }
 
         checkVictoryOrDefeatConfitionCoroutine = StartCoroutine(checkVictoryOrDefeatCondition());

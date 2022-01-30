@@ -27,7 +27,7 @@ public class IsoPlayerController : MonoBehaviour
 
    [SerializeField] private int healthPoints;
 
-   private bool isAlive = true;
+   public bool isAlive = true;
 
    
    void Awake()
@@ -186,7 +186,10 @@ public class IsoPlayerController : MonoBehaviour
          this.isAlive = false;
          Debug.Log("DEAD");
       }
+   }
 
+   public bool isCurrentPlayer() {
+      return PV.IsMine;
    }
 
 }
