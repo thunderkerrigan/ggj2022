@@ -27,10 +27,15 @@ public class WeaponHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(enableColliderTime);
         weaponCollider.enabled = true;
-        blowSprite.enabled = true;
+        if (blowSprite != null) {
+            blowSprite.enabled = true;
+        }
+
         yield return new WaitForSeconds(disableColliderTime);
         weaponCollider.enabled = false;
-        blowSprite.enabled = false;
+        if (blowSprite != null) {
+            blowSprite.enabled = false;
+        }
     }
 
 }
