@@ -22,6 +22,10 @@ public class IsoPlayerController : MonoBehaviour
    public AudioClip dashSound;
    public AudioClip attackSound;
 
+   public bool canTakeDamage = false;
+
+   [SerializeField] private int healthPoints;
+
    
    void Awake()
    {
@@ -118,6 +122,14 @@ public class IsoPlayerController : MonoBehaviour
       SoundyManager.Play(audioClip: attackSound , pitch: Random.Range(0.9f, 1.1f));
       yield return new WaitForSeconds(0.5f);
       canAttack = true;
+   }
+
+   private void OnTriggerEnter(Collider other) {
+      Debug.Log("PLAYER TRIGGER");
+      WeaponHandler otherWeapon = other.GetComponent<WeaponHandler>();
+      if (otherWeapon != null && weapon != otherWeapon.transform.parent && canTakeDamage == true) {
+         Debug.Log("DAMAGE !");
+      }
    }
    
 
