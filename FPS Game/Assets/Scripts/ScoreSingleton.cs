@@ -23,6 +23,8 @@ public class ScoreSingleton : MonoBehaviour
 
     private Dictionary<string, List<string>> playerObjects = new Dictionary<string, List<string>>();
 
+    public string scoreText = "Victory";
+
     public bool playerHaveFinish(string playerName)
     {
         return playerTimes.ContainsKey(playerName) && playerHaveDoudou(playerName);

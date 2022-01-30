@@ -69,6 +69,7 @@ public class LocalGameManager : MonoBehaviour
 
     private void GoToScore(string reason)
     {
+        ScoreSingleton.Instance.scoreText = reason;
         if (!PhotonNetwork.OfflineMode)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
