@@ -11,6 +11,8 @@ public class WeaponHandler : MonoBehaviour
     public float enableColliderTime;
     public float disableColliderTime;
 
+    public int damage = 1;
+
     private void Start() {
         weaponCollider.enabled = false;
         blowSprite.enabled = false;    

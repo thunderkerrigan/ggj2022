@@ -49,6 +49,7 @@ MonoBehaviour:
   blowSprite: {fileID: 6885972925128460397}
   enableColliderTime: 0.1
   disableColliderTime: 0.2
+  damage: 1
 --- !u!1 &1529714883444331612
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +467,7 @@ MonoBehaviour:
   dashSound: {fileID: 0}
   attackSound: {fileID: 8300000, guid: bf143cd1f701f494fb4b0f77572dbbd3, type: 3}
   canTakeDamage: 0
-  healthPoints: 0
+  healthPoints: 20
 --- !u!136 &3796692646361972880
 CapsuleCollider:
   m_ObjectHideFlags: 0

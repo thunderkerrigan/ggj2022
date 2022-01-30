@@ -653,6 +653,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2234331169717993592, guid: 47d7d2e62c879be40803211dbd674fa9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2346797419549384325, guid: 47d7d2e62c879be40803211dbd674fa9,
+        type: 3}
+      propertyPath: healthPoints
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 3489501739415512494, guid: 47d7d2e62c879be40803211dbd674fa9,
         type: 3}
       propertyPath: viewIdField
@@ -718,11 +728,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7644696743619202358, guid: 47d7d2e62c879be40803211dbd674fa9,
-        type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47d7d2e62c879be40803211dbd674fa9, type: 3}
 --- !u!1001 &845601495
@@ -741,6 +746,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2346797419549384325, guid: 47d7d2e62c879be40803211dbd674fa9,
+        type: 3}
+      propertyPath: healthPoints
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2346797419549384325, guid: 47d7d2e62c879be40803211dbd674fa9,
         type: 3}
