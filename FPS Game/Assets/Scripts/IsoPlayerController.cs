@@ -27,6 +27,8 @@ public class IsoPlayerController : MonoBehaviour
 
    [SerializeField] private int healthPoints;
 
+   private bool isAlive = true;
+
    
    void Awake()
    {
@@ -129,11 +131,22 @@ public class IsoPlayerController : MonoBehaviour
 
    private void OnTriggerEnter(Collider other) {
       Debug.Log("PLAYER TRIGGER");
-      WeaponHandler otherWeapon = other.GetComponent<WeaponHandler>();
+      WeaponHandler otherWeapon = other.GetComponentInParent<WeaponHandler>();
       if (otherWeapon != null && weapon != otherWeapon.transform.parent && canTakeDamage == true) {
-         Debug.Log("DAMAGE !");
+         this.TakeDamageFromPlayer(weaponHandler: otherWeapon);
       }
    }
    
+   private void TakeDamageFromPlayer(WeaponHandler weaponHandler) {
+      healthPoints -= weaponHandler.damage;
+      // TODO: BLOOD
+      if (healthPoints <= 0 && isAlive == true) {
+         // EXPLODE
+
+         this.isAlive = false;
+         Debug.Log("DEAD");
+      }
+
+   }
 
 }
