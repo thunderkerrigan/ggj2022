@@ -10,7 +10,12 @@ public class WeaponHandler : MonoBehaviour
     public SpriteRenderer blowSprite;
     public float enableColliderTime;
     public float disableColliderTime;
-    // Start is called before the first frame update
+
+    private void Start() {
+        weaponCollider.enabled = false;
+        blowSprite.enabled = false;    
+    }
+
     public void TriggerWeapon()
     {
         StartCoroutine(TriggerWeaponCoroutine());
