@@ -1294,8 +1294,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Restart
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9c184063eca78403db6f8802fb322a50, type: 2}
-  m_sharedMaterial: {fileID: -4614814883120193070, guid: 9c184063eca78403db6f8802fb322a50,
+  m_fontAsset: {fileID: 11400000, guid: f2aa893f6bdf6794baeccc1e59cc2005, type: 2}
+  m_sharedMaterial: {fileID: 6056009477326041155, guid: f2aa893f6bdf6794baeccc1e59cc2005,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3883,10 +3883,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score
+  m_text: Victoire
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9c184063eca78403db6f8802fb322a50, type: 2}
-  m_sharedMaterial: {fileID: -4614814883120193070, guid: 9c184063eca78403db6f8802fb322a50,
+  m_fontAsset: {fileID: 11400000, guid: f2aa893f6bdf6794baeccc1e59cc2005, type: 2}
+  m_sharedMaterial: {fileID: 6056009477326041155, guid: f2aa893f6bdf6794baeccc1e59cc2005,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -4023,7 +4023,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0c3e98b51937e324b81aab8af865aab2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3653eb6b81352d943b6f6dc11c7dfd51, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
