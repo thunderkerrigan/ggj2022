@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad473944503164ed2adb0e69713e46f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTimer: -1
-  pvpEnabled: 1
+  _maxTimer: -1
+  _shouldSpawnEnemies: 0
+  _pvpEnabled: 1
   identifier: PHASE_2

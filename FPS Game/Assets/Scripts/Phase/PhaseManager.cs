@@ -67,7 +67,16 @@ public class PhaseManager : MonoBehaviourPunCallbacks {
             timer.stop();
         }
 
-        // TODO: enable PVP
+        var players = GameObject.FindObjectsOfType<IsoPlayerController>();
+        if (currentPhase.hasPVPEnabled()) {
+            foreach (IsoPlayerController player in players) {
+                player.canTakeDamage = true;
+            }
+        } else {
+            foreach (IsoPlayerController player in players) {
+                player.canTakeDamage = false;
+            }
+        }
     }
 
     private void killAllEnemies() {
