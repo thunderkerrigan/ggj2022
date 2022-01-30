@@ -19,13 +19,11 @@ public class LocalGameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {    
-        Debug.Log("Awake player ");
         playerInputManager = GetComponent<PlayerInputManager>();
         phaseManager = GetComponent<PhaseManager>();
         Debug.Log(PhotonNetwork.PlayerList.ToList().Count);
         if (PhotonNetwork.OfflineMode)
         {
-            Debug.Log("Offline mode; 2 players!");
             playerInputManager.JoinPlayer();
             playerInputManager.JoinPlayer();
             StartCoroutine(Cooldown());
@@ -35,9 +33,7 @@ public class LocalGameManager : MonoBehaviour
         {
             
             var index = PhotonNetwork.PlayerList.ToList().IndexOf(PhotonNetwork.LocalPlayer);
-            Debug.Log("spawning player " + index);
             var spawnPoint = SpawnManager.Instance.GetSpawnpoint(index);
-            Debug.Log("spawning player at " + spawnPoint.position);
             PhotonNetwork.Instantiate(Path.Combine("Prefabs", "Player"),  spawnPoint.position,
                 spawnPoint.rotation, 0, new object[] {PV.ViewID, index});
             if (PhotonNetwork.IsMasterClient)

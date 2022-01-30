@@ -66,7 +66,7 @@ AnimationClip:
       value: {fileID: -6385029908380293944, guid: 5d69e4c35a59940059d6577232eb04eb,
         type: 3}
     attribute: m_Sprite
-    path: rabbit_front
+    path: Rabbit/rabbit_front
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 60
@@ -84,7 +84,7 @@ AnimationClip:
       customType: 4
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 2549845490
+      path: 1593356975
       attribute: 0
       script: {fileID: 0}
       typeID: 212
