@@ -9,7 +9,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-enum EnemyMode {
+enum EnemyMode
+{
     Move,
     Attack
 }
@@ -35,8 +36,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     private PhotonView PView;
 
-    private SpriteRenderer spriteRenderer;
-    [SerializeField] private Sprite[] sprites;
+    private Animator animator;
 
     private void Start()
     {
@@ -45,13 +45,14 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
         navMeshObstacle = this.GetComponent<NavMeshObstacle>();
 
-        spriteRenderer = this.GetComponentInChildren<SpriteRenderer>();
+        animator = this.GetComponentInChildren<Animator>();
 
         if (this.PView == null)
         {
             this.PView = GetComponent<PhotonView>();
 
-            if (this.PView == null) {
+            if (this.PView == null)
+            {
                 Debug.LogError("No PhotonView for " + gameObject.name);
             }
 
@@ -70,6 +71,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
             FindClosestDestination();
         }
     }
+
 
     private void FindClosestDestination()
     {
@@ -104,39 +106,43 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
 
     private void Update()
     {
-        if (this.mode == EnemyMode.Move) {
+        if (this.mode == EnemyMode.Move)
+        {
             FindClosestDestination();
+
+            var direction = this.destinationPoint.transform.position - this.transform.position;
+
+            var look = Quaternion.LookRotation(direction, Vector3.up).eulerAngles;
+
+            if (look.y < 45 && look.y > 0 || look.y <= 360 && look.y >= 315)
+            {
+                animator.Play("Rabbit_walking_back");
+            }
+            else if (look.y >= 45 && look.y < 135)
+            {
+                animator.Play("Rabbit_walking_right");
+            }
+            else if (look.y >= 135 && look.y < 225)
+            {
+                animator.Play("Rabbit_walking_front");
+            }
+            else if (look.y >= 225 && look.y < 315)
+            {
+                animator.Play("Rabbit_walking_left");
+            }
         }
 
-        
-        var direction = this.destinationPoint.transform.position - this.transform.position;
-
-        var look = Quaternion.LookRotation(direction, Vector3.up).eulerAngles;
-        Debug.Log("DIRECTION +" + look);
-        if (look.y < 45 && look.y > 0 || look.y <= 360 && look.y >= 315) { //(315??)
-            // FACE
-            spriteRenderer.sprite = sprites[2];
-        } else if (look.y >= 45 && look.y < 135) {
-            // LEFT
-            spriteRenderer.sprite = sprites[3];
-            spriteRenderer.transform.eulerAngles = new Vector3(0, 0, 0);
-        } else if  (look.y >= 135 && look.y < 225) {
-            // BACK
-            spriteRenderer.sprite = sprites[0];
-        } else if (look.y >= 225 && look.y < 315) {
-            // RIGHT
-            spriteRenderer.sprite = sprites[3];
-            spriteRenderer.transform.eulerAngles = new Vector3(0, 180, 0);
-        }
 
 
         this.gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
     }
 
-    private void Attack(Garden garden) {
+    private void Attack(Garden garden)
+    {
         garden.TakeDamage(damage: this.damage);
 
-        if (garden.isAlive() == false) {
+        if (garden.isAlive() == false)
+        {
             this.mode = EnemyMode.Move;
         }
     }
@@ -154,9 +160,11 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         StartCoroutine(Attack());
     }
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other)
+    {
         var garden = other.transform.gameObject.GetComponent<Garden>();
-        if (garden != null && garden.isAlive() == true && garden == this.destinationGarden) {
+        if (garden != null && garden.isAlive() == true && garden == this.destinationGarden)
+        {
             this.mode = EnemyMode.Attack;
             navMeshAgent.enabled = false;
             navMeshObstacle.enabled = true;
@@ -165,7 +173,8 @@ public class Enemy : MonoBehaviourPunCallbacks, IDamageable
         }
     }
 
-    public void TakeDamage(float damage) {
+    public void TakeDamage(float damage)
+    {
         this.isAlive = false;
         StopCoroutine(Attack());
         this.enabled = false;
