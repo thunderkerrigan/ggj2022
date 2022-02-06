@@ -24,8 +24,11 @@ public class FSMEnemy : MonoBehaviour, IDamageable
         public Animator animator => m_animator;
         private PhotonView m_photonView;
         public PhotonView photonView => m_photonView;
+        [SerializeField]
+        private Collider m_collider;
+        public Collider collider => m_collider;
 
-        [HideInInspector]
+            [HideInInspector]
         public Garden targetGarden;
         private StateMachine<FSMEnemy, EnemyStateID, EnemyStateTransition> m_FSM;
         public StateMachine<FSMEnemy, EnemyStateID, EnemyStateTransition> FSM => m_FSM;
@@ -48,6 +51,7 @@ public class FSMEnemy : MonoBehaviour, IDamageable
             m_animator = GetComponent<Animator>();
             m_photonView = GetComponent<PhotonView>();
             m_rigidbody = GetComponent<Rigidbody>();
+            
             m_FSM = new StateMachine<FSMEnemy, EnemyStateID, EnemyStateTransition>(this, m_States, m_InitialState, m_Debug);
         }
 

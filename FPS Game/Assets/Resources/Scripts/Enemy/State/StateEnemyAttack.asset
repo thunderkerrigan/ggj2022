@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e18505c31f0448c5aaaf2c82902fe886, type: 3}
   m_Name: StateEnemyAttack
   m_EditorClassIdentifier: 
-  m_StateID: 0
+  m_StateID: 1
   attackFrequency: 2
   damage: 10

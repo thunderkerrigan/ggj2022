@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bloodPool: {fileID: 8141586350212809722}
+  m_collider: {fileID: 9096789717008695416}
   targetGarden: {fileID: 0}
   m_InitialState: 0
   m_States:

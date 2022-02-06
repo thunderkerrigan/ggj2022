@@ -19,6 +19,7 @@
             Parent.animator.Play("Rabbit_dead");
             Parent.bloodPool.sprite = bloodSprites[Random.Range(0, bloodSprites.Count)];
             Parent.rigidbody.isKinematic = true;
+            Parent.collider.enabled = false;
             SoundyManager.Play(splashClip, transform);
             StartCoroutine(DestroyAfter(_timeToDestroy));
         }
