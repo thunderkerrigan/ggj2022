@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f6796a0d7b79dd42ae973e00fdfece6, type: 3}
+  m_Name: Onion_01
+  m_EditorClassIdentifier: 
+  m_type: 1
+  m_row: 0
+  _100HP: {fileID: 825805440949556138, guid: 3396152a2d8064d628484fcd2f494985, type: 3}
+  _66HP: {fileID: 4404504181319562685, guid: 3396152a2d8064d628484fcd2f494985, type: 3}
+  _33HP: {fileID: 340797932850794723, guid: 3396152a2d8064d628484fcd2f494985, type: 3}
+  _0HP: {fileID: 5252641107994096708, guid: 3396152a2d8064d628484fcd2f494985, type: 3}

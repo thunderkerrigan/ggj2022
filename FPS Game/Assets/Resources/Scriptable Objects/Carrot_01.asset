@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Carrot_1
-  m_EditorClassIdentifier: Assembly-CSharp::StateGarden
+  m_Script: {fileID: 11500000, guid: 3f6796a0d7b79dd42ae973e00fdfece6, type: 3}
+  m_Name: Carrot_01
+  m_EditorClassIdentifier: 
+  m_type: 3
+  m_row: 0
   _100HP: {fileID: 8637850033792601066, guid: f777bd952862543b18b0026619ea401c, type: 3}
   _66HP: {fileID: -1219660260199179780, guid: f777bd952862543b18b0026619ea401c, type: 3}
   _33HP: {fileID: 6645277270516677185, guid: f777bd952862543b18b0026619ea401c, type: 3}
