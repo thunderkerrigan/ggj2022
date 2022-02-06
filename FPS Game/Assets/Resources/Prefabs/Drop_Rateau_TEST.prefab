@@ -48,7 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a045ff65e66534bc08d66cbd7376882e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
   audioType: 
   audioClipIndex: -1
   type: 0

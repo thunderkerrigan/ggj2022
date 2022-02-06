@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d787c441876545729d6fe053c80fc0c5, type: 3}
+  m_Name: StateEnemyDead
+  m_EditorClassIdentifier: 
+  m_StateID: 3
+  _timeToDestroy: 60
+  bloodSprites:
+  - {fileID: -5175468258661589729, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
+  - {fileID: -2355439096877251736, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
+  - {fileID: 7915700523976571010, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
+  - {fileID: 8152539755029632605, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
+  - {fileID: -2494211750008178089, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
+  - {fileID: -2317261990955827250, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
+  splashClip: {fileID: 8300000, guid: be32730180fcfb841a97519ff05b2106, type: 3}

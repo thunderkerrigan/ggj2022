@@ -92,13 +92,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1662423848488620137}
   - component: {fileID: 1662423848488620133}
-  - component: {fileID: 1662423848488620142}
   - component: {fileID: 1662423848488620143}
   - component: {fileID: 4942108331480030134}
   - component: {fileID: 6246435216565253021}
   - component: {fileID: 8533570345257064832}
   - component: {fileID: 7638937726941491753}
   - component: {fileID: 1048438321258505167}
+  - component: {fileID: 31428591958854709}
   m_Layer: 0
   m_Name: Enemy_base
   m_TagString: Enemy
@@ -146,31 +146,6 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1662423848488620142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1662423848488620132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9e5c41d34f3348e7a450c5bd34e0674, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  damage: 5
-  splashClip: {fileID: 8300000, guid: be32730180fcfb841a97519ff05b2106, type: 3}
-  attackCollider: {fileID: 9096789717008695416}
-  attackCooldown: 3
-  bloodPool: {fileID: 8141586350212809722}
-  bloodSprites:
-  - {fileID: -5175468258661589729, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
-  - {fileID: -2355439096877251736, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
-  - {fileID: 7915700523976571010, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
-  - {fileID: 8152539755029632605, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
-  - {fileID: -2494211750008178089, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
-  - {fileID: -2317261990955827250, guid: 5127e3672f45846af8e4277c84faddb9, type: 3}
 --- !u!114 &1662423848488620143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +256,27 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
+--- !u!114 &31428591958854709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662423848488620132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6c2acab1e524383849188aff3f59d16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_bloodPool: {fileID: 8141586350212809722}
+  targetGarden: {fileID: 0}
+  m_InitialState: 0
+  m_States:
+  - {fileID: 11400000, guid: 1baf482146a68bd49a086e60b170f710, type: 2}
+  - {fileID: 11400000, guid: 6af686412133b0949bb40f4a2ae3af03, type: 2}
+  - {fileID: 11400000, guid: 0c4c8652bb38d0444bc80e1c21a4d87b, type: 2}
+  - {fileID: 11400000, guid: 18d2da6c9c4c5714b9a9b520b138ca2b, type: 2}
+  m_Debug: 0
 --- !u!1 &6912361916912959906
 GameObject:
   m_ObjectHideFlags: 0

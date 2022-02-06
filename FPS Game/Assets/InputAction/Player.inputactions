@@ -231,6 +231,39 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "One Modifier",
+                    "id": "87aeb136-5650-4f29-af93-9b15ecd8b38a",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Light Attack",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Modifier",
+                    "id": "88235bd8-d79e-4cea-af47-67af919bd3fd",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Light Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Binding",
+                    "id": "adecbe83-7aa3-49a6-975f-b1926c6fcc87",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Light Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "ba75a9cc-9550-4a86-91de-617878336ec4",
                     "path": "<Gamepad>/rightShoulder",
