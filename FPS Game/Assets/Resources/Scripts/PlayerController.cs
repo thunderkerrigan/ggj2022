@@ -93,7 +93,7 @@ public class
 	  	GetComponentInChildren<Animator>().Play("Bear_walking_back");
 	  }
 	  else{
-	  	GetComponentInChildren<Animator>().Play("Bear_idle");
+	  	GetComponentInChildren<Animator>().Play("Idle");
 	  }
 	  
    }

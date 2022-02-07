@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: StateEnemyAttack
   m_EditorClassIdentifier: 
   m_StateID: 1
-  attackFrequency: 2
-  damage: 10
+  attackFrequency: 2.5
+  damage: 5

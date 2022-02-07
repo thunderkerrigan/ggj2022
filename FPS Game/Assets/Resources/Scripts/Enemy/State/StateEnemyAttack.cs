@@ -12,6 +12,7 @@
         {
             Parent.targetGarden.OnPotagerdeath += StopAttack;
             _attackCoroutine = StartCoroutine(Attack());
+            Parent.animator.Play("Idle");
         }
 
         public override void Update()
@@ -25,6 +26,10 @@
         public override void Exit()
         {
             Parent.targetGarden.OnPotagerdeath -= StopAttack;
+            if (_attackCoroutine != null)
+            {
+                StopCoroutine(_attackCoroutine);
+            }
         }
 
         public override void BuildTransitions()

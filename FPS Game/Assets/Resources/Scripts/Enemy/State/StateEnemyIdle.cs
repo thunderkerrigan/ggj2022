@@ -8,6 +8,7 @@
         private Coroutine searchCoroutine;
         public override void Enter()
         {
+            shouldSearchGarden = true;
             searchCoroutine = StartCoroutine(SearchGarden());
         }
 
