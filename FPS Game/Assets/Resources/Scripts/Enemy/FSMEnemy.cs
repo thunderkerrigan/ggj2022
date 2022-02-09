@@ -15,7 +15,7 @@ public class FSMEnemy : MonoBehaviour, IDamageable
         [SerializeField] private SpriteRenderer m_bloodPool;
         public SpriteRenderer bloodPool => m_bloodPool;
         private Rigidbody m_rigidbody;
-        public Rigidbody rigidbody => m_rigidbody;
+        public new Rigidbody rigidbody => m_rigidbody;
         private NavMeshAgent m_navMeshAgent;
         public NavMeshAgent navMeshAgent => m_navMeshAgent;
         private NavMeshObstacle m_navMeshObstacle;
@@ -26,7 +26,7 @@ public class FSMEnemy : MonoBehaviour, IDamageable
         public PhotonView photonView => m_photonView;
         [SerializeField]
         private Collider m_collider;
-        public Collider collider => m_collider;
+        public new Collider collider => m_collider;
 
             [HideInInspector]
         public Garden targetGarden;
