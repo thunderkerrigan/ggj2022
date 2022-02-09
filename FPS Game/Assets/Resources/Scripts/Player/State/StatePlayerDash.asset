@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e18505c31f0448c5aaaf2c82902fe886, type: 3}
-  m_Name: StateEnemyAttack
+  m_Script: {fileID: 11500000, guid: fd4771c2deea6d041a790f432eac4aeb, type: 3}
+  m_Name: StatePlayerDash
   m_EditorClassIdentifier: 
-  m_StateID: 1
-  attackFrequency: 2.5
-  damage: 5
-  attackAudioClip: {fileID: 8300000, guid: c942a4f4c291b2c479cc2a954eaa8f5a, type: 3}
+  m_StateID: 2
+  dashSpeed: 30
+  dashTime: 0.5
+  dashAudioClip: {fileID: 8300000, guid: 6354f725e9a759e41be4d3b151441b5b, type: 3}

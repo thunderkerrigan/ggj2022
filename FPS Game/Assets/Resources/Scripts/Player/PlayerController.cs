@@ -16,7 +16,7 @@ using Random = UnityEngine.Random;
 public class 
     PlayerController : MonoBehaviour
 {
-   public Animator characterAnimator;
+   
    public PhotonView PV;
    public GameObject weapon;
    public Vector2 moveVal;
@@ -62,6 +62,7 @@ public class
    
    private void FixedUpdate()
    {
+       Debug.Log("DIRECTION: " + moveVal.normalized);
       if (PhotonNetwork.IsConnected && !PV.IsMine)
          return;
       
@@ -74,7 +75,6 @@ public class
    private void OnMove(InputValue value)
    {
       moveVal = value.Get<Vector2>();
-      characterAnimator.SetFloat("x", moveVal.x);
 
 	  
 	  if(moveVal.x == 1 && moveVal.y == 0){
@@ -101,7 +101,6 @@ public class
    private void OnLightAttack(InputValue value)
    {
       var newVal = value.Get<Vector2>();
-      characterAnimator.SetFloat("x", newVal.x);
       if (!newVal.Equals(Vector2.zero) && canAttack)
       {
 		  

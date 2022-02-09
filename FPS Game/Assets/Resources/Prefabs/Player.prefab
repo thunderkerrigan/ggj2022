@@ -270,9 +270,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4336287310068638902}
+  - component: {fileID: 6244543370164634942}
   - component: {fileID: 521661170830309664}
   - component: {fileID: 9187104818149803227}
-  - component: {fileID: 2346797419549384325}
   - component: {fileID: 3796692646361972880}
   - component: {fileID: 3489501739415512494}
   - component: {fileID: 3776803501582501795}
@@ -304,6 +304,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+--- !u!114 &6244543370164634942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7644696743619202358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52445eb8f6148e64a8cf2ed004133ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 1499446654191138700}
+  canDash: 0
+  canAttack: 1
+  m_InitialState: 0
+  m_States:
+  - {fileID: 11400000, guid: b6b9063242e00794496cc11b3d345b89, type: 2}
+  - {fileID: 11400000, guid: e109f3907e967c34981760293d6ac1e9, type: 2}
+  - {fileID: 11400000, guid: 7e8aa5d5b88a5b249a04c9384ca38cf8, type: 2}
+  - {fileID: 11400000, guid: aeb106c001e0d5a4491289713a42d990, type: 2}
+  m_Debug: 1
 --- !u!114 &521661170830309664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,31 +373,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &2346797419549384325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7644696743619202358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b087f8bb181f564dbb45a8581318c7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterAnimator: {fileID: 214359366409576728}
-  PV: {fileID: 3489501739415512494}
-  weapon: {fileID: 1499446654191138700}
-  moveVal: {x: 0, y: 0}
-  attackVal: {x: 0, y: 0}
-  moveSpeed: 15
-  dashSpeed: 30
-  dashCooldownTimer: 1
-  dashSound: {fileID: 0}
-  attackSound: {fileID: 8300000, guid: 4a1ec1194eba6fb44824502ea9db3e65, type: 3}
-  canTakeDamage: 0
-  healthPoints: 20
-  isAlive: 1
 --- !u!136 &3796692646361972880
 CapsuleCollider:
   m_ObjectHideFlags: 0
